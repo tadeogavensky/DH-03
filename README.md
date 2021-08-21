@@ -31,3 +31,13 @@ Tratamientos Corporales:
 - Depilación Definitiva
 
 Productos : Varios
+
+------------------------------------------------------
+
+5 páginas ecommerce de referencia
+
+https://www.mexx.com.ar/
+https://www.solodeportes.com.ar/
+https://www.bellapampaestetica.com.ar/
+https://libellestetica.com.ar/productos/
+https://estileza.com/tienda/

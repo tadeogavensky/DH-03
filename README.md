@@ -1,4 +1,4 @@
-DYN Medicina Estética
+Temática: DYN Medicina Estética
 Servicios: Tratamientos faciales, corporales y venta de productos
 Público: Hombres y Mujeres
 Edad: 20/50 años (rango promedio mujeres) - 30/40 años (rango promedio hombres)
@@ -20,7 +20,7 @@ Productos : Varios
 
 ------------------------------------------------------
 
-5 páginas ecommerce de referencia
+5 páginas ecommerce de referencia. 
 
 https://www.mexx.com.ar/
 https://www.solodeportes.com.ar/

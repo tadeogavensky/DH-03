@@ -1,4 +1,5 @@
 Temática: DYN Medicina Estética
+
 Servicios: Tratamientos faciales, corporales y venta de productos
 Público: Hombres y Mujeres
 Edad: 20/50 años (rango promedio mujeres) - 30/40 años (rango promedio hombres)
@@ -19,6 +20,12 @@ Tratamientos Corporales:
 Productos : Varios
 
 ------------------------------------------------------
+
+Integrantes del equipo
+
+Omar Jaldin: CABA , 41 años , estudiante Ingeniería informática e ingeniería Mecánica , ahora sumando día a día un desafío nuevo sé que no será  fácil pero tampoco imposible los limites los pone uno mismo.
+
+Daniela Goyetche: 36 años, Comunicadora en Imagen
 
 5 páginas ecommerce de referencia. 
 

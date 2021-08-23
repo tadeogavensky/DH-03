@@ -25,12 +25,15 @@ Integrantes del equipo
 
 Omar Jaldin: CABA , 41 años , estudiante Ingeniería informática e ingeniería Mecánica , ahora sumando día a día un desafío nuevo sé que no será  fácil pero tampoco imposible los limites los pone uno mismo.
 
-Daniela Goyetche: 36 años, Comunicadora en Imagen
+Daniela Goyetche: Vivo en Villa Pueyrredón. Tengo 36 años y soy Comunicadora en Imagen. Trabajo freelance hace varios años en diseño gráfico y como CM.
 
-5 páginas ecommerce de referencia. 
+------------------------------------------------------
 
-https://www.mexx.com.ar/
-https://www.solodeportes.com.ar/
-https://www.bellapampaestetica.com.ar/
-https://libellestetica.com.ar/productos/
-https://estileza.com/tienda/
+
+Páginas de referencia:
+
+- https://www.mexx.com.ar/
+- https://www.solodeportes.com.ar/
+- https://www.bellapampaestetica.com.ar/
+- https://libellestetica.com.ar/productos/
+- https://estileza.com/tienda/

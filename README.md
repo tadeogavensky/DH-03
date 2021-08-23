@@ -29,6 +29,8 @@ Daniela Goyetche: Vivo en Villa Pueyrredón. Tengo 36 años y soy Comunicadora e
 
 Tadeo Gavensky: De CABA. Tengo 19 años y estudio Admin. De Empresas. Tengo experiencia programando por haber estudiado en ORT. Me anoté al curso para combinarlo con la carrera en un futuro
 
+Ezequiel Guzmán: Merlo, 24 años. Con ganás de aprender a programar todos los días con el fin de cambiar mi trabajo actual y sentirme cómodo con uno al fin :D. 
+
 ------------------------------------------------------
 
 

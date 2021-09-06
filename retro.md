@@ -12,4 +12,4 @@ Less of/ Menos de:
 
 Keep doing / Seguir haciendo:
 
-
+En lo personal pienso que fue muy desordenado al no conocer las herramientas me confunde mucho pero poco a poco iré avanzando

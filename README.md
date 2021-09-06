@@ -1,11 +1,14 @@
 Temática: DYN Medicina Estética
 
 Servicios: Tratamientos faciales, corporales y venta de productos
+
 Público: Hombres y Mujeres. Edad: 20/50 años (rango promedio mujeres) - 30/40 años (rango promedio hombres)
+
 Nivel socio economico que apunta: media/alta. 
 Es un público que le gusta verse bien, tiene una vida social activa, le gusta darse gustos, son económicamente independientes.
 Mayoritariamente es un público femenino que desea verse y sentirse plena, joven y saludable. Ser aceptada y reconocida por la gente que la rodea. Disfrutar sus momentos de ocio sintiendo bien, alegre con su imagen, su cuerpo y su salud.
-Ubicación del centro: Palermo, CABA. Por lo que principalmente apunta a los barrios de Palermo, Belgrano, Barrio Norte, Recoleta, luego el resto de CABA
+
+Ubicación: Palermo, CABA. Por lo que principalmente apunta a los barrios de Palermo, Belgrano, Barrio Norte, Recoleta, luego el resto de CABA
 
 
 DYN es un equipo formado por médicas y cosmiatras quienes se encargan de ayudar a las y los pacientes a mejorar aquellos aspectos de su imagen que le incomodan, basándose en criterios médicos y científicos.

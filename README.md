@@ -1,3 +1,6 @@
+TENER EN CUENTA: El proyecto está en la rama Master.
+
+
 8/9/21 Se cambió la temática
 
 Temática: La loop station - Tienda de música

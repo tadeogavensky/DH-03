@@ -1,10 +1,10 @@
 Retrospectiva SPRINT 1 
 
-Dinámica estrella de mar: https://proyectosagiles.org/2009/06/14/retrospectiva-estrella-mar-starfish-retrospective-scrum/
+Dinámica estrella de mar para tener en cuenta equipo: https://proyectosagiles.org/2009/06/14/retrospectiva-estrella-mar-starfish-retrospective-scrum/
 
 More of / Mas de:
 
--
+- Seguir comprometidos con el proyecto y con el equipo
 
 Start doing / Empezar a hacer:
 
@@ -12,6 +12,8 @@ Start doing / Empezar a hacer:
 
 
 Stop doing / Dejar de hacer:
+
+- Dejar de hacer cambios sin comentar las lineas
 
 Less of/ Menos de:
 

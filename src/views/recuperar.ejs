@@ -1,0 +1,69 @@
+<html>
+<%- include("partials/head") %>
+
+<body style="overflow-y: hidden;">
+    <div class="headerOriginal">
+        <%- include("partials/headerAdmin") %>
+    </div>
+    <div class="headerNavbar">
+        <%- include("partials/headernavbar") %>
+    </div>
+    <main class="mainLogin">
+
+        <div class="LoginForm">
+
+            
+                <%  if(locals.errors){ %>
+                    <ul style="padding: 20px 20px 20px 20px; background-color: white; border-radius: 10px;">
+                       <% for(let i = 0; i < errors.length;i++) { %>
+                       <li style="list-style-type: none; font-size: larger;"> <%= errors[i].msg %> </li>
+                       <% } %>
+                    </ul>
+                    <% } %>
+
+
+                    <%  if(locals.notExist){ %>
+    
+                    <script>
+                        Swal.fire({
+                            title: "El usuario no existe",
+                            icon: "error",
+                            position: 'center',
+                            showConfirmButton: false,
+                            timer: 1500,
+                        })
+                    </script>
+    
+    
+                    <% } %>    
+        
+            
+
+
+                <form style="padding-bottom: 45vh;" class="register-form" id="recuperarForm" action="/login?_method=PUT"
+                    method="POST" enctype="application/x-www-form-urlencoded">
+                    <div class="inputLogin">
+                        <input  class="boton-login"  type="text" style="margin-top: 12vh;" id="email" placeholder="Correo electrónico"
+                            name="emailRecuperado">
+
+                        <input class="boton-login" type="password" id="password" name="passwordRecuperado"
+                            placeholder="Contraseña">
+                   
+                    </div>
+                    <div>
+                        <button id="recuperar" class="boton-enviar" type="submit">Enviar</button>
+                    </div>
+                </form>
+        </div>
+
+    </main>
+    <div class="footerNavbar">
+        <%- include("partials/footernavbar") %>
+    </div>
+
+    <script src="/js/recuperarValidation.js"></script>
+    <!--  <script src="/js/passwordCaps.js"></script> -->
+
+</body>
+
+</html>

@@ -1,0 +1,219 @@
+<html>
+<%- include("partials/head") %>
+
+
+<body style="overflow-y: auto;">
+
+   <div class="headerOriginal">
+      <%- include("partials/headerAdmin.ejs") %>
+   </div>
+   <div class="headerNavbar">
+      <%- include("partials/headernavbar") %>
+   </div>
+   <main>
+
+      <div class="containerRegister">
+
+
+
+
+         <div class="LoginForm">
+
+
+            <form class="datosRegisterForm" id="formRegister" action="/log" method="POST" enctype='multipart/form-data'>
+               <div class="inputLogin">
+
+                  <%  if(locals.errors){ %>
+                  <ul style="padding: 20px 20px 20px 20px; background-color: white; border-radius: 20px;">
+                     <% for(let i = 0; i < errors.length;i++) { %>
+                     <li style="list-style-type: none;"> <%= errors[i].msg %> </li>
+                     <% } %>
+                  </ul>
+                  <% } %>
+                  <%  if(locals.emailExist){ %>
+                  <script>
+                     Swal.fire({
+                        title: 'Email ya registrado',
+                        showConfirmButton : false,
+                        timer: 2000
+                     })
+                  </script>
+
+                  <% } %>
+
+
+                  <input class="boton-login" placeholder="Nombre" style="text-transform: capitalize;" id="nombre"
+                     type="text" name="nombre">
+                  <br>
+
+                  <input class="boton-login" placeholder="Apellido" style="text-transform: capitalize;" id="apellido"
+                     type="text" name="apellido">
+                  <br>
+
+                  <input class="boton-login" placeholder="Usuario" type="text" id="usuario" name="usuario">
+                  <br>
+
+                  <input class="boton-login" placeholder="Correo electrónico" id="emailRegister" type="text"
+                     name="email">
+                  <br>
+
+                  <input class="boton-login" placeholder="Domicilio" style="text-transform: capitalize;" id="domicilio"
+                     type="text" name="domicilio">
+                  <br>
+
+                  <input class="boton-login" placeholder="Foto de perfil" id="foto" type="file" name="imagen">
+                  <br>
+
+                  <input class="boton-login" placeholder="Contraseña" id="password" type="password" name="password">
+                  <br>
+                  <input class="boton-login" placeholder="Repetir contraseña" name="passwordConfirmar" id="passwordConfirmar" type="password">
+                  <br>
+               </div>
+               <button style="margin-bottom: 20px" class="boton-enviar" id="registrarse" type="submit"> Completar
+                  registración </button>
+
+
+
+
+
+
+            </form>
+
+
+
+         </div>
+      </div>
+   </main>
+   <div class="footerNavbar">
+      <%- include("partials/footernavbar") %>
+   </div>
+
+
+   <script src="/js/passwordCaps.js"></script>
+   <script src="/js/registerValidation.js"> </script>
+
+   <!--  <script  type="text/javascript">
+
+      let registrarse = document.getElementById('registrarse')
+      let inputs = document.querySelectorAll('input');
+      let form = document.getElementById('formRegister')
+      let email = document.getElementById('emailRegister')
+      let password = document.getElementById('password')
+      let foto = document.getElementById('foto')
+   
+      let regexEmail = /\S+@\S+\.\S+/;
+      let regexPass = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[a-zA-Z\d@$.!%*#?&]/;
+   
+   
+      let allowed_extensions = ["jpg", "png","jpeg","gif"];
+      let file_extension = foto.split('.').pop().toLowerCase();
+   
+      const newToast = Swal.mixin({
+         toast: true,
+         showConfirmButton: false,
+         position: 'top',
+      })
+
+      registrarse.onmousedown = function (e) {
+         alert('entra aca')
+         e.preventDefault();
+        
+   
+         if (inputs[1, 2, 3, 4, 5, 6, 7].value.length === 0) {
+            Swal.fire({
+               title: "Error",
+               html: 'Debes completar los campos',
+               icon: "error",
+               confirmButtonColor: '#ab191f'
+            })
+         } else {
+            if (inputs[1, 2, 3, 4, 5, 6, 7].value.length !== 0) {
+               if (regexEmail.test(email.value) == false) {
+                  newToast.fire({
+                     title: 'Debes completar el campo con un email válido',
+                     timer: 2000,
+                     width: '28vw',
+                     icon: 'warning',
+                  })
+               } else if (inputs[1].value.length < 2 || inputs[2].value.length < 2) {
+                  newToast.fire({
+                     title: 'El campo de nombre y apellido debe tener al menos 2 caracteres',
+                     timer: 2000,
+                     width: '28vw',
+                     icon: 'warning',
+                  })
+               } else if(allowed_extensions[0] != file_extension || allowed_extensions[1] != file_extension){
+                  newToast.fire({
+                     title: 'La foto de perfil deberá ser de formato JPG, JPEG, PNG o GIF',
+                     timer: 2000,
+                     width: '28vw',
+                     icon: 'warning',
+                  })
+               }else{
+                  newToast.fire({
+                     title: 'Foto de perfil válida',
+                     timer: 1000,
+                     width: '28vw',
+                     icon: 'success',
+                  })
+               }  
+               if (regexPass.test(password.value) == true && password.value.length >= 8) {
+                  newToast.fire({
+                     title: 'Contraseña válida',
+                     timer: 1000,
+                     icon: 'success',
+                     willClose: () => {
+                        Swal.fire({
+                           title: "Confirmar datos",
+                           icon: "info",
+                           icon: 'info',
+                           cancelButtonText: 'Cancelar',
+                           cancelButtonColor: 'black',
+                           confirmButtonColor: '#ab191f',
+                           confirmButtonText: 'Continuar',
+                           showCancelButton: true,
+                        }).then(function (result) {
+   
+                           if (result.isConfirmed) {
+                              Swal.fire({
+                                 title: "Felicitaciones!",
+                                 text: "Tu cuenta a sido creada con éxito!",
+                                 icon: "success",
+                                 showConfirmButton: false,
+                                 timer: 1500,
+                                 willClose: () => {
+                                    form.submit();
+                                 }
+   
+                              })
+   
+                           }
+   
+                        })
+   
+                     }
+                  })
+   
+               } else if (regexPass.test(password.value) == false || password.value.length < 8) {
+                  newToast.fire({
+                     title: 'La contraseña debe ser o tener más de 8 carácteres y al menos un carácter especial, una letra mayúscula y una letra minúscula',
+                     icon: 'warning',
+                     timer: 1500,
+                     width: '32vw',
+                     confirmButtonColor: "#ab191f"
+                  })
+               }
+   
+            }
+   
+   
+         }
+      }
+   </script>
+
+
+   <script src="/js/passwordCaps.js"></script> -->
+
+</body>
+
+</html>

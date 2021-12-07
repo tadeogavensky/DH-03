@@ -1,0 +1,161 @@
+<html>
+<%- include("partials/head", {session:session}) %>
+
+<body>
+   <%- include("partials/quantity.ejs", {session:session}) %>
+   <div class="headerOriginal">
+      <%- include("partials/header", {session:session}) %>
+   </div>
+   <div class="headerNavbar">
+      <%- include("partials/headernavbar") %>
+   </div>
+
+
+   <main class="mainProducto">
+
+
+
+
+
+
+
+
+      <div class="subCatMarca">
+
+         <div class="dropdownCat">
+            <p style="font-weight: 600; color: #757474;">Categorías</p>
+            <div class="dropdown-content-cat">
+
+               <% for(let i = 0; i<categorias.length;i++){ %>
+               <form action="/productosBuscados/<%= categorias[i].nombre %>" method="POST"
+                  enctype="multipart/form-data">
+                  <button style=" background-color: transparent;" class="clearButton" type="submit">
+                     <a style="font-size: 12px"> <%= categorias[i].nombre %> </a>
+                  </button>
+               </form>
+               <% } %>
+
+
+
+            </div>
+         </div>
+
+         <p style="margin-left: 3vw; margin-right: 3vw; font-weight: 600;">/</p>
+
+
+         <div class="dropdownMarca">
+            <p style="font-weight: 700; color: black;">Marcas</p>
+            <div class="dropdown-content-marca">
+
+               <% for(let i = 0; i<marcas.length;i++){ %>
+               <form action="/productosBuscadosPorMarca/<%= marcas[i].nombre %>" method="POST"
+                  enctype="multipart/form-data">
+                  <button style=" background-color: transparent;" class="clearButton" type="submit">
+                     <a style="font-size: 12px"> <%= marcas[i].nombre %> </a>
+                  </button>
+               </form>
+               <% } %>
+            </div>
+         </div>
+
+
+         <p style="margin-left: 3vw; margin-right: 3vw; font-weight: 600;">/</p>
+
+         <div class="dropdownSubcat">
+            <p style="font-weight: 600; color: #ab191f;">Subcategorías</p>
+            <div class="dropdown-content-subcat">
+
+               <% for(let i = 0; i<subcategorias.length;i++){ %>
+
+
+               <form action="/productosBuscadosPorSubCategoria/<%= subcategorias[i].nombre %>" method="POST"
+                  enctype="multipart/form-data">
+                  <button style=" background-color: transparent;" class="clearButton" type="submit">
+
+                     <a style="font-size: 12px"> <%= subcategorias[i].nombre %> </a>
+                  </button>
+               </form>
+               <% } %>
+            </div>
+         </div>
+
+
+
+      </div>
+
+
+
+
+      <section class="containerProductos">
+         <% for(let i=0;  i<lista_productos.length;i++ ) {
+            let randomArray = [20,30,40,50]
+            var random = randomArray[Math.floor(Math.random()*randomArray.length)]
+            %>
+         <div class="producto">
+            <a href="/detalleProducto/<%= lista_productos[i].id %>"><img
+                  src="img/products/<%= lista_productos[i].imagen %>" class="producto__img"></a>
+            <div class="productDescription">
+               <h3 class="producto__title"> <%= lista_productos[i].nombre %> </h3>
+               <% if(lista_productos[i].enOferta == 1){ %>
+               <span class="producto__price" style="text-decoration: line-through;">
+                  $<%= (Math.round(lista_productos[i].precio * 100) / 100).toLocaleString()%></span>
+               <span class="producto__price" style="color: green;">
+                  $<% let precioFinal = lista_productos[i].precio - ( lista_productos[i].precio*random/100) %>
+                  <%= (Math.round(precioFinal * 100) / 100).toLocaleString()  %></span>
+               <span style=" color: green;">
+                  %<%= 100 - (((lista_productos[i].precio - (lista_productos[i].precio * random / 100)) * 100 ) / lista_productos[i].precio) %>
+                  OFF </span>
+               <% }else{ %>
+               <span class="producto__price">
+                  $<%= (Math.round(lista_productos[i].precio * 100) / 100).toLocaleString() %></span>
+               <% } %>
+            </div>
+
+            <% if(lista_productos[i].stock == 1){ %>
+            <a> EN STOCK </a>
+            <% }else{%>
+            <a> SIN STOCK </a>
+            <% } %>
+
+            <% if(lista_productos[i].enOferta == 1){ %>
+            <a> EN OFERTA </a>
+            <% }else{%>
+            <a style="color:white"> EN OFERTA </a>
+            <% } %>
+
+
+
+            <!--  <form enctype="multipart/form-data" action="/cart/<%= lista_productos[i].id %>" method="POST">
+
+
+               <div id="qtyDesktop" class="quantity buttons_added">
+                  <input type="button" value="-" class="minus">
+                  <input type="number" step="1" min="1" max="" id="cantidadProductos_id" title="Qty"
+                     class="input-text qty text" size="4" pattern="" name="qty" inputmode="">
+                  <input type="button" value="+" class="plus">
+               </div>
+
+               <a id="btnNonHover"><button type="submit" class="btn">Agregar al carrito</button></a>
+
+
+            </form> -->
+
+
+         </div>
+         <% } %>
+      </section>
+   </main>
+   <button type="button" class="btn btn-danger btn-floating btn-lg" id="btn-back-to-top">
+      <i class="fas fa-arrow-up"></i>
+   </button>
+
+   <div class="footerNavbar">
+      <%- include("partials/footernavbar") %>
+   </div>
+
+
+   <script src="/js/toTop.js"></script>
+
+</body>
+
+</html>

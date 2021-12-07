@@ -1,0 +1,62 @@
+<html>
+<%- include("partials/head") %>
+
+<body>
+
+  <div class="headerOriginal">
+    <%- include("partials/header",{session:session}) %>
+  </div>
+
+
+  <div class="headerNavbar">
+    <%- include("partials/headernavbar") %>
+  </div>
+
+  <main>
+    <p style="color: #ab191f;font-size: 28px; text-align: center;"> Editá tus datos, <span
+        style="font-weight: 900;"><%= session.nombre  %> </span> </p>
+
+        
+        <%  if(locals.errors){ %>
+          <ul style="padding: 20px 20px 20px 20px; background-color: white; border-radius: 10px;">
+             <% for(let i = 0; i < errors.length;i++) { %>
+             <li style="list-style-type: none; font-size: larger;"> <%= errors[i].msg %> </li>
+             <% } %>
+          </ul>
+          <% } %>
+    <div class="perfilContainer">
+      <img style=" width: 20vw; height: 50%;" src="/img/users/<%= session.imagen %>">
+      <div class="datosEditar">
+        <form class="dataEditar" id="editarUsuarioForm" action="/?_method=PUT" method="POST" enctype="multipart/form-data">
+          <label for="nombre"> Nombre </label>
+          <input style="text-transform: capitalize;" placeholder="<%= session.nombre %>" id="nombreEditado" type="text" name="nombreEditado">
+          <br>
+          <label for="apellido"> Apellido </label>
+          <input style="text-transform: capitalize;" placeholder="<%= session.apellido %>" id="apellidoEditado" type="text" name="apellidoEditado">
+          <br>
+          <label for="usuario"> Usuario </label>
+          <input placeholder="<%= session.usuario %>" id="usuarioEditado" type="text" name="usuarioEditado">
+          <br>
+          <label for="email"> Email </label>
+          <input placeholder="<%= session.email %>" id="emailEditado" type="text" name="emailEditado">
+          <br>
+          <label for="domicilio"> Domicilio </label>
+          <input style="text-transform: capitalize;" placeholder="<%= session.domicilio %>" id="domicilioEditado" type="text" name="domicilioEditado">
+          <br>
+          <label for="fotoPerfil"> Foto de perfil </label>
+          <input id="fotoPerfil" type="file" name="imagen">
+
+          <br>
+          <button id="editarUsuario" type="submit"> EDITAR DATOS </button>
+        </form>
+      </div>
+    </div>
+  </main>
+
+  <script src="/js/CapsLock.js"></script>
+  <script src="/js/editarUsuarioValidation.js"></script>
+
+
+</body>
+
+</html>

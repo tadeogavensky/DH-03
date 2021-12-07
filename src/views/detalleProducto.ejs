@@ -1,0 +1,237 @@
+<html>
+<%- include("partials/head",{session:session}) %>
+
+<body>
+   <%- include("partials/quantity.ejs") %>
+   <div class="headerOriginal">
+      <%- include("partials/header",{session:session}) %>
+   </div>
+   <div class="headerNavbar">
+      <%- include("partials/headernavbar",{session:session}) %>
+   </div>
+
+   <div class="footerNavbar">
+      <%- include("partials/footernavbar") %>
+   </div>
+
+   <main>
+      <div class="categorySubcategory">
+         <p> <%= producto.categoria.nombre%> / <b> <%= producto.subcategoria.nombre %> </b> </p>
+         <b style="font-size: 25px; text-transform: uppercase;"> <%= producto.marca.nombre %> </b>
+      </div>
+
+      <div class="detalleProductoContainer">
+
+         <div class="productBasicInfo">
+
+            <img src="/img/products/<%= producto.imagen %>">
+
+            <div class="subInfo">
+
+               <b><%= producto.nombre %> </b>
+
+               <div class="price-row">
+
+                  <% if(producto.enOferta == 1){ 
+                     let randomArray = [20,30,40,50]
+		               var random = randomArray[Math.floor(Math.random()*randomArray.length)]
+                  %>
+
+                  <p style="padding-right: 1vw; text-decoration: line-through">
+                     $<%= (Math.round(producto.precio * 100) / 100).toLocaleString()%></p>
+                  <p style=" padding-right: 0.5vw; color: green;">
+                     $<% let precioFinal = producto.precio - ( producto.precio*random/100) %>
+                     <%= (Math.round(precioFinal * 100) / 100).toLocaleString()  %> </p>
+                  <p style=" text-align: center; font-size: 20px; color: green;">
+                     %<%= 100 - (((producto.precio - (producto.precio * random / 100)) * 100 ) / producto.precio) %> OFF
+                  </p>
+
+
+                  <% } else{ %>
+                  <p> $<%= (Math.round(producto.precio * 100) / 100).toLocaleString()%></p>
+                  <% } %>
+
+               </div>
+               <div class="noSessionAddCartBtn">
+                  <% if(locals.session == undefined) { %>
+                  <a href="/noSession"><button class="addCartBtn">AGREGAR AL CARRITO</button></a>
+                  <% } %>
+               </div>
+               <% if(locals.session) { %>
+               <div class="detailButtons">
+                  <% if(producto.stock == 1) { %>
+                  <form enctype="multipart/form-data" action="/cart/<%= producto.id %>" method="POST">
+                     <a href="/cart"><button class="addCartBtn">AGREGAR AL CARRITO</button></a>
+                  </form>
+                  <% } else{ %>
+                  <p style="font-size: 30px;">SIN STOCK</p>
+                  <% } %>
+                  <div class="adminBtn">
+                     <% if(locals.session.fkRol == 1) { %>
+                     <a href="/editar/<%= producto.id %>"><button>Editar Producto</button></a>
+                     <form action="/productos/<%= producto.id %>?_method=DELETE" method="POST"
+                        style="display: inline-flex">
+                        <button id="eliminarProductoButton">Eliminar Producto</button>
+                     </form>
+                     <% }else{ %>
+                     <a style="display: none;" href="/editar/<%= producto.id %>"><button style="display: none;">Editar
+                           Producto</button></a>
+                     <form action="/productos/<%= producto.id %>?_method=DELETE" method="POST" style="display: none">
+                        <button type="submit" id="eliminarProductoButton">Eliminar Producto</button>
+                     </form>
+                     <% } %>
+                  </div>
+               </div>
+
+               <% } %>
+
+            </div>
+
+         </div>
+
+         <div class="restOfInfo">
+
+            <label> DESCRIPCIÓN</label>
+            <p id="descripcion"> <%= producto.descripcion %></p>
+
+         </div>
+
+         <% if(productosMarca.length != 0){ %>
+         <section class="sectionProductosMarcas">
+            <label style="font-size: 25px; "> DE LA MISMA MARCA</label>
+            <div class="containerProductosMarcas">
+               <% for(let i=0; i< productosMarca.length; i++ ) {
+                  let randomArray = [20,30,40,50]
+		            var random = randomArray[Math.floor(Math.random()*randomArray.length)]
+                  %>
+               <div class="productoHome">
+                  <a href="/detalleProducto/<%= productosMarca[i].id %>"> <img
+                        src="/img/products/<%= productosMarca[i].imagen %>">
+                  </a>
+                  <p id="productoNombre"
+                     style=" white-space: nowrap; overflow: hidden; text-overflow: ellipsis;width: 300px;">
+                     <%= productosMarca[i].nombre %></p>
+                  <article>
+                     <% if(productosMarca[i].enOferta == 1){ %>
+                     <p id="precio" style="font-weight: bold; padding-left:10px; text-decoration: line-through">
+                        $<%= (Math.round(productosMarca[i].precio * 100) / 100).toLocaleString() %></p>
+                     <div style="display:flex; flex-direction:row">
+                        <p id="precio" style="font-weight: bold; padding-left:10px; color: green;">
+                           $<%= ((Math.round(productosMarca[i].precio * 100) / 100) - (productosMarca[i].precio * random / 100)).toLocaleString() %>
+                        </p>
+                        <p style="font-weight: bold; padding-left:10px; color: green;">
+                           %<%= 100 - (((productosMarca[i].precio  - (productosMarca[i].precio * random / 100)) * 100 ) / productosMarca[i].precio) %>
+                           OFF </p>
+                     </div>
+                     <%}else {%>
+                     <p id="precio" style="font-weight: bold; padding-left:10px; text-decoration: none">
+                        $<%= (Math.round(productosMarca[i].precio * 100) / 100).toLocaleString() %></p>
+                     <% }%>
+                  </article>
+               </div>
+               <% } %>
+            </div>
+         </section>
+         <% } %>
+
+         <% if(productosCategoria.length != 0){ %>
+         <section class="sectionProductoCategoria">
+            <label style="font-size: 25px; "> PRODUCTOS SIMILARES</label>
+            <div class="containerProductosCategoria">
+               <% for(let i=0; i< productosCategoria.length; i++ ) {
+                  let randomArray = [20,30,40,50]
+		            var random = randomArray[Math.floor(Math.random()*randomArray.length)]
+                  %>
+               <div class="productoHome">
+                  <a href="/detalleProducto/<%= productosCategoria[i].id %>"> <img
+                        src="/img/products/<%= productosCategoria[i].imagen %>">
+                  </a>
+                  <p id="productoNombre"
+                     style=" white-space: nowrap; overflow: hidden; text-overflow: ellipsis;width: 300px;">
+                     <%= productosCategoria[i].nombre %></p>
+                  <article>
+                     <% if(productosCategoria[i].enOferta == 1){ %>
+                     <p id="precio" style="font-weight: bold; padding-left:10px; text-decoration: line-through">
+                        $<%= (Math.round(productosCategoria[i].precio * 100) / 100).toLocaleString() %></p>
+                     <div style="display:flex; flex-direction:row">
+                        <p id="precio" style="font-weight: bold; padding-left:10px; color: green;">
+                           $<%= ((Math.round(productosCategoria[i].precio * 100) / 100) - (productosCategoria[i].precio * random / 100)).toLocaleString() %>
+                        </p>
+                        <p style="font-weight: bold; padding-left:10px; color: green;">
+                           %<%= 100 - (((productosCategoria[i].precio  - (productosCategoria[i].precio * random / 100)) * 100 ) / productosCategoria[i].precio) %>
+                           OFF </p>
+                     </div>
+                     <%}else {%>
+                     <p id="precio" style="font-weight: bold; padding-left:10px; text-decoration: none">
+                        $<%= (Math.round(productosCategoria[i].precio * 100) / 100).toLocaleString() %></p>
+                     <% }%>
+                  </article>
+               </div>
+               <% } %>
+            </div>
+         </section>
+         <% } %>
+
+
+         <% if(productosEnOferta.length != 0){ %>
+         <section class="sectionProductosOfertas">
+            <label style="font-size: 25px; "> OFERTAS IMPERDIBLES</label>
+            <div class="containerProductosOfertas">
+               <% for(let i=0; i< productosEnOferta.length; i++ ) {
+                  let randomArray = [20,30,40,50]
+		            var random = randomArray[Math.floor(Math.random()*randomArray.length)]
+                  %>
+               <div class="productoHome">
+                  <a href="/detalleProducto/<%= productosEnOferta[i].id %>"> <img
+                        src="/img/products/<%= productosEnOferta[i].imagen %>">
+                  </a>
+                  <p id="productoNombre"
+                     style=" white-space: nowrap; overflow: hidden; text-overflow: ellipsis;width: 300px;">
+                     <%= productosEnOferta[i].nombre %></p>
+                  <article>
+                     <p id="precio" style="font-weight: bold; padding-left:10px; text-decoration: line-through">
+                        $<%= (Math.round(productosEnOferta[i].precio * 100) / 100).toLocaleString() %></p>
+                     <div style="display:flex; flex-direction:row">
+                        <p id="precio" style="font-weight: bold; padding-left:10px; color: green;">
+                           $<%=  ((Math.round(productosEnOferta[i].precio * 100) / 100) - (productosEnOferta[i].precio * random / 100)).toLocaleString()  %>
+                        </p>
+                        <p style="font-weight: bold; padding-left:10px; color: green;">
+                           %<%= 100 - (((productosEnOferta[i].precio  - (productosEnOferta[i].precio * random / 100)) * 100 ) / productosEnOferta[i].precio) %>
+                           OFF </p>
+                     </div>
+                  </article>
+               </div>
+               <% } %>
+            </div>
+         </section>
+         <% } %>
+
+      </div>
+
+
+   </main>
+
+   <script src="/js/detalleProducto.js"></script>
+   <script>
+      const scrollContainerProductosOfertas = document.querySelector(".containerProductosOfertas")
+      scrollContainerProductosOfertas.addEventListener("wheel", (evt) => {
+         evt.preventDefault();
+         scrollContainerProductosOfertas.scrollLeft += evt.deltaY;
+      });
+
+      const scrollContainerProductosMarcas = document.querySelector(".containerProductosMarcas")
+      scrollContainerProductosMarcas.addEventListener("wheel", (evt) => {
+         evt.preventDefault();
+         scrollContainerProductosMarcas.scrollLeft += evt.deltaY;
+      });
+
+      const scrollContainerProductosCategorias = document.querySelector(".containerProductosCategoria")
+      scrollContainerProductosCategorias.addEventListener("wheel", (evt) => {
+         evt.preventDefault();
+         scrollContainerProductosCategorias.scrollLeft += evt.deltaY;
+      });
+   </script>
+
+</body>
+
+</html>

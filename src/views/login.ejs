@@ -1,0 +1,97 @@
+<html>
+<%- include("partials/head") %>
+
+<body style="overflow-y: hidden;">
+    <div class="headerOriginal">
+        <%- include("partials/headerAdmin") %>
+    </div>
+    <div class="headerNavbar">
+        <%- include("partials/headernavbar") %>
+    </div>
+    <main class="mainLogin">
+
+        <div class="LoginForm">
+
+
+            
+            <%  if(locals.errors){ %>
+                <ul style="padding: 20px 20px 20px 20px; background-color: white; border-radius: 10px;">
+                   <% for(let i = 0; i < errors.length;i++) { %>
+                   <li style="list-style-type: none; font-size: larger;"> <%= errors[i].msg %> </li>
+                   <% } %>
+                </ul>
+                <% } %>
+            
+            <%  if(locals.notMatch){ %>
+
+            <script>
+                Swal.fire({
+                    title: "El email y/o la contraseña son incorrectos",
+                    icon: "error",
+                    position: 'center',
+                    showConfirmButton: false,
+                    timer: 1500,
+                })
+            </script>
+
+
+            <% } %>
+            <%  if(locals.notExist){ %>
+
+            <script>
+                Swal.fire({
+                    title: "El usuario no existe",
+                    icon: "error",
+                    position: 'center',
+                    showConfirmButton: false,
+                    timer: 1500,
+                })
+            </script>
+
+
+            <% } %>
+
+
+
+            <form class="register-form" id="formLogin" action="/" method="POST"
+                enctype='application/x-www-form-urlencoded'>
+                <div class="inputLogin">
+
+                    <input class="boton-login" type="text" id="email" placeholder="Correo electrónico" name="email">
+
+                    <input class="boton-login" type="password" id="password" name="password" placeholder="Contraseña">
+
+                </div>
+                <div>
+                    <input  type="checkbox" id="recordar" name="recordar" placeholder="Recordar usuario"> Recordarme
+
+                </div>
+
+                <a style="color: white;" href="/recuperar"> Olvidé mi contraseña</a>
+
+                <div>
+                    <button class="boton-enviar" id="login" type="submit">Enviar</button>
+                </div>
+
+            </form>
+        </div>
+
+    </main>
+    <div class="footerNavbar">
+        <%- include("partials/footernavbar") %>
+    </div>
+
+
+
+
+
+    <script src="/js/loginValidation.js"></script>
+
+    <!-- <script src="/js/CapsLock.js"></script> -->
+
+
+
+
+</body>
+
+</html>

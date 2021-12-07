@@ -37,16 +37,16 @@ const productoController = {
         let promiseSubCategoria = db.SubCategoria.findAll()
         let promiseMarca = db.Marca.findAll();
         Promise.all([promiseProducto, promiseCategoria, promiseSubCategoria, promiseMarca])
-        .then(([lista_productos, categorias, subcategorias, marcas]) => {
-            res.render('productosBuscados', {
-                lista_productos,
-                categorias,
-                subcategorias,
-                marcas: marcas,
-                queryCategory,
-                session: session
+            .then(([lista_productos, categorias, subcategorias, marcas]) => {
+                res.render('productosBuscados', {
+                    lista_productos,
+                    categorias,
+                    subcategorias,
+                    marcas: marcas,
+                    queryCategory,
+                    session: session
+                })
             })
-        })
     },
     lista: (req, res) => {
 
@@ -61,23 +61,16 @@ const productoController = {
             }
         })
         let promiseCategoria = db.Categoria.findAll()
-        let promiseSubCategoria = db.SubCategoria.findAll({})
-
-        let promesa = sequelize
-            .query("select categorias.nombre as CategoriasNombre, subcategorias.nombre as SubcategoriasNombre from grupo3_db.categorias inner join grupo3_db.subcategorias on categorias.id = subcategorias.fkCategoria", {
-                type: sequelize.QueryTypes.SELECT
-            })
+        let promiseSubCategoria = db.SubCategoria.findAll()
 
         let promiseMarca = db.Marca.findAll()
-        Promise.all([promiseProductos, promiseCategoria, promiseSubCategoria, promiseMarca, promesa])
-            .then(([lista_productos, categorias, subcategorias, marcas, promesas]) => {
+        Promise.all([promiseProductos, promiseCategoria, promiseSubCategoria, promiseMarca])
+            .then(([lista_productos, categorias, subcategorias, marcas]) => {
                 res.render('productos', {
                     "lista_productos": lista_productos,
                     categorias,
                     subcategorias,
                     marcas,
-                    promesas: promesas,
-
                     session: session
                 });
             })

@@ -16,7 +16,7 @@ const adminMiddleware = require('../middlewares/adminMiddleware');
 /////////////////////MULTER///////////////////
 const uploadProducts = require('../middlewares/multerProducts')
 
-const storageUser = multer.diskStorage({ 
+const storageUser = multer.diskStorage({
    destination: function (req, file, cb) {
       cb(null, './public/img/');
    },
@@ -28,7 +28,9 @@ const storageUser = multer.diskStorage({
 
 
 
-const uploadUsers = multer({storage: storageUser});
+const uploadUsers = multer({
+   storage: storageUser
+});
 
 
 //EXPRESS VALIDATOR
@@ -48,7 +50,7 @@ let dataCheckRegister = [
 
    body('domicilio').notEmpty().withMessage('Debes completar el campo de domicilio'),
 
-  /*  file('imagen').notEmpty().withMessage('Debes completar el campo de foto de perfil'), */
+   /*  file('imagen').notEmpty().withMessage('Debes completar el campo de foto de perfil'), */
 
    body('password').notEmpty().withMessage('Debes completar el campo de contraseña').bail()
    .isLength({
@@ -75,7 +77,9 @@ let dataCheckAgregarProducto = [
    }).withMessage('La descripción del producto debe tener al menos 20 caracteres.'),
    body('precio').notEmpty().withMessage('Debes completar el campo de precio').bail()
    .isNumeric().withMessage('El precio debe ser un número').bail()
-   .isInt({ min:1}).withMessage('El precio debe ser positivo'),
+   .isInt({
+      min: 1
+   }).withMessage('El precio debe ser positivo'),
    body('categoria').notEmpty().withMessage('Debes elegir una categoría'),
    body('sub_categoria').notEmpty().withMessage('Debes elegir una subcategoría'),
 ]
@@ -94,13 +98,17 @@ let dataCheckEditarUsuario = [
 ]
 
 let dataCheckEditarProducto = [
-   body('nombre').notEmpty().withMessage('Debes completar el campo de nombre').bail()
+   body('nombre').notEmpty()
    .isLength({
       min: 5
    }).withMessage('El nombre del producto deberá tener al menos 5 caracteres'),
    body('descripcion').isLength({
       min: 20
-   }).withMessage('La descripción del producto debe tener al menos 20 caracteres.')
+   }).withMessage('La descripción del producto debe tener al menos 20 caracteres.'),
+   body('precio').isNumeric().withMessage('El precio debe ser un número').bail()
+   .isInt({
+      min: 1
+   }).withMessage('El precio debe ser positivo'),
 ]
 
 let dataCheckRecuperar = [
@@ -109,6 +117,8 @@ let dataCheckRecuperar = [
    body('passwordRecuperado').notEmpty().withMessage('Debes completar el campo de contraseña').bail()
    .matches(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{8,}$/, "i")
    .withMessage('La contraseña debe tener al menos de 8 carácteres, un carácter especial, una letra mayúscula y una letra minúscula'),
+   body('passwordConfirmar').notEmpty().withMessage('Debes completar el campo de repetir contraseña').bail()
+   .matches(body('passwordRecuperado')).withMessage('La contraseña deben de coincidir')
 ]
 
 
@@ -133,11 +143,11 @@ router.delete('/cart/:id', productosController.eliminarCart);
 
 // Agregar un producto 
 router.get("/agregar", notLoggedMiddleware, adminMiddleware, productosController.agregar)
-router.post('/productos', uploadProducts.single("imagen"),dataCheckAgregarProducto, productosController.guardar);
+router.post('/productos', uploadProducts.single("imagen"), dataCheckAgregarProducto, productosController.guardar);
 
 // Editar un producto 
 router.get('/editar/:id', notLoggedMiddleware, adminMiddleware, productosController.editar);
-router.put('/detalleProducto/:id',dataCheckEditarProducto,uploadProducts.single("imagen"), productosController.actualizar);
+router.put('/detalleProducto/:id', dataCheckEditarProducto, uploadProducts.single("imagen"), productosController.actualizar);
 
 
 // Eliminar un producto 
@@ -161,7 +171,7 @@ const usuariosController = require('../controllers/usuariosController');
 
 // Registrarse
 router.get('/register', loggedMiddleware, usuariosController.formRegister);
-router.post('/log',dataCheckRegister, uploadUsers.single("imagen"), usuariosController.registrarse);
+router.post('/log', dataCheckRegister, uploadUsers.single("imagen"), usuariosController.registrarse);
 
 // Iniciar Sesión
 router.get('/login', loggedMiddleware, usuariosController.formLogin);
@@ -183,7 +193,7 @@ router.get('/noAdmin', usuariosController.noAdmin)
 
 //Recuperar contraseña
 router.get('/recuperar', usuariosController.recuperarForm)
-router.put('/login',dataCheckRecuperar, usuariosController.recuperar)
+router.put('/login', dataCheckRecuperar, usuariosController.recuperar)
 
 //Editar cuenta
 router.get('/editarUsuario', notLoggedMiddleware, usuariosController.editar)

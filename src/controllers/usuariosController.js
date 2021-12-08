@@ -170,13 +170,11 @@ const usuariosController = {
           where: {
             deleted: 0,
             email: {
-              ne: session.email
+              [Op.ne]: session.email
             }
           },
         }) */
     /*  .then(usuarios => { */
-    console.log('USUARIOS EXCEPTO SESSION')
-    /* console.log(usuarios) */
     /* if (req.body.email == usuarios.email) {
       let emailExist = 'Email ya registrado'
         res.render("editarUsuario", {

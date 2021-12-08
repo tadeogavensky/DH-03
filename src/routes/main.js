@@ -76,8 +76,8 @@ let dataCheckAgregarProducto = [
    body('precio').notEmpty().withMessage('Debes completar el campo de precio').bail()
    .isNumeric().withMessage('El precio debe ser un número').bail()
    .isInt({ min:1}).withMessage('El precio debe ser positivo'),
-   body('categoria').notEmpty().withMessage('Debes elegir el campo de categoría'),
-   body('sub_categoria').notEmpty().withMessage('Debes elegir el campo de categoría'),
+   body('categoria').notEmpty().withMessage('Debes elegir una categoría'),
+   body('sub_categoria').notEmpty().withMessage('Debes elegir una subcategoría'),
 ]
 let dataCheckEditarUsuario = [
    body('nombreEditado').isLength({
@@ -137,7 +137,7 @@ router.post('/productos', uploadProducts.single("imagen"),dataCheckAgregarProduc
 
 // Editar un producto 
 router.get('/editar/:id', notLoggedMiddleware, adminMiddleware, productosController.editar);
-router.put('/detalleProducto/:id'/* , dataCheckEditarProducto */,uploadProducts.single("imagen"), productosController.actualizar);
+router.put('/detalleProducto/:id',dataCheckEditarProducto,uploadProducts.single("imagen"), productosController.actualizar);
 
 
 // Eliminar un producto 
@@ -161,7 +161,7 @@ const usuariosController = require('../controllers/usuariosController');
 
 // Registrarse
 router.get('/register', loggedMiddleware, usuariosController.formRegister);
-router.post('/log',/* dataCheckRegister,  */uploadUsers.single("imagen"), usuariosController.registrarse);
+router.post('/log',dataCheckRegister, uploadUsers.single("imagen"), usuariosController.registrarse);
 
 // Iniciar Sesión
 router.get('/login', loggedMiddleware, usuariosController.formLogin);

@@ -5,7 +5,7 @@
 
    <div class="headerOriginal" style="display: flex; flex-direction: column;">
       <% if(session) { %>
-      <p style="color: #ab191f;font-size: 28px; text-align: center;"> Bienvenido,
+      <p id="welcomeMessage" style="color: #ab191f;font-size: 28px; text-align: center;"> Bienvenido,
          <span style="font-weight: 900;"><%= session.nombre  %> </span> </p>
       <% } %>
       <%- include("partials/header",{session:session, categorias, marcas: locals.marcas}) %>
@@ -28,20 +28,20 @@
               <form action="/productosBuscados/<%= categorias[i].nombre %>" method="POST"
                  enctype="multipart/form-data">
                  <button style=" background-color: transparent;" class="clearButton" type="submit">
-                    <a style="font-size: 12px"> <%= categorias[i].nombre %> </a>
+                    <a style="font-size: 16px"> <%= categorias[i].nombre %> </a>
                  </button>
               </form>
               <% } %>
               <form action="/productosBuscados/<%= categorias[5].nombre %>" method="POST"
                  enctype="multipart/form-data">
                  <button style=" background-color: transparent;" class="clearButton" type="submit">
-                    <a style="font-size: 12px"> <%= categorias[5].nombre %> </a>
+                    <a style="font-size: 16px"> <%= categorias[5].nombre %> </a>
                  </button>
               </form>
               <form action="/productosBuscados/<%= categorias[4].nombre %>" method="POST"
                  enctype="multipart/form-data">
                  <button style=" background-color: transparent;" class="clearButton" type="submit">
-                    <a style="font-size: 12px"> <%= categorias[4].nombre %> </a>
+                    <a style="font-size: 16px"> <%= categorias[4].nombre %> </a>
                  </button>
               </form>
 
@@ -61,7 +61,7 @@
               <form action="/productosBuscadosPorMarca/<%= marcas[i].nombre %>" method="POST"
                  enctype="multipart/form-data">
                  <button style=" background-color: transparent;" class="clearButton" type="submit">
-                    <a style="font-size: 12px"> <%= marcas[i].nombre %> </a>
+                    <a style="font-size: 16px"> <%= marcas[i].nombre %> </a>
                  </button>
               </form>
               <% } %>
@@ -81,25 +81,25 @@
                     <form action="/productosBuscadosPorSubCategoria/<%= subcategorias[0].nombre %>" method="POST"
                        enctype="multipart/form-data">
                        <button style=" background-color: transparent;" class="clearButton" type="submit">
-                          <a style="font-size: 12px"> <%= subcategorias[0].nombre %> </a>
+                          <a style="font-size: 16px"> <%= subcategorias[0].nombre %> </a>
                        </button>
                     </form>
                     <form action="/productosBuscadosPorSubCategoria/<%= subcategorias[1].nombre %>" method="POST"
                        enctype="multipart/form-data">
                        <button style=" background-color: transparent;" class="clearButton" type="submit">
-                          <a style="font-size: 12px"> <%= subcategorias[1].nombre %> </a>
+                          <a style="font-size: 16px"> <%= subcategorias[1].nombre %> </a>
                        </button>
                     </form>
                     <form action="/productosBuscadosPorSubCategoria/<%= subcategorias[2].nombre %>" method="POST"
                        enctype="multipart/form-data">
                        <button style=" background-color: transparent;" class="clearButton" type="submit">
-                          <a style="font-size: 12px"> <%= subcategorias[2].nombre %> </a>
+                          <a style="font-size: 16px"> <%= subcategorias[2].nombre %> </a>
                        </button>
                     </form>
                     <form action="/productosBuscadosPorSubCategoria/<%= subcategorias[25].nombre %>" method="POST"
                        enctype="multipart/form-data">
                        <button style=" background-color: transparent;" class="clearButton" type="submit">
-                          <a style="font-size: 12px"> <%= subcategorias[25].nombre %> </a>
+                          <a style="font-size: 16px"> <%= subcategorias[25].nombre %> </a>
                        </button>
                     </form>
                  </div>
@@ -110,31 +110,31 @@
                     <form action="/productosBuscadosPorSubCategoria/<%= subcategorias[3].nombre %>" method="POST"
                        enctype="multipart/form-data">
                        <button style=" background-color: transparent;" class="clearButton" type="submit">
-                          <a style="font-size: 12px"> <%= subcategorias[3].nombre %> </a>
+                          <a style="font-size: 16px"> <%= subcategorias[3].nombre %> </a>
                        </button>
                     </form>
                     <form action="/productosBuscadosPorSubCategoria/<%= subcategorias[4].nombre %>" method="POST"
                        enctype="multipart/form-data">
                        <button style=" background-color: transparent;" class="clearButton" type="submit">
-                          <a style="font-size: 12px"> <%= subcategorias[4].nombre %> </a>
+                          <a style="font-size: 16px"> <%= subcategorias[4].nombre %> </a>
                        </button>
                     </form>
                     <form action="/productosBuscadosPorSubCategoria/<%= subcategorias[5].nombre %>" method="POST"
                        enctype="multipart/form-data">
                        <button style=" background-color: transparent;" class="clearButton" type="submit">
-                          <a style="font-size: 12px"> <%= subcategorias[5].nombre %> </a>
+                          <a style="font-size: 16px"> <%= subcategorias[5].nombre %> </a>
                        </button>
                     </form>
                     <form action="/productosBuscadosPorSubCategoria/<%= subcategorias[6].nombre %>" method="POST"
                        enctype="multipart/form-data">
                        <button style=" background-color: transparent;" class="clearButton" type="submit">
-                          <a style="font-size: 12px"> <%= subcategorias[6].nombre %> </a>
+                          <a style="font-size: 16px"> <%= subcategorias[6].nombre %> </a>
                        </button>
                     </form>
                     <form action="/productosBuscadosPorSubCategoria/<%= subcategorias[7].nombre %>" method="POST"
                        enctype="multipart/form-data">
                        <button style=" background-color: transparent;" class="clearButton" type="submit">
-                          <a style="font-size: 12px"> <%= subcategorias[7].nombre %> </a>
+                          <a style="font-size: 16px"> <%= subcategorias[7].nombre %> </a>
                        </button>
                     </form>
                  </div>
@@ -145,49 +145,49 @@
                     <form action="/productosBuscadosPorSubCategoria/<%= subcategorias[12].nombre %>" method="POST"
                        enctype="multipart/form-data">
                        <button style=" background-color: transparent;" class="clearButton" type="submit">
-                          <a style="font-size: 12px"> <%= subcategorias[12].nombre %> </a>
+                          <a style="font-size: 16px"> <%= subcategorias[12].nombre %> </a>
                        </button>
                     </form>
                     <form action="/productosBuscadosPorSubCategoria/<%= subcategorias[13].nombre %>" method="POST"
                        enctype="multipart/form-data">
                        <button style=" background-color: transparent;" class="clearButton" type="submit">
-                          <a style="font-size: 12px"> <%= subcategorias[13].nombre %> </a>
+                          <a style="font-size: 16px"> <%= subcategorias[13].nombre %> </a>
                        </button>
                     </form>
                     <form action="/productosBuscadosPorSubCategoria/<%= subcategorias[16].nombre %>" method="POST"
                        enctype="multipart/form-data">
                        <button style=" background-color: transparent;" class="clearButton" type="submit">
-                          <a style="font-size: 12px"> <%= subcategorias[16].nombre %> </a>
+                          <a style="font-size: 16px"> <%= subcategorias[16].nombre %> </a>
                        </button>
                     </form>
                     <form action="/productosBuscadosPorSubCategoria/<%= subcategorias[17].nombre %>" method="POST"
                        enctype="multipart/form-data">
                        <button style=" background-color: transparent;" class="clearButton" type="submit">
-                          <a style="font-size: 12px"> <%= subcategorias[17].nombre %> </a>
+                          <a style="font-size: 16px"> <%= subcategorias[17].nombre %> </a>
                        </button>
                     </form>
                     <form action="/productosBuscadosPorSubCategoria/<%= subcategorias[18].nombre %>" method="POST"
                        enctype="multipart/form-data">
                        <button style=" background-color: transparent;" class="clearButton" type="submit">
-                          <a style="font-size: 12px"> <%= subcategorias[18].nombre %> </a>
+                          <a style="font-size: 16px"> <%= subcategorias[18].nombre %> </a>
                        </button>
                     </form>
                     <form action="/productosBuscadosPorSubCategoria/<%= subcategorias[19].nombre %>" method="POST"
                        enctype="multipart/form-data">
                        <button style=" background-color: transparent;" class="clearButton" type="submit">
-                          <a style="font-size: 12px"> <%= subcategorias[19].nombre %> </a>
+                          <a style="font-size: 16px"> <%= subcategorias[19].nombre %> </a>
                        </button>
                     </form>
                     <form action="/productosBuscadosPorSubCategoria/<%= subcategorias[23].nombre %>" method="POST"
                        enctype="multipart/form-data">
                        <button style=" background-color: transparent;" class="clearButton" type="submit">
-                          <a style="font-size: 12px"> <%= subcategorias[23].nombre %> </a>
+                          <a style="font-size: 16px"> <%= subcategorias[23].nombre %> </a>
                        </button>
                     </form>
                     <form action="/productosBuscadosPorSubCategoria/<%= subcategorias[24].nombre %>" method="POST"
                        enctype="multipart/form-data">
                        <button style=" background-color: transparent;" class="clearButton" type="submit">
-                          <a style="font-size: 12px"> <%= subcategorias[24].nombre %> </a>
+                          <a style="font-size: 16px"> <%= subcategorias[24].nombre %> </a>
                        </button>
                     </form>
                  </div>
@@ -198,13 +198,13 @@
                     <form action="/productosBuscadosPorSubCategoria/<%= subcategorias[8].nombre %>" method="POST"
                        enctype="multipart/form-data">
                        <button style=" background-color: transparent;" class="clearButton" type="submit">
-                          <a style="font-size: 12px"> <%= subcategorias[8].nombre %> </a>
+                          <a style="font-size: 16px"> <%= subcategorias[8].nombre %> </a>
                        </button>
                     </form>
                     <form action="/productosBuscadosPorSubCategoria/<%= subcategorias[9].nombre %>" method="POST"
                        enctype="multipart/form-data">
                        <button style=" background-color: transparent;" class="clearButton" type="submit">
-                          <a style="font-size: 12px"> <%= subcategorias[9].nombre %> </a>
+                          <a style="font-size: 16px"> <%= subcategorias[9].nombre %> </a>
                        </button>
                     </form>
                  </div>
@@ -215,19 +215,19 @@
                     <form action="/productosBuscadosPorSubCategoria/<%= subcategorias[10].nombre %>" method="POST"
                        enctype="multipart/form-data">
                        <button style=" background-color: transparent;" class="clearButton" type="submit">
-                          <a style="font-size: 12px"> <%= subcategorias[10].nombre %> </a>
+                          <a style="font-size: 16px"> <%= subcategorias[10].nombre %> </a>
                        </button>
                     </form>
                     <form action="/productosBuscadosPorSubCategoria/<%= subcategorias[11].nombre %>" method="POST"
                        enctype="multipart/form-data">
                        <button style=" background-color: transparent;" class="clearButton" type="submit">
-                          <a style="font-size: 12px"> <%= subcategorias[11].nombre %> </a>
+                          <a style="font-size: 16px"> <%= subcategorias[11].nombre %> </a>
                        </button>
                     </form>
                     <form action="/productosBuscadosPorSubCategoria/<%= subcategorias[20].nombre %>" method="POST"
                        enctype="multipart/form-data">
                        <button style=" background-color: transparent;" class="clearButton" type="submit">
-                          <a style="font-size: 12px"> <%= subcategorias[20].nombre %> </a>
+                          <a style="font-size: 16px"> <%= subcategorias[20].nombre %> </a>
                        </button>
                     </form>
                  </div>
@@ -238,19 +238,19 @@
                     <form action="/productosBuscadosPorSubCategoria/<%= subcategorias[14].nombre %>" method="POST"
                        enctype="multipart/form-data">
                        <button style=" background-color: transparent;" class="clearButton" type="submit">
-                          <a style="font-size: 12px"> <%= subcategorias[14].nombre %> </a>
+                          <a style="font-size: 16px"> <%= subcategorias[14].nombre %> </a>
                        </button>
                     </form>
                     <form action="/productosBuscadosPorSubCategoria/<%= subcategorias[21].nombre %>" method="POST"
                        enctype="multipart/form-data">
                        <button style=" background-color: transparent;" class="clearButton" type="submit">
-                          <a style="font-size: 12px"> <%= subcategorias[21].nombre %> </a>
+                          <a style="font-size: 16px"> <%= subcategorias[21].nombre %> </a>
                        </button>
                     </form>
                     <form action="/productosBuscadosPorSubCategoria/<%= subcategorias[22].nombre %>" method="POST"
                        enctype="multipart/form-data">
                        <button style=" background-color: transparent;" class="clearButton" type="submit">
-                          <a style="font-size: 12px"> <%= subcategorias[22].nombre %> </a>
+                          <a style="font-size: 16px"> <%= subcategorias[22].nombre %> </a>
                        </button>
                     </form>
                  </div>

@@ -3,6 +3,7 @@ let inputs = document.querySelectorAll('input');
 let recuperarForm = document.getElementById('recuperarForm')
 let email = document.getElementById('email')
 let password = document.getElementById('password')
+let passwordConfirmar = document.getElementById('passwordConfirmar')
 
 let regexEmail = /\S+@\S+\.\S+/;
 let regexPass = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[a-zA-Z\d@$.!%*#?&]/;
@@ -13,7 +14,7 @@ const newToast = Swal.mixin({
     position: 'top',
 })
 
-let arrayCheck = [false, false, false, false]
+let arrayCheck = [false, false, false, false,false,false]
 
 email.onblur = function onblurEmail() {
     if (email.value.length == 0) {
@@ -89,13 +90,50 @@ password.onchange = function onchangePassword(e) {
 }
 
 
+passwordConfirmar.onblur = function onblurConfirmarPassword(e) {
+    if (passwordConfirmar.value.length == 0) {
+        newToast.fire({
+            title: "Atención",
+            html: 'Debes completar el campo de <b style="color:#ab191f"> Repetir contraseña </b>',
+            icon: "error",
+            position: 'top',
+            timer: 1500
+        })
+        return arrayCheck[4] = false;
+    } else {
+        return arrayCheck[4] = true;
+    }
+}
+
+passwordConfirmar.onchange = function onchangeConfirmarPassword(e) {
+
+    if (passwordConfirmar.value != password.value) {
+        newToast.fire({
+            title: 'Las contraseñas no coinciden',
+            icon: 'warning',
+            timer: 3000,
+            width: '20vw',
+        })
+        return arrayCheck[5] = false;
+    } else {
+        newToast.fire({
+            title: 'Las contraseñas coinciden',
+            icon: 'success',
+            timer: 3000,
+            width: '20vw',
+        })
+        return arrayCheck[5] = true;
+    }
+}
+
+
 
 
 recuperar.onmousedown = function (e) {
     e.preventDefault();
 
 
-    if (inputs[1].value.length == 0 || inputs[2].value.length == 0) {
+    if (inputs[1].value.length == 0 || inputs[2].value.length == 0 || inputs[3].value.length == 0) {
         Swal.fire({
             title: "Error",
             html: 'Debes completar todos los campos',
@@ -118,7 +156,6 @@ recuperar.onmousedown = function (e) {
 
         })
     } else if(arrayCheck.contains(false)) {
-        e.returnValue = false;
         alert('error')
     }
 

@@ -173,15 +173,14 @@ const productoController = {
                 {
                     model: db.Producto,
                     as: 'producto',
-                    raw: true
                 }
             ],
-            raw: true
+        
         }).then(productosCarrito => {
-            /*   console.log('PRODUCTOS AL CARRITO') */
+              console.log('PRODUCTOS AL CARRITO')
             for (let i = 0; i < productosCarrito.length; i++) {
 
-                /*    console.log(productosCarrito[i].producto[i].nombre) */
+                   console.log(productosCarrito[i].producto)
 
 
             }

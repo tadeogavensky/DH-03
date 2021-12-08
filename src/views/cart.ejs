@@ -8,6 +8,12 @@
       <div class="headerNavbar">
          <%- include("partials/headernavbar", {session:session}) %>
       </div>
+      <% if(productosCarrito) { %>
+         <p style="color: #ab191f;font-size: 28px; text-align: center;"> Tu carrito de compras, <span
+               style="font-weight: 900;"> <%= productosCarrito[0].usuario.nombre %> </span> </p>
+
+      <% } %> 
+     
       <main class="mainCart">
       
          <div class="cartContainer">

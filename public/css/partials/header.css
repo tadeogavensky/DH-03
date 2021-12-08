@@ -540,6 +540,41 @@ header {
 /* CELULAR */
 @media (max-width: 480px) {
 
+.subCatMarca{
+	position: fixed;
+	text-align: center;
+	background-color: white;
+}
+
+.dropdownSubcat{
+	width: 100%;
+	position: relative;
+	display: grid;
+	grid-template-columns: repeat(1);
+}
+
+.search-boxMobile{
+	padding-top: 5vh;
+}
+
+#headerDesktop{
+	display: none;
+}
+
+#welcomeMessage{
+	display: none;
+}
+
+.flex{
+	display: none;
+}
+.headerOriginal{
+	display: none;
+}
+
+.carousel-wrapper{
+	display: none;
+}
 	.btn-search ~ .input-search{
 		width: 300px;
 		border-radius: 0px;

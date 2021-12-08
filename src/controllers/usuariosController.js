@@ -28,7 +28,7 @@ const usuariosController = {
   registrarse: (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      return res.render("register", {
+      res.render("register", {
         errors: errors.errors,
       });
     } else {
@@ -158,51 +158,51 @@ const usuariosController = {
   actualizar: (req, res) => {
     const session = req.session.usuario;
 
-  /*   const errors = validationResult(req);
-    if (!errors.isEmpty()) {
+    /*   const errors = validationResult(req);
+      if (!errors.isEmpty()) {
 
-      res.render("editarUsuario", {
-        errors: errors.errors
-      });
+        res.render("editarUsuario", {
+          errors: errors.errors
+        });
 
-    } else { */
-      /*  db.Usuario.findAll({
-            where: {
-              deleted: 0,
-              email: {
-                ne: session.email
-              }
-            },
-          }) */
-      /*  .then(usuarios => { */
-      console.log('USUARIOS EXCEPTO SESSION')
-      /* console.log(usuarios) */
-      /* if (req.body.email == usuarios.email) {
-        let emailExist = 'Email ya registrado'
-          res.render("editarUsuario", {
-            emailExist
-          });
       } else { */
-      db.Usuario.update({
-        nombre: req.body.nombreEditado.length == 0 ? session.nombre : req.body.nombreEditado,
-        apellido: req.body.apellidoEditado.length == 0 ? session.apellido : req.body.apellidoEditado,
-        usuario: req.body.usuarioEditado.length == 0 ? session.usuario : req.body.usuarioEditado,
-        email: req.body.emailEditado.length == 0 ? session.email : req.body.emailEditado,
-        domicilio: req.body.domicilioEditado.length == 0 ? session.domicilio : req.body.domicilioEditado,
-        imagen: req.file ? req.file.filename : session.imagen,
-        password: session.password
-      }, {
-        where: {
-          id: session.id
-        }
-      }).then(() => {
-        req.session.destroy();
-        res.redirect("/");
-      }).catch((error) => res.send(error));
+    /*  db.Usuario.findAll({
+          where: {
+            deleted: 0,
+            email: {
+              ne: session.email
+            }
+          },
+        }) */
+    /*  .then(usuarios => { */
+    console.log('USUARIOS EXCEPTO SESSION')
+    /* console.log(usuarios) */
+    /* if (req.body.email == usuarios.email) {
+      let emailExist = 'Email ya registrado'
+        res.render("editarUsuario", {
+          emailExist
+        });
+    } else { */
+    db.Usuario.update({
+      nombre: req.body.nombreEditado.length == 0 ? session.nombre : req.body.nombreEditado,
+      apellido: req.body.apellidoEditado.length == 0 ? session.apellido : req.body.apellidoEditado,
+      usuario: req.body.usuarioEditado.length == 0 ? session.usuario : req.body.usuarioEditado,
+      email: req.body.emailEditado.length == 0 ? session.email : req.body.emailEditado,
+      domicilio: req.body.domicilioEditado.length == 0 ? session.domicilio : req.body.domicilioEditado,
+      imagen: req.file ? req.file.filename : session.imagen,
+      password: session.password
+    }, {
+      where: {
+        id: session.id
+      }
+    }).then(() => {
+      req.session.destroy();
+      res.redirect("/");
+    }).catch((error) => res.send(error));
 
-      // }
-      /*   }) */
-   /*  } */
+    // }
+    /*   }) */
+    /*  } */
 
   },
   logs: (req, res) => {

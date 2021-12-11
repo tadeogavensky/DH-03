@@ -1,8 +1,3 @@
-
-
-
-
-
 let login = document.getElementById('login')
 let inputs = document.querySelectorAll('input');
 let formLogin = document.getElementById('formLogin')
@@ -98,26 +93,36 @@ password.onchange = function onchangePassword(e) {
 login.onmousedown = function (e) {
     e.preventDefault();
 
-    
-        if (inputs[1].value.length == 0 || inputs[2].value.length == 0) {
-            Swal.fire({
-                title: "Error",
-                html: 'Debes completar todos los campos',
-                icon: "error",
-                confirmButtonColor: '#ab191f'
-            })
-        }else if(arrayCheck[i]){
-            form.submit()
-        }else if(arrayCheck[i]){
-            e.preventDefault();
-            Swal.fire({
-                title: "Error",
-                text: "Revisa los datos e intenta nuevamente",
-                icon: "error",
-                confirmButtonColor: '#ab191f',
-                confirmButtonText: 'OK',
-            })
+    let arrayValidado = true
+
+    if (inputs[1].value.length == 0 || inputs[2].value.length == 0) {
+        Swal.fire({
+            title: "Error",
+            html: 'Debes completar todos los campos',
+            icon: "error",
+            confirmButtonColor: '#ab191f'
+        })
+    }
+
+    for (let i = 0; i < arrayCheck.length; i++) {
+
+        if (arrayCheck[i] == false) {
+            arrayValidado = false
         }
 
-    
+    }
+
+    if (arrayValidado == true) {
+        form.submit()
+    } else if(arrayValidado == false){
+        Swal.fire({
+            title: "Error",
+            text: "Revisa los datos e intenta nuevamente",
+            icon: "error",
+            confirmButtonColor: '#ab191f',
+            confirmButtonText: 'OK',
+        })
+    }
+
+
 }

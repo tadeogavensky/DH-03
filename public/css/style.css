@@ -16,8 +16,10 @@
 @import url("/css/main/mainEditarProducto.css");
 @import url("/css/mainPerfilDatos.css");
 @import url("/css/quantity.css");
+@import url("/css/popup.css");
 @import url("/css/carousel.css");
 @import url("/css/sweetalarms.css");
+
 
 html{
     scroll-behavior: smooth;

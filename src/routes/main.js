@@ -23,7 +23,18 @@ const storageUser = multer.diskStorage({
    filename: function (req, file, cb) {
       cb(null, `${Date.now()}_img_${path.extname(file.originalname)}`);
       cb(null, file.originalname)
-   }
+   },
+   fileFilter : (req, file, cb) => {
+      if (file.mimetype === 'image/jpeg' ||
+         file.mimetype === 'image/png' ||
+         file.mimetype === 'image/gif' ||
+         file.mimetype === 'image/jpg') {
+         cb(null, true);
+      } else {
+         req.fileValidationError = 'El archivo deberá ser de formato JPG, JPEG, PNG o GIF';
+         return cb(null, false, new Error('El archivo deberá ser de formato JPG, JPEG, PNG o GIF'));
+      }
+   },
 })
 
 
@@ -50,8 +61,6 @@ let dataCheckRegister = [
 
    body('domicilio').notEmpty().withMessage('Debes completar el campo de domicilio'),
 
-   /*  file('imagen').notEmpty().withMessage('Debes completar el campo de foto de perfil'), */
-
    body('password').notEmpty().withMessage('Debes completar el campo de contraseña').bail()
    .isLength({
       min: 8
@@ -59,9 +68,31 @@ let dataCheckRegister = [
    .matches(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[a-zA-Z\d@$.!%*#?&]/).withMessage('La contraseña debe tener al menos un carácter especial, una letra mayúscula y una letra minúscula'),
 
    body('passwordConfirmar').notEmpty().withMessage('Debes completar el campo de repetir contraseña').bail()
-   .matches(body('password')).withMessage('La contraseña deben de coincidir')
+   .matches(body('password')).withMessage('La contraseña deben de coincidir'),
+
+   body('imagen')
+        .custom((value, {req}) => {
+            let file = req.file;
+            // Si no vino un archivo
+            if (!file) {
+                throw new Error ('Debes completar el campo de foto de perfil');
+            // Si vino un archivo
+            } else {
+                let fileExtension = path.extname(file.originalname);
+              
+                // Si no es una extensión válida
+                if (fileExtension.match(/.(jpg|jpeg|png|gif)$/i)) {
+                    throw new Error ('La foto de perfil deberá ser de formato JPG, JPEG, PNG o GIF')
+                }
+            }
+            // Si no hubo ningun error, devolver true para demostrar que está todo en orden 
+            return true;
+        }),
+
+
 
 ];
+
 let dataCheckLogin = [
    body('email').notEmpty().withMessage('Debes completar el campo de email').bail()
    .isEmail().withMessage('Debes completar el campo con un email válido'),
@@ -94,7 +125,27 @@ let dataCheckEditarUsuario = [
 
    body('emailEditado').isEmail().withMessage('Debes completar el campo con un email válido'),
 
-   body('imagen').matches(/\.(gif|jpe?g|jpg|png)$/i).withMessage('La imagen debe ser de formato JPG, JPEG, PNG o GIF')
+   body('imagen')
+        .custom((value, {req}) => {
+            let file = req.file;
+            // Si no vino un archivo
+            if (!file) {
+                throw new Error ('Debes completar el campo de imagen');
+            // Si vino un archivo
+            } else {
+                let fileExtension = path.extname(file.originalname);
+              
+                // Si no es una extensión válida
+                if (fileExtension.match(/.(jpg|jpeg|png|gif)$/i)) {
+                    throw new Error ('La imagen deberá ser de formato JPG, JPEG, PNG o GIF')
+                }
+            }
+            // Si no hubo ningun error, devolver true para demostrar que está todo en orden 
+            return true;
+        }),
+
+
+
 ]
 
 let dataCheckEditarProducto = [
@@ -109,6 +160,28 @@ let dataCheckEditarProducto = [
    .isInt({
       min: 1
    }).withMessage('El precio debe ser positivo'),
+
+   body('imagen')
+   .custom((value, {req}) => {
+       let file = req.file;
+       // Si no vino un archivo
+       if (!file) {
+           throw new Error ('Debes completar el campo de imagen');
+       // Si vino un archivo
+       } else {
+           let fileExtension = path.extname(file.originalname);
+         
+           // Si no es una extensión válida
+           if (fileExtension.match(/.(jpg|jpeg|png|gif)$/i)) {
+               throw new Error ('La imagen deberá ser de formato JPG, JPEG, PNG o GIF')
+           }
+       }
+       // Si no hubo ningun error, devolver true para demostrar que está todo en orden 
+       return true;
+   }),
+   
+
+
 ]
 
 let dataCheckRecuperar = [
@@ -120,6 +193,9 @@ let dataCheckRecuperar = [
    body('passwordConfirmar').notEmpty().withMessage('Debes completar el campo de repetir contraseña').bail()
    .matches(body('passwordRecuperado')).withMessage('La contraseña deben de coincidir')
 ]
+
+
+
 
 
 

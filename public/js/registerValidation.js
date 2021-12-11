@@ -274,6 +274,10 @@
       registrarse.onmousedown = function (e) {
           e.preventDefault();
 
+
+          let arrayValidado = true
+
+
           for (let i = 1; i < inputs.length; i++) {
               if (inputs[i].value.length == 0) {
                   Swal.fire({
@@ -282,31 +286,42 @@
                       icon: "error",
                       confirmButtonColor: '#ab191f'
                   })
-              } else if (arrayCheck[i]) {
-                  Swal.fire({
-                      title: "Confirmar datos",
-                      icon: "info",
-                      cancelButtonText: 'Cancelar',
-                      cancelButtonColor: 'black',
-                      confirmButtonColor: '#ab191f',
-                      confirmButtonText: 'Continuar',
-                      showCancelButton: true,
-                  }).then(function (result) {
-                      if (result.isConfirmed) {
-                          form.submit();
-                      }
+              }
+          }
 
-                  })
-              } else if(!arrayCheck[i]) {
-                  Swal.fire({
-                      title: "Error",
-                      text: "Revisa los datos e intenta nuevamente",
-                      icon: "error",
-                      confirmButtonColor: '#ab191f',
-                      confirmButtonText: 'OK',
-                  })
+
+
+          for (let i = 0; i < arrayCheck.length; i++) {
+
+              if (arrayCheck[i] == false) {
+                  arrayValidado = false
               }
 
+          }
+
+          if (arrayValidado == true) {
+              Swal.fire({
+                  title: "Confirmar datos",
+                  icon: "info",
+                  cancelButtonText: 'Cancelar',
+                  cancelButtonColor: 'black',
+                  confirmButtonColor: '#ab191f',
+                  confirmButtonText: 'Continuar',
+                  showCancelButton: true,
+              }).then(function (result) {
+                  if (result.isConfirmed) {
+                      form.submit();
+                  }
+
+              })
+          } else if (arrayValidado == false) {
+              Swal.fire({
+                  title: "Error",
+                  text: "Revisa los datos e intenta nuevamente",
+                  icon: "error",
+                  confirmButtonColor: '#ab191f',
+                  confirmButtonText: 'OK',
+              })
           }
 
       }

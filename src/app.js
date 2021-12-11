@@ -28,7 +28,7 @@ app.use(methodOverride('_method'))
 app.use(session({ secret : 'bloodstream'}))
 app.use(cookieParser())
 app.use(cookieMiddleware)
-/* app.use(userLoggedMiddleware) */
+app.use(userLoggedMiddleware)
 app.use(categoriaRandomMiddleware)
 app.use(marcasMiddleware)
 

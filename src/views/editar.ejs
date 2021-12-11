@@ -15,6 +15,37 @@
   </div>
 
   <main>
+
+    <% if(locals.errors){ %>
+
+      <script>
+          document.getElementById('popup-1').style.display = "block"
+      </script>
+
+      <div class="popup" id="popup-1">
+          <div class="overlay"></div>
+          <div class="popup-content">
+              <div style="font-size: 30px;" id="close-btn"><i class="fas fa-times-circle"></i></div>
+              <h2>Errores</h2>
+              <ul style=" padding-right: 40px; text-align: center; border-radius: 20px;">
+                  <% for(let i = 0; i < errors.length;i++) { %>
+                  <li style="list-style-type: none;"> <%= errors[i].msg %> </li>
+                  <% } %>
+              </ul>
+          </div>
+      </div>
+
+      <script>
+          let close = document.getElementById('close-btn')
+
+          close.onclick = function () {
+              document.getElementById('popup-1').style.display = "none"
+          }
+      </script>
+      <% } %>
+
+
+
     <p style="color: #ab191f;font-size: 28px; text-align: center;"> <span
         style="font-weight: 900;"><%= producto.nombre  %> </span> </p>
     <div class="editarProductoContainer">

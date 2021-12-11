@@ -13,14 +13,34 @@
         <div class="LoginForm">
 
 
-            <%  if(locals.errors){ %>
-            <ul style="padding: 20px 20px 20px 20px; background-color: white; border-radius: 10px;">
-                <% for(let i = 0; i < errors.length;i++) { %>
-                <li style="list-style-type: none; font-size: larger;"> <%= errors[i].msg %> </li>
-                <% } %>
-            </ul>
-            <% } %>
+            <% if(locals.errors){ %>
 
+                <script>
+                    document.getElementById('popup-1').style.display = "block"
+                </script>
+    
+                <div class="popup" id="popup-1">
+                    <div class="overlay"></div>
+                    <div class="popup-content">
+                        <div style="font-size: 30px;" id="close-btn"><i class="fas fa-times-circle"></i></div>
+                        <h2>Errores</h2>
+                        <ul style=" padding-right: 40px; text-align: center; border-radius: 20px;">
+                            <% for(let i = 0; i < errors.length;i++) { %>
+                            <li style="list-style-type: none;"> <%= errors[i].msg %> </li>
+                            <% } %>
+                        </ul>
+                    </div>
+                </div>
+    
+                <script>
+                    let close = document.getElementById('close-btn')
+    
+                    close.onclick = function () {
+                        document.getElementById('popup-1').style.display = "none"
+                    }
+                </script>
+                <% } %>
+    
 
             <%  if(locals.notExist){ %>
 
@@ -46,10 +66,12 @@
                     <input class="boton-login" type="text" id="email" placeholder="Correo electrónico"
                         name="emailRecuperado">
 
-                    <label  id="capsLock"> Mayúsculas activadas </label>
-                    <input style="margin-bottom: 2vh;" class="boton-login" type="password" id="password" name="passwordRecuperado"
-                        placeholder="Contraseña">
-                        <i class="bi bi-eye-slash" id="togglePassword"></i>
+                    <label id="capsLock"> Mayúsculas activadas </label>
+                    <input style="margin-bottom: 2vh;" class="boton-login" type="password" id="password"
+                        name="passwordRecuperado" placeholder="Contraseña">
+
+                    <!-- <i style=" position:absolute; right: 60px; top: 170px; cursor: pointer;" class="bi bi-eye-slash"
+                        id="togglePassword"></i> -->
                     <br>
                     <input class="boton-login" placeholder="Repetir contraseña" name="passwordConfirmar"
                         id="passwordConfirmar" type="password">
@@ -68,6 +90,7 @@
 
     <script src="/js/recuperarValidation.js"></script>
     <script src="/js/capsLock.js"></script>
+    <script src="/js/showPassword.js"></script>
 
 </body>
 

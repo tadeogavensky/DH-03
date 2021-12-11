@@ -133,6 +133,9 @@ recuperar.onmousedown = function (e) {
     e.preventDefault();
 
 
+    let arrayValidado = true
+
+
     if (inputs[1].value.length == 0 || inputs[2].value.length == 0 || inputs[3].value.length == 0) {
         Swal.fire({
             title: "Error",
@@ -140,7 +143,19 @@ recuperar.onmousedown = function (e) {
             icon: "error",
             confirmButtonColor: '#ab191f'
         })
-    } else if (arrayCheck[i]) {
+    }
+
+
+    for (let i = 0; i < arrayCheck.length; i++) {
+
+        if (arrayCheck[i] == false) {
+            arrayValidado = false
+        }
+
+    }
+
+
+     if (arrayValidado == true) {
         Swal.fire({
             title: "Confirmar datos",
             icon: "info",
@@ -155,8 +170,14 @@ recuperar.onmousedown = function (e) {
             }
 
         })
-    } else if(arrayCheck.contains(false)) {
-        alert('error')
+    } else if(arrayValidado == false) {
+        Swal.fire({
+            title: "Error",
+            text: "Revisa los datos e intenta nuevamente",
+            icon: "error",
+            confirmButtonColor: '#ab191f',
+            confirmButtonText: 'OK',
+        })
     }
 
 }

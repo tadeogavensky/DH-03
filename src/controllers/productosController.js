@@ -175,12 +175,12 @@ const productoController = {
                     as: 'producto',
                 }
             ],
-        
+
         }).then(productosCarrito => {
-              console.log('PRODUCTOS AL CARRITO')
+            console.log('PRODUCTOS AL CARRITO')
             for (let i = 0; i < productosCarrito.length; i++) {
 
-                   console.log(productosCarrito[i].producto)
+                console.log(productosCarrito[i].producto)
 
 
             }
@@ -224,6 +224,9 @@ const productoController = {
              errors: errors.errors,
            });
          }else{ */
+
+
+
         db.Producto.create({
                 nombre: req.body.nombre,
                 precio: req.body.precio,
@@ -272,6 +275,17 @@ const productoController = {
 
     },
     actualizar: (req, res) => {
+
+        /*  const errors = validationResult(req);
+                if (!errors.isEmpty()) {
+                  return res.render("agregar", {
+                    errors: errors.errors,
+                  });
+                }else{ */
+
+
+
+
         db.Producto.findByPk(req.params.id).then(producto => {
                 db.Producto.update({
                     nombre: req.body.nombre.length <= 0 ? producto.nombre : req.body.nombre,
@@ -290,6 +304,7 @@ const productoController = {
                 })
             })
             .then(res.redirect("/productos"))
+        /* } */
     },
 
     filtrar: (req, res) => {

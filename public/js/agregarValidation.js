@@ -6,7 +6,7 @@ let textarea = document.querySelector('textarea')
 let imagen = document.getElementById('imagen')
 
 
-let arrayCheck = [false,false,false,false,false,false,false,false,false,false]
+let arrayCheck = [false, false, false, false, false, false, false, false, false, false]
 
 let regexNumber = /^[0-9]+$/
 
@@ -153,7 +153,7 @@ imagen.onchange = function checkFoto(e) { //Imagen
         })
         return arrayCheck[6] = false;
     } else {
-        if (!(/\.(gif|jpe?g|jpg|png)$/i).test(imagen.value) && imagen.value != '' ){
+        if (!(/\.(gif|jpe?g|jpg|png)$/i).test(imagen.value) && imagen.value != '') {
             newToast.fire({
                 title: 'La imagen deberá ser de formato JPG, JPEG, PNG o GIF',
                 timer: 3000,
@@ -221,9 +221,7 @@ selects[2].onblur = function () { //Marca
 }
 
 agregar.onmousedown = function (e) {
-    for (let i = 0; i < arrayCheck.length; i++) {
-        
-   
+
     if ((textarea.value.length == 0 || imagen.value.length == 0 || inputs[0].value.length == 0 || inputs[1].value.length == 0 || inputs[2].value.length == 0) || (selects[0].value == 'Selecciona una opción' || selects[1].value == 'Selecciona una opción' || selects[2].value == 'Selecciona una opción')) {
         Swal.fire({
             title: 'Error',
@@ -232,32 +230,44 @@ agregar.onmousedown = function (e) {
             confirmButtonColor: '#ab191f',
         })
 
-    } else if(arrayCheck[i] == true){
-        Swal.fire({
-            title: 'Confirmar datos',
-            icon: 'info',
-            cancelButtonText: 'Cancelar',
-            cancelButtonColor: 'black',
-            confirmButtonColor: '#ab191f',
-            confirmButtonText: 'Continuar',
-            showCancelButton: true,
-        }).then(function (result) {
-
-            if (result.isConfirmed) {
-                form.submit();
-            }
-
-        });
-    }else if (arrayCheck[i] == false){
-        Swal.fire({
-            title: "Error",
-            text: "Revisa los datos e intenta nuevamente",
-            icon: "error",
-            confirmButtonColor: '#ab191f',
-            confirmButtonText: 'OK',
-        })
     }
 
-}
+    let arrayValidado = true 
+    
+
+    //Si alguna posicion del array en false, el arrayValidado se pone en false
+
+    for (let i = 0; i < arrayCheck.length; i++) {
+        
+        if(arrayCheck[i] == false){
+            arrayValidado = false
+        }
+        
+    }
+        if (arrayValidado == true) {
+            Swal.fire({
+                title: 'Confirmar datos',
+                icon: 'info',
+                cancelButtonText: 'Cancelar',
+                cancelButtonColor: 'black',
+                confirmButtonColor: '#ab191f',
+                confirmButtonText: 'Continuar',
+                showCancelButton: true,
+            }).then(function (result) {
+
+                if (result.isConfirmed) {
+                    form.submit();
+                }
+
+            });
+        } else if(arrayValidado == false){
+            Swal.fire({
+                title: "Error",
+                text: "Revisa los datos e intenta nuevamente",
+                icon: "error",
+                confirmButtonColor: '#ab191f',
+                confirmButtonText: 'OK',
+            })
+        }
 
 }

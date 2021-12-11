@@ -16,6 +16,47 @@
       <div class="containerRegister">
 
 
+         <% if(locals.errors){ %>
+
+            <script>
+                document.getElementById('popup-1').style.display = "block"
+            </script>
+
+            <div class="popup" id="popup-1">
+                <div class="overlay"></div>
+                <div class="popup-content">
+                    <div style="font-size: 30px;" id="close-btn"><i class="fas fa-times-circle"></i></div>
+                    <h2>Errores</h2>
+                    <ul style=" padding-right: 40px; text-align: center; border-radius: 20px;">
+                        <% for(let i = 0; i < errors.length;i++) { %>
+                        <li style="list-style-type: none;"> <%= errors[i].msg %> </li>
+                        <% } %>
+                    </ul>
+                </div>
+            </div>
+
+            <script>
+                let close = document.getElementById('close-btn')
+
+                close.onclick = function () {
+                    document.getElementById('popup-1').style.display = "none"
+                }
+            </script>
+            <% } %>
+
+
+
+         
+         <%  if(locals.emailExist){ %>
+            <script>
+               Swal.fire({
+                  title: 'Email ya registrado',
+                  showConfirmButton: false,
+                  timer: 2000
+               })
+            </script>
+
+            <% } %>
 
 
          <div class="LoginForm">
@@ -23,25 +64,6 @@
 
             <form class="datosRegisterForm" id="formRegister" action="/log" method="POST" enctype='multipart/form-data'>
                <div class="inputLogin">
-
-                  <%  if(locals.errors){ %>
-                  <ul style="padding: 20px 20px 20px 20px; background-color: white; border-radius: 20px;">
-                     <% for(let i = 0; i < errors.length;i++) { %>
-                     <li style="list-style-type: none;"> <%= errors[i].msg %> </li>
-                     <% } %>
-                  </ul>
-                  <% } %>
-
-                  <%  if(locals.emailExist){ %>
-                  <script>
-                     Swal.fire({
-                        title: 'Email ya registrado',
-                        showConfirmButton: false,
-                        timer: 2000
-                     })
-                  </script>
-
-                  <% } %>
 
 
                   <input class="boton-login" placeholder="Nombre" style="text-transform: capitalize;" id="nombre"
@@ -94,7 +116,7 @@
 
    <script src="/js/CapsLock.js"></script>
 
-   <script src="/js/registerValidation.js"> </script>
+  <!--  <script src="/js/registerValidation.js"> </script> -->
 
 
 </body>

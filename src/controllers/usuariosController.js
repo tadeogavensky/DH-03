@@ -45,6 +45,8 @@ const usuariosController = {
           });
 
         } else {
+         
+
           db.Usuario.create({
               nombre: req.body.nombre,
               apellido: req.body.apellido,
@@ -90,12 +92,12 @@ const usuariosController = {
 
             let session = req.session.usuario;
 
-            let cookieEmail = usuario.email;
+            /* let cookieEmail = usuario.email; */
 
             if (req.body.recordar == "on") {
-              res.cookie("cookieSession", cookieEmail, {
-                maxAge: 1000000,
-              });
+              res.cookie('cookieEmail', req.body.email, {
+                maxAge: (1000 * 60) * 2
+              })
             }
 
             res.redirect("/");
@@ -158,49 +160,64 @@ const usuariosController = {
   actualizar: (req, res) => {
     const session = req.session.usuario;
 
-    /*   const errors = validationResult(req);
-      if (!errors.isEmpty()) {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
 
-        res.render("editarUsuario", {
-          errors: errors.errors
-        });
+      res.render("editarUsuario", {
+        errors: errors.errors
+      });
 
-      } else { */
-    /*  db.Usuario.findAll({
+    } else {
+      db.Usuario.findAll({
           where: {
             deleted: 0,
             email: {
               [Op.ne]: session.email
             }
           },
-        }) */
-    /*  .then(usuarios => { */
-    /* if (req.body.email == usuarios.email) {
-      let emailExist = 'Email ya registrado'
-        res.render("editarUsuario", {
-          emailExist
-        });
-    } else { */
-    db.Usuario.update({
-      nombre: req.body.nombreEditado.length == 0 ? session.nombre : req.body.nombreEditado,
-      apellido: req.body.apellidoEditado.length == 0 ? session.apellido : req.body.apellidoEditado,
-      usuario: req.body.usuarioEditado.length == 0 ? session.usuario : req.body.usuarioEditado,
-      email: req.body.emailEditado.length == 0 ? session.email : req.body.emailEditado,
-      domicilio: req.body.domicilioEditado.length == 0 ? session.domicilio : req.body.domicilioEditado,
-      imagen: req.file ? req.file.filename : session.imagen,
-      password: session.password
-    }, {
-      where: {
-        id: session.id
-      }
-    }).then(() => {
-      req.session.destroy();
-      res.redirect("/");
-    }).catch((error) => res.send(error));
+        })
+        .then(usuarios => {
+          if (req.body.email == usuarios.email) {
+            let emailExist = 'Email ya registrado'
+            res.render("editarUsuario", {
+              emailExist
+            });
+          } else {
+            db.Usuario.update({
+                nombre: req.body.nombreEditado.length == 0 ? session.nombre : req.body.nombreEditado,
+                apellido: req.body.apellidoEditado.length == 0 ? session.apellido : req.body.apellidoEditado,
+                usuario: req.body.usuarioEditado.length == 0 ? session.usuario : req.body.usuarioEditado,
+                email: req.body.emailEditado.length == 0 ? session.email : req.body.emailEditado,
+                domicilio: req.body.domicilioEditado.length == 0 ? session.domicilio : req.body.domicilioEditado,
+                imagen: req.file ? req.file.filename : session.imagen,
+                password: session.password
+              }, {
+                where: {
+                  id: session.id
+                }
+              }).then(() => {
 
-    // }
-    /*   }) */
-    /*  } */
+                return db.Usuario.findByPk(session.id)
+
+              }).then(usuario => {
+
+                console.log('USUARIO EDITADO')
+                console.log(usuario)
+
+                req.session.usuario = usuario
+
+                res.redirect("/");
+
+              })
+              .catch((error) => res.send(error));
+
+
+
+
+
+          }
+        })
+    }
 
   },
   logs: (req, res) => {

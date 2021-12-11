@@ -15,6 +15,8 @@ const mainController = {
 	index: (req, res) => {
 		const session = req.session.usuario;
 		
+		console.log(req.session.usuario)
+		console.log(session)
 	
 
 		let promiseProducto = db.Producto.findAll({

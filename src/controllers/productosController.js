@@ -49,7 +49,6 @@ const productoController = {
             })
     },
     lista: (req, res) => {
-
         const session = req.session.usuario;
 
         let promiseProductos = db.Producto.findAll({

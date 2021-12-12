@@ -61,15 +61,6 @@ let dataCheckRegister = [
 
    body('domicilio').notEmpty().withMessage('Debes completar el campo de domicilio'),
 
-   body('password').notEmpty().withMessage('Debes completar el campo de contraseña').bail()
-   .isLength({
-      min: 8
-   }).withMessage('La contraseña debe ser o tener más de 8 carácteres').bail()
-   .matches(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[a-zA-Z\d@$.!%*#?&]/).withMessage('La contraseña debe tener al menos un carácter especial, una letra mayúscula y una letra minúscula'),
-
-   body('passwordConfirmar').notEmpty().withMessage('Debes completar el campo de repetir contraseña').bail()
-   .matches(body('password')).withMessage('La contraseña deben de coincidir'),
-
    body('imagen')
         .custom((value, {req}) => {
             let file = req.file;
@@ -88,6 +79,18 @@ let dataCheckRegister = [
             // Si no hubo ningun error, devolver true para demostrar que está todo en orden 
             return true;
         }),
+
+
+   body('password').notEmpty().withMessage('Debes completar el campo de contraseña').bail()
+   .isLength({
+      min: 8
+   }).withMessage('La contraseña debe ser o tener más de 8 carácteres').bail()
+   .matches(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[a-zA-Z\d@$.!%*#?&]/).withMessage('La contraseña debe tener al menos un carácter especial, una letra mayúscula y una letra minúscula'),
+
+   body('passwordConfirmar').notEmpty().withMessage('Debes completar el campo de repetir contraseña').bail()
+   .matches(body('password')).withMessage('La contraseña deben coincidir'),
+
+   
 
 
 
@@ -128,19 +131,10 @@ let dataCheckEditarUsuario = [
    body('imagen')
         .custom((value, {req}) => {
             let file = req.file;
-            // Si no vino un archivo
-            if (!file) {
-                throw new Error ('Debes completar el campo de imagen');
-            // Si vino un archivo
-            } else {
                 let fileExtension = path.extname(file.originalname);
-              
-                // Si no es una extensión válida
                 if (fileExtension.match(/.(jpg|jpeg|png|gif)$/i)) {
                     throw new Error ('La imagen deberá ser de formato JPG, JPEG, PNG o GIF')
                 }
-            }
-            // Si no hubo ningun error, devolver true para demostrar que está todo en orden 
             return true;
         }),
 

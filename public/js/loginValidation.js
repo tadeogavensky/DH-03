@@ -8,14 +8,18 @@ let regexEmail = /\S+@\S+\.\S+/;
 let regexPass = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[a-zA-Z\d@$.!%*#?&]/;
 
 
-
 const newToast = Swal.mixin({
     toast: true,
     showConfirmButton: false,
     position: 'top',
 })
 
-let arrayCheck = [false, false, false, false]
+let arrayCheck = [false, false, false]
+
+
+
+
+
 
 email.onblur = function onblurEmail() {
     if (email.value.length == 0) {
@@ -53,8 +57,9 @@ email.onchange = function onchangeEmail(e) {
     }
 }
 
-password.onblur = function onblurPassword(e) {
-    if (password.value.length == 0) {
+password.onmouseleave = function onblurPassword(e) {
+
+    if (password.value.length <= 0) {
         newToast.fire({
             title: "Atención",
             html: 'Debes completar el campo de <b style="color:#ab191f"> contraseña </b>',
@@ -68,32 +73,11 @@ password.onblur = function onblurPassword(e) {
     }
 }
 
-password.onchange = function onchangePassword(e) {
-    if (regexPass.test(password.value) == false || password.value.length < 8) {
-        newToast.fire({
-            title: 'La contraseña debe ser o tener más de 8 carácteres y al menos un carácter especial, una letra mayúscula y una letra minúscula',
-            icon: 'warning',
-            timer: 3000,
-            width: '32vw',
-        })
-        return arrayCheck[3] = false;
-    } else {
-        newToast.fire({
-            title: 'Contraseña válida',
-            timer: 1500,
-            width: '15vw',
-            icon: 'success',
-        })
-        return arrayCheck[3] = true;
-    }
-}
-
-
 
 login.onmousedown = function (e) {
     e.preventDefault();
 
-    let arrayValidado = true
+   
 
     if (inputs[1].value.length == 0 || inputs[2].value.length == 0) {
         Swal.fire({
@@ -102,27 +86,31 @@ login.onmousedown = function (e) {
             icon: "error",
             confirmButtonColor: '#ab191f'
         })
-    }
+    } else {
 
-    for (let i = 0; i < arrayCheck.length; i++) {
 
-        if (arrayCheck[i] == false) {
-            arrayValidado = false
+
+        let arrayValidado = true
+
+        for (let i = 0; i < arrayCheck.length; i++) {
+
+            if (arrayCheck[i] == false) {
+                arrayValidado = false
+            }
+
+        }
+
+        if (arrayValidado == true) {
+            form.submit()
+        } else if (arrayValidado == false || (inputs[3] == null)) {
+            Swal.fire({
+                title: "Error",
+                text: "Revisa los datos e intenta nuevamente",
+                icon: "error",
+                confirmButtonColor: '#ab191f',
+                confirmButtonText: 'OK',
+            })
         }
 
     }
-
-    if (arrayValidado == true) {
-        form.submit()
-    } else if(arrayValidado == false){
-        Swal.fire({
-            title: "Error",
-            text: "Revisa los datos e intenta nuevamente",
-            icon: "error",
-            confirmButtonColor: '#ab191f',
-            confirmButtonText: 'OK',
-        })
-    }
-
-
 }

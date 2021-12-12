@@ -57,7 +57,7 @@ editar.onmousedown = function (e) {
         } else {
             if (inputs[1].value.length > 0 && inputs[1].value.length < 5) {
                 Swal.fire({
-                    title: 'Atenciónv',
+                    title: 'Atención',
                     text: 'Para editar el nombre es necesario que tenga al menos 5 caracteres',
                     icon: 'error',
                     confirmButtonColor: '#ab191f',

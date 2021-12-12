@@ -32,12 +32,12 @@ const usuariosController = {
         errors: errors.errors,
       });
     } else {
-      db.Usuario.findAll({
+      db.Usuario.findOne({
         where: {
-          deleted: 0
+          email: req.body.email,
         }
-      }).then(usuarios => {
-        if (req.body.email == usuarios.email) {
+      }).then(usuario => {
+        if (usuario) {
           let emailExist = 'Email ya registrado'
 
           res.render("register", {
@@ -88,17 +88,24 @@ const usuariosController = {
 
         if (usuario != undefined) {
           if (bcrypt.compareSync(req.body.password, usuario.password)) {
+
+            if (req.body.recordar == "on") {
+              res.cookie('userEmail', req.body.email, {
+                maxAge: (1000 * 60) * 2
+              })
+
+            }
+
+
+           /*  delete usuario.password; */
+
             req.session.usuario = usuario;
 
             let session = req.session.usuario;
 
             /* let cookieEmail = usuario.email; */
 
-            if (req.body.recordar == "on") {
-              res.cookie('cookieEmail', req.body.email, {
-                maxAge: (1000 * 60) * 2
-              })
-            }
+           
 
             res.redirect("/");
 
@@ -119,10 +126,8 @@ const usuariosController = {
     }
   },
   logout: (req, res) => {
+    res.clearCookie('userEmail'); 
     req.session.destroy();
-    res.cookie("cookieSession", null, {
-      maxAge: 1,
-    });
     res.redirect("/");
   },
   eliminarCuenta: (req, res) => {
@@ -161,13 +166,13 @@ const usuariosController = {
     const session = req.session.usuario;
 
     const errors = validationResult(req);
-    if (!errors.isEmpty()) {
+   /*  if (!errors.isEmpty()) {
 
       res.render("editarUsuario", {
         errors: errors.errors
       });
 
-    } else {
+    } else { */
       db.Usuario.findAll({
           where: {
             deleted: 0,
@@ -177,11 +182,13 @@ const usuariosController = {
           },
         })
         .then(usuarios => {
-          if (req.body.email == usuarios.email) {
+          if (req.body.email.length != 0 ) {
+            if(req.body.email == usuarios.email){
             let emailExist = 'Email ya registrado'
             res.render("editarUsuario", {
               emailExist
             });
+          }
           } else {
             db.Usuario.update({
                 nombre: req.body.nombreEditado.length == 0 ? session.nombre : req.body.nombreEditado,
@@ -217,7 +224,7 @@ const usuariosController = {
 
           }
         })
-    }
+    /* } */
 
   },
   logs: (req, res) => {

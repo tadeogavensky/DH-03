@@ -3,26 +3,24 @@ const Op = require("sequelize").Op;
 
 function userLoggedMiddleware (req,res,next){
     
-    res.locals.isLogged = false;
+    res.locals.isLogged = false; //Res.locals son variables que se comparten en todas las vistas sin importar el controlador.
 
-  
-    let emailInCookie = "";
-    if (req.cookies.cookieEmail) emailInCookie = req.cookies.email;
-   
-    db.Usuario.findOne( {where:{email: emailInCookie}, [Op.and]: {deleted:0} })
-    .then((userFromCookie) => {
-        
-        if (userFromCookie) {
-            req.session.userLogged = userFromCookie;
+    /***Gestión de cookies ANTES de aplicar session***/
+    let emailInCookie = req.cookies.userEmail;
+    db.Usuario.findOne({
+        where: {
+            email: emailInCookie
         }
-        
-        if(req.session && req.session.userLogged){
+    }).then((result) => {
+        let userFromCookie = result;
+        if (result != null) {
+            req.session.usuario = userFromCookie;
+        }
+        if (req.session && req.session.usuario) {
             res.locals.isLogged = true;
-            res.locals.userLogged = req.session.userLogged;
+            res.locals.usuario = req.session.usuario; //Paso a locals los datos de la sesión para poder usarlos a nivel global
         }
-        next();
-    }).catch((error) => {
-        console.log(error)
-    })
+    }).catch((error) => { })
+    next();
 }
 module.exports = userLoggedMiddleware;

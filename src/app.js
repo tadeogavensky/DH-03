@@ -32,7 +32,6 @@ app.use(userLoggedMiddleware)
 app.use(categoriaRandomMiddleware)
 app.use(marcasMiddleware)
 
-/* app.use(accessRoutesMiddleware) */
 
 
 

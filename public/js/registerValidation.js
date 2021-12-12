@@ -286,42 +286,44 @@
                       icon: "error",
                       confirmButtonColor: '#ab191f'
                   })
-              }
-          }
+              } else {
+                  for (let j = 0; j < arrayCheck.length; j++) {
 
+                      if (arrayCheck[j] == false) {
+                          arrayValidado = false
+                      }
 
-
-          for (let i = 0; i < arrayCheck.length; i++) {
-
-              if (arrayCheck[i] == false) {
-                  arrayValidado = false
-              }
-
-          }
-
-          if (arrayValidado == true) {
-              Swal.fire({
-                  title: "Confirmar datos",
-                  icon: "info",
-                  cancelButtonText: 'Cancelar',
-                  cancelButtonColor: 'black',
-                  confirmButtonColor: '#ab191f',
-                  confirmButtonText: 'Continuar',
-                  showCancelButton: true,
-              }).then(function (result) {
-                  if (result.isConfirmed) {
-                      form.submit();
                   }
 
-              })
-          } else if (arrayValidado == false) {
-              Swal.fire({
-                  title: "Error",
-                  text: "Revisa los datos e intenta nuevamente",
-                  icon: "error",
-                  confirmButtonColor: '#ab191f',
-                  confirmButtonText: 'OK',
-              })
+                  if (arrayValidado == true) {
+                      Swal.fire({
+                          title: "Confirmar datos",
+                          icon: "info",
+                          cancelButtonText: 'Cancelar',
+                          cancelButtonColor: 'black',
+                          confirmButtonColor: '#ab191f',
+                          confirmButtonText: 'Continuar',
+                          showCancelButton: true,
+                      }).then(function (result) {
+                          if (result.isConfirmed) {
+                              form.submit();
+                          }
+
+                      })
+                  } else if (arrayValidado == false) {
+                      Swal.fire({
+                          title: "Error",
+                          text: "Revisa los datos e intenta nuevamente",
+                          icon: "error",
+                          confirmButtonColor: '#ab191f',
+                          confirmButtonText: 'OK',
+                      })
+                  }
+
+              }
           }
+
+
+
 
       }

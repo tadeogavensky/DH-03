@@ -177,7 +177,7 @@ const usuariosController = {
        });
 
      } else { */
-    db.Usuario.findAll({
+   /*  db.Usuario.findAll({
         where: {
           deleted: 0,
           email: {
@@ -193,7 +193,7 @@ const usuariosController = {
               emailExist
             });
           }
-        } else {
+        } else { */
           db.Usuario.update({
               nombre: req.body.nombreEditado.length == 0 ? session.nombre : req.body.nombreEditado,
               apellido: req.body.apellidoEditado.length == 0 ? session.apellido : req.body.apellidoEditado,
@@ -226,8 +226,8 @@ const usuariosController = {
 
 
 
-        }
-      })
+        /* } */
+      /* }) */
     /* } */
 
   },

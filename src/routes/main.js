@@ -45,90 +45,81 @@ const uploadUsers = multer({
 
 
 //EXPRESS VALIDATOR
-let dataCheckRegister = [
-   body('nombre').notEmpty().withMessage('Debes completar el campo de nombre').bail().isLength({
-      min: 2
-   }).withMessage('El nombre debe tener más de 2 carácteres'),
-
-   body('apellido').notEmpty().withMessage('Debes completar el campo de apellido').bail().isLength({
-      min: 2
-   }).withMessage('El nombre debe tener más de 2 carácteres'),
-
-   body('usuario').notEmpty().withMessage('Debes completar el campo de usuario').bail(),
-
-   body('email').notEmpty().withMessage('Debes completar el campo de email').bail()
-   .isEmail().withMessage('Debes completar el campo con un email válido'),
-
-   body('domicilio').notEmpty().withMessage('Debes completar el campo de domicilio'),
-
-   body('imagen')
-        .custom((value, {req}) => {
-            let file = req.file;
-            // Si no vino un archivo
-            if (!file) {
-                throw new Error ('Debes completar el campo de foto de perfil');
-            // Si vino un archivo
-            } else {
-                let fileExtension = path.extname(file.originalname);
-              
-                // Si no es una extensión válida
-                if (fileExtension.match(/.(jpg|jpeg|png|gif)$/i)) {
-                    throw new Error ('La foto de perfil deberá ser de formato JPG, JPEG, PNG o GIF')
-                }
-            }
-            // Si no hubo ningun error, devolver true para demostrar que está todo en orden 
-            return true;
-        }),
-
-
-   body('password').notEmpty().withMessage('Debes completar el campo de contraseña').bail()
-   .isLength({
-      min: 8
-   }).withMessage('La contraseña debe ser o tener más de 8 carácteres').bail()
-   .matches(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[a-zA-Z\d@$.!%*#?&]/).withMessage('La contraseña debe tener al menos un carácter especial, una letra mayúscula y una letra minúscula'),
-
-   body('passwordConfirmar').notEmpty().withMessage('Debes completar el campo de repetir contraseña').bail()
-   .matches(body('password')).withMessage('La contraseña deben coincidir'),
-
-   
-
-
-
-];
 
 let dataCheckLogin = [
-   body('email').notEmpty().withMessage('Debes completar el campo de email').bail()
+   check('email').notEmpty().withMessage('Debes completar el campo de email').bail()
    .isEmail().withMessage('Debes completar el campo con un email válido'),
-   body('password').notEmpty().withMessage('Debes completar el campo de contraseña').bail()
+   check('password').notEmpty().withMessage('Debes completar el campo de contraseña').bail()
 ]
 let dataCheckAgregarProducto = [
-   body('nombre').notEmpty().withMessage('Debes completar el campo de nombre').bail()
+   check('nombre').notEmpty().withMessage('Debes completar el campo de nombre').bail()
    .isLength({
       min: 5
    }).withMessage('El nombre del producto deberá tener al menos 5 caracteres'),
-   body('descripcion').isLength({
+   check('descripcion').isLength({
       min: 20
    }).withMessage('La descripción del producto debe tener al menos 20 caracteres.'),
-   body('precio').notEmpty().withMessage('Debes completar el campo de precio').bail()
+   check('precio').notEmpty().withMessage('Debes completar el campo de precio').bail()
    .isNumeric().withMessage('El precio debe ser un número').bail()
    .isInt({
       min: 1
    }).withMessage('El precio debe ser positivo'),
-   body('categoria').notEmpty().withMessage('Debes elegir una categoría'),
-   body('sub_categoria').notEmpty().withMessage('Debes elegir una subcategoría'),
+   check('categoria').notEmpty().withMessage('Debes elegir una categoría'),
+   check('sub_categoria').notEmpty().withMessage('Debes elegir una subcategoría'),
 ]
+
+let dataCheckRegister = [
+   check('nombre').notEmpty().withMessage('Debes completar el campo de nombre').bail().isLength({
+      min: 2
+   }).withMessage('El nombre debe tener más de 2 carácteres'),
+   check('apellido').notEmpty().withMessage('Debes completar el campo de apellido').bail().isLength({
+      min: 2
+   }).withMessage('El nombre debe tener más de 2 carácteres'),
+   check('usuario').notEmpty().withMessage('Debes completar el campo de usuario'),
+   check('email').notEmpty().withMessage('Debes completar el campo de email').bail()
+   .isEmail().withMessage('Debes completar el campo con un email válido'),
+   check('domicilio').notEmpty().withMessage('Debes completar el campo de domicilio'),
+   check('imagen')
+        .custom((value, {req}) => {
+            let file = req.file;
+            if (!file) {
+                throw new Error ('Debes completar el campo de foto de perfil');
+            } else {
+                let fileExtension = path.extname(file.originalname);
+                if (fileExtension.match(/.(jpg|jpeg|png|gif)$/i)) {
+                    throw new Error ('La foto de perfil deberá ser de formato JPG, JPEG, PNG o GIF')
+                }
+            }
+            return true;
+        }),
+   check('password').notEmpty().withMessage('Debes completar el campo de contraseña').bail()
+   .matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/).withMessage('La contraseña debe tener más de 8 carácteres, un número, una letra mayúscula y una letra minúscula'),
+   check('passwordConfirmar').notEmpty().withMessage('Debes completar el campo de repetir contraseña').bail()
+   .custom((value,{req,loc,path})=>{
+      if (value !== req.body.password) {
+         throw new Error("Las contraseñas deben coincidir");
+     } else {
+         return value;
+     }
+   }),
+
+]
+
+
+
+
 let dataCheckEditarUsuario = [
-   body('nombreEditado').isLength({
+   check('nombreEditado').isLength({
       min: 2
    }).withMessage('El nombre debe tener al menos 2 carácteres'),
 
-   body('apellidoEditado').isLength({
+   check('apellidoEditado').isLength({
       min: 2
    }).withMessage('El apellido debe tener al menos 2 carácteres'),
 
-   body('emailEditado').isEmail().withMessage('Debes completar el campo con un email válido'),
+   check('emailEditado').isEmail().withMessage('Debes completar el campo con un email válido'),
 
-   body('imagen')
+   check('imagen')
         .custom((value, {req}) => {
             let file = req.file;
                 let fileExtension = path.extname(file.originalname);
@@ -143,19 +134,19 @@ let dataCheckEditarUsuario = [
 ]
 
 let dataCheckEditarProducto = [
-   body('nombre').notEmpty()
+   check('nombre').notEmpty()
    .isLength({
       min: 5
    }).withMessage('El nombre del producto deberá tener al menos 5 caracteres'),
-   body('descripcion').isLength({
+   check('descripcion').isLength({
       min: 20
    }).withMessage('La descripción del producto debe tener al menos 20 caracteres.'),
-   body('precio').isNumeric().withMessage('El precio debe ser un número').bail()
+   check('precio').isNumeric().withMessage('El precio debe ser un número').bail()
    .isInt({
       min: 1
    }).withMessage('El precio debe ser positivo'),
 
-   body('imagen')
+   check('imagen')
    .custom((value, {req}) => {
        let file = req.file;
        // Si no vino un archivo
@@ -178,14 +169,24 @@ let dataCheckEditarProducto = [
 
 ]
 
+
+
 let dataCheckRecuperar = [
-   body('emailRecuperado').notEmpty().withMessage('Debes completar el campo de email').bail()
+
+   
+   check('emailRecuperado').notEmpty().withMessage('Debes completar el campo de email').bail()
    .isEmail().withMessage('Debes completar el campo con un email válido'),
-   body('passwordRecuperado').notEmpty().withMessage('Debes completar el campo de contraseña').bail()
-   .matches(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{8,}$/, "i")
-   .withMessage('La contraseña debe tener al menos de 8 carácteres, un carácter especial, una letra mayúscula y una letra minúscula'),
-   body('passwordConfirmar').notEmpty().withMessage('Debes completar el campo de repetir contraseña').bail()
-   .matches(body('passwordRecuperado')).withMessage('La contraseña deben de coincidir')
+   check('passwordRecuperado').notEmpty().withMessage('Debes completar el campo de contraseña').bail()
+   .matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/).withMessage('La contraseña debe tener más de 8 carácteres, un número, una letra mayúscula y una letra minúscula'),
+   check('passwordConfirmar').notEmpty().withMessage('Debes completar el campo de repetir contraseña').bail()
+   .custom((value,{req,loc,path})=>{
+      if (value !== req.body.passwordRecuperado) {
+         throw new Error("Las contraseñas deben coincidir");
+     } else {
+         return value;
+     }
+   }),
+   
 ]
 
 

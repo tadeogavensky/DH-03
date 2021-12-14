@@ -27,10 +27,14 @@ const usuariosController = {
   },
   registrarse: (req, res) => {
     const errors = validationResult(req);
+    
     if (!errors.isEmpty()) {
+      console.log('ERRORES')
+      console.log(errors)
       res.render("register", {
-        errors: errors.errors,
+        errors: errors.errors
       });
+
     } else {
       db.Usuario.findOne({
         where: {
@@ -45,7 +49,7 @@ const usuariosController = {
           });
 
         } else {
-         
+
 
           db.Usuario.create({
               nombre: req.body.nombre,
@@ -97,7 +101,7 @@ const usuariosController = {
             }
 
 
-           /*  delete usuario.password; */
+            /*  delete usuario.password; */
 
             req.session.usuario = usuario;
 
@@ -105,7 +109,7 @@ const usuariosController = {
 
             /* let cookieEmail = usuario.email; */
 
-           
+
 
             res.redirect("/");
 
@@ -126,7 +130,7 @@ const usuariosController = {
     }
   },
   logout: (req, res) => {
-    res.clearCookie('userEmail'); 
+    res.clearCookie('userEmail');
     req.session.destroy();
     res.redirect("/");
   },
@@ -166,64 +170,64 @@ const usuariosController = {
     const session = req.session.usuario;
 
     const errors = validationResult(req);
-   /*  if (!errors.isEmpty()) {
+    /*  if (!errors.isEmpty()) {
 
-      res.render("editarUsuario", {
-        errors: errors.errors
-      });
+       res.render("editarUsuario", {
+         errors: errors.errors
+       });
 
-    } else { */
-      db.Usuario.findAll({
-          where: {
-            deleted: 0,
-            email: {
-              [Op.ne]: session.email
-            }
-          },
-        })
-        .then(usuarios => {
-          if (req.body.email.length != 0 ) {
-            if(req.body.email == usuarios.email){
+     } else { */
+    db.Usuario.findAll({
+        where: {
+          deleted: 0,
+          email: {
+            [Op.ne]: session.email
+          }
+        },
+      })
+      .then(usuarios => {
+        if (req.body.email.length != 0) {
+          if (req.body.email == usuarios.email) {
             let emailExist = 'Email ya registrado'
             res.render("editarUsuario", {
               emailExist
             });
           }
-          } else {
-            db.Usuario.update({
-                nombre: req.body.nombreEditado.length == 0 ? session.nombre : req.body.nombreEditado,
-                apellido: req.body.apellidoEditado.length == 0 ? session.apellido : req.body.apellidoEditado,
-                usuario: req.body.usuarioEditado.length == 0 ? session.usuario : req.body.usuarioEditado,
-                email: req.body.emailEditado.length == 0 ? session.email : req.body.emailEditado,
-                domicilio: req.body.domicilioEditado.length == 0 ? session.domicilio : req.body.domicilioEditado,
-                imagen: req.file ? req.file.filename : session.imagen,
-                password: session.password
-              }, {
-                where: {
-                  id: session.id
-                }
-              }).then(() => {
+        } else {
+          db.Usuario.update({
+              nombre: req.body.nombreEditado.length == 0 ? session.nombre : req.body.nombreEditado,
+              apellido: req.body.apellidoEditado.length == 0 ? session.apellido : req.body.apellidoEditado,
+              usuario: req.body.usuarioEditado.length == 0 ? session.usuario : req.body.usuarioEditado,
+              email: req.body.emailEditado.length == 0 ? session.email : req.body.emailEditado,
+              domicilio: req.body.domicilioEditado.length == 0 ? session.domicilio : req.body.domicilioEditado,
+              imagen: req.file ? req.file.filename : session.imagen,
+              password: session.password
+            }, {
+              where: {
+                id: session.id
+              }
+            }).then(() => {
 
-                return db.Usuario.findByPk(session.id)
+              return db.Usuario.findByPk(session.id)
 
-              }).then(usuario => {
+            }).then(usuario => {
 
-                console.log('USUARIO EDITADO')
-                console.log(usuario)
+              console.log('USUARIO EDITADO')
+              console.log(usuario)
 
-                req.session.usuario = usuario
+              req.session.usuario = usuario
 
-                res.redirect("/");
+              res.redirect("/");
 
-              })
-              .catch((error) => res.send(error));
-
-
+            })
+            .catch((error) => res.send(error));
 
 
 
-          }
-        })
+
+
+        }
+      })
     /* } */
 
   },

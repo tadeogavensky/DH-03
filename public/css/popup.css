@@ -10,7 +10,7 @@
 
 .popup .popup-content{
  position: absolute;
- top: -35%;
+ top: -55%;
  left: 50%;
  background-color: white;
  transform: translate(-50%,50%);
@@ -29,5 +29,10 @@
   width: 30px;
   height: 30px;
   font-size: 25px;
+}
+
+.popup li {
+  list-style-image: url('/img/stuff/guitar-solid.png');
+  font-size: 1px;
 }
 

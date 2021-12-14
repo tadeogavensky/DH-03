@@ -132,6 +132,9 @@ passwordConfirmar.onchange = function onchangeConfirmarPassword(e) {
 recuperar.onmousedown = function (e) {
     e.preventDefault();
 
+    email.blur()
+    password.blur()
+    passwordConfirmar.blur()
 
     let arrayValidado = true
 
@@ -143,7 +146,9 @@ recuperar.onmousedown = function (e) {
             icon: "error",
             confirmButtonColor: '#ab191f'
         })
-    }
+    }else{
+
+    
 
 
     for (let i = 0; i < arrayCheck.length; i++) {
@@ -179,5 +184,5 @@ recuperar.onmousedown = function (e) {
             confirmButtonText: 'OK',
         })
     }
-
+    }
 }

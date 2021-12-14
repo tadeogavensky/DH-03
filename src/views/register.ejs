@@ -15,53 +15,55 @@
 
       <div class="containerRegister">
 
-
-         <% if(locals.errors){ %>
-
-            <script>
-                document.getElementById('popup-1').style.display = "block"
-            </script>
-
-            <div class="popup" id="popup-1">
-                <div class="overlay"></div>
-                <div class="popup-content">
-                    <div style="font-size: 40px; color: #ab191f;"  id="close-btn"><i class="fas fa-times-circle"></i></div>
-                    <h2 style="font-size: 30px;">Atención!</h2>
-                    <ul style=" padding-right: 40px; text-align: center; border-radius: 20px;">
-                        <% for(let i = 0; i < errors.length;i++) { %>
-                        <li style="list-style-type: none; font-size: 20px;"> <%= errors[i].msg %> </li>
-                        <% } %>
-                    </ul>
-                </div>
-            </div>
-
-            <script>
-                let close = document.getElementById('close-btn')
-
-                close.onclick = function () {
-                    document.getElementById('popup-1').style.display = "none"
-                    document.getElementById('popup-1').style.transition =  ('all 300ms ease-in-out')
-                }
-            </script>
-            <% } %>
-
-
-
-
-         
-         <%  if(locals.emailExist){ %>
-            <script>
-               Swal.fire({
-                  title: 'Email ya registrado',
-                  showConfirmButton: false,
-                  timer: 2000
-               })
-            </script>
-
-            <% } %>
-
+       
 
          <div class="LoginForm">
+
+            <% if(locals.errors){ %>
+
+               <script>
+                   document.getElementById('popup-1').style.display = "block"
+               </script>
+   
+               <div class="popup" id="popup-1">
+                   <div class="overlay"></div>
+                   <div class="popup-content">
+                       <div style="font-size: 40px; color: #ab191f;"  id="close-btn"><i class="fas fa-times-circle"></i></div>
+                       <h2 style="font-size: 30px;">Atención!</h2>
+                       <ul style=" padding-right: 40px; text-align: center; border-radius: 20px; ">
+                           <% for(let i = 0; i < errors.length;i++) { %>
+                           <li style="list-style-type: none; font-size: 20px; margin-top: 10px; margin-bottom: 10px;" > <%= errors[i].msg %> </li>
+                           <% } %>
+                       </ul>
+                   </div>
+               </div>
+   
+               <script>
+                   let close = document.getElementById('close-btn')
+   
+                   close.onclick = function () {
+                       document.getElementById('popup-1').style.display = "none"
+                       document.getElementById('popup-1').style.transition =  ('all 300ms ease-in-out')
+                   }
+               </script>
+               <% } %>
+   
+   
+   
+   
+            
+            <%  if(locals.emailExist){ %>
+               <script>
+                  Swal.fire({
+                     icon: 'error',
+                     title: 'Email ya registrado',
+                     showConfirmButton: false,
+                     timer: 2000
+                  })
+               </script>
+   
+               <% } %>
+   
 
 
             <form class="datosRegisterForm" id="formRegister" action="/log" method="POST" enctype='multipart/form-data'>
@@ -118,7 +120,7 @@
 
    <script src="/js/CapsLock.js"></script>
 
-  <!--  <script src="/js/registerValidation.js"> </script> -->
+   <!-- <script src="/js/registerValidation.js"> </script> -->
 
 
 </body>

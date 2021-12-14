@@ -57,7 +57,7 @@ email.onchange = function onchangeEmail(e) {
     }
 }
 
-password.onmouseleave = function onblurPassword(e) {
+password.onblur = function onblurPassword(e) {
 
     if (password.value.length <= 0) {
         newToast.fire({
@@ -73,10 +73,11 @@ password.onmouseleave = function onblurPassword(e) {
     }
 }
 
-
 login.onmousedown = function (e) {
     e.preventDefault();
 
+    email.blur()
+    password.blur()
    
 
     if (inputs[1].value.length == 0 || inputs[2].value.length == 0) {

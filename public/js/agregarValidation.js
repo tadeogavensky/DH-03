@@ -1,9 +1,15 @@
 let agregar = document.getElementById('agregar')
 let form = document.getElementById('agregarForm')
-let inputs = document.querySelectorAll('input')
-let selects = document.querySelectorAll('select')
-let textarea = document.querySelector('textarea')
+let nombre = document.getElementById('nombre')
+let precio = document.getElementById('precio')
+let descripcion = document.getElementById('descripcion')
 let imagen = document.getElementById('imagen')
+let categoria = document.getElementById('categoria')
+let subcategoria = document.getElementById('subcategoria')
+let marca = document.getElementById('marca')
+
+
+
 
 
 let arrayCheck = [false, false, false, false, false, false, false, false, false, false]
@@ -16,8 +22,8 @@ const newToast = Swal.mixin({
     position: 'top',
 })
 
-inputs[0].onblur = function () { //Nombre
-    if (inputs[0].value.length == 0) {
+nombre.onblur = function () { //Nombre
+    if (nombre.value.length == 0) {
         newToast.fire({
             title: 'Atención',
             position: 'center',
@@ -32,8 +38,8 @@ inputs[0].onblur = function () { //Nombre
     }
 }
 
-inputs[0].onchange = function () { //Nombre
-    if (inputs[0].value.length < 5) {
+nombre.onchange = function () { //Nombre
+    if (nombre.value.length < 5) {
         newToast.fire({
             title: 'Atención',
             html: 'El campo de nombre de producto debe tener al menos 5 caracteres',
@@ -53,8 +59,8 @@ inputs[0].onchange = function () { //Nombre
     }
 }
 
-inputs[1].onblur = function () { //Precio
-    if (inputs[1].value.length == 0) {
+precio.onblur = function () { //Precio
+    if (precio.value.length == 0) {
         Swal.fire({
             toast: true,
             position: top,
@@ -71,8 +77,8 @@ inputs[1].onblur = function () { //Precio
     }
 }
 
-inputs[1].onchange = function () { //Precio
-    if (!inputs[1].value.match(regexNumber)) {
+precio.onchange = function () { //Precio
+    if (!precio.value.match(regexNumber)) {
         newToast.fire({
             title: 'Error',
             html: 'El precio debe ser un número',
@@ -81,7 +87,7 @@ inputs[1].onchange = function () { //Precio
             showConfirmButton: false,
         })
         return arrayCheck[3] = false
-    } else if (inputs[1].value <= 0) {
+    } else if (precio.value <= 0) {
         newToast.fire({
             title: 'Error',
             html: 'El precio debe ser positivo',
@@ -102,8 +108,8 @@ inputs[1].onchange = function () { //Precio
     }
 }
 
-textarea.onblur = function () { //Descrpicion
-    if (textarea.value.length == 0) {
+descripcion.onblur = function () { //Descrpicion
+    if (descripcion.value.length == 0) {
         newToast.fire({
             toast: true,
             position: 'center',
@@ -119,8 +125,8 @@ textarea.onblur = function () { //Descrpicion
 }
 
 
-textarea.onchange = function () { //Descrpicion
-    if (textarea.value.length < 20) {
+descripcion.onchange = function () { //Descrpicion
+    if (descripcion.value.length < 20) {
         newToast.fire({
             toast: true,
             position: 'top',
@@ -172,8 +178,8 @@ imagen.onchange = function checkFoto(e) { //Imagen
     }
 }
 
-selects[0].onblur = function () { //Categoria
-    if (selects[0].value == 'Selecciona una opción') {
+categoria.onblur = function () { //Categoria
+    if (categoria.value == 'Selecciona una opción') {
         newToast.fire({
             title: 'Atención',
             position: 'center',
@@ -188,8 +194,8 @@ selects[0].onblur = function () { //Categoria
     }
 }
 
-selects[1].onblur = function () { //Subategoria
-    if (selects[1].value == 'Selecciona una opción') {
+subcategoria.onblur = function () { //Subategoria
+    if (subcategoria.value == 'Selecciona una opción') {
         newToast.fire({
             title: 'Atención',
             position: 'center',
@@ -204,8 +210,8 @@ selects[1].onblur = function () { //Subategoria
     }
 }
 
-selects[2].onblur = function () { //Marca
-    if (selects[2].value == 'Selecciona una opción') {
+marca.onblur = function () { //Marca
+    if (marca.value == 'Selecciona una opción') {
         newToast.fire({
             title: 'Atención',
             position: 'center',
@@ -222,7 +228,17 @@ selects[2].onblur = function () { //Marca
 
 agregar.onmousedown = function (e) {
 
-    if ((textarea.value.length == 0 || imagen.value.length == 0 || inputs[0].value.length == 0 || inputs[1].value.length == 0 || inputs[2].value.length == 0) || (selects[0].value == 'Selecciona una opción' || selects[1].value == 'Selecciona una opción' || selects[2].value == 'Selecciona una opción')) {
+     nombre.blur()
+     precio.blur()
+     descripcion.blur()
+     imagen.blur()
+     categoria.blur()
+     subcategoria.blur()
+     marca.blur()
+
+    let arrayValidado = true
+
+    if ((descripcion.value.length == 0 || imagen.value.length == 0 || nombre.value.length == 0 || precio.value.length == 0) || (categoria.value == 'Selecciona una opción' || subcategoria.value == 'Selecciona una opción' || marca.value == 'Selecciona una opción')) {
         Swal.fire({
             title: 'Error',
             text: 'Debes completar los campos requeridos',
@@ -230,20 +246,14 @@ agregar.onmousedown = function (e) {
             confirmButtonColor: '#ab191f',
         })
 
-    }
+    } else {
+        for (let i = 0; i < arrayCheck.length; i++) {
 
-    let arrayValidado = true 
-    
+            if (arrayCheck[i] == false) {
+                arrayValidado = false
+            }
 
-    //Si alguna posicion del array en false, el arrayValidado se pone en false
-
-    for (let i = 0; i < arrayCheck.length; i++) {
-        
-        if(arrayCheck[i] == false){
-            arrayValidado = false
         }
-        
-    }
         if (arrayValidado == true) {
             Swal.fire({
                 title: 'Confirmar datos',
@@ -260,7 +270,7 @@ agregar.onmousedown = function (e) {
                 }
 
             });
-        } else if(arrayValidado == false){
+        } else if (arrayValidado == false) {
             Swal.fire({
                 title: "Error",
                 text: "Revisa los datos e intenta nuevamente",
@@ -269,5 +279,8 @@ agregar.onmousedown = function (e) {
                 confirmButtonText: 'OK',
             })
         }
+
+    }
+
 
 }

@@ -17,7 +17,7 @@
   <main>
 
     <div class="perfilContainer">
-
+<!-- 
       <% if(locals.errors){ %>
 
         <script>
@@ -46,7 +46,7 @@
             }
         </script>
         <% } %>
-
+ -->
 
 
       <div class="datosEditar" style="margin-left: 30vw;">
@@ -55,7 +55,7 @@
           <input placeholder="Nombre" type="text" id="nombre" name="nombre">
           <br>
           <label for="precio"> Precio <label style="color: #ab191f;">*</label></label>
-          <input placeholder="$$$" type="text" name="precio">
+          <input placeholder="$$$" type="text" name="precio" id="precio">
           <br>
           <label for="descripcion"> Descripción <label style="color: #ab191f;">*</label> </label>
           <textarea placeholder="Descripción" id="descripcion" type="text" name="descripcion"></textarea>
@@ -85,7 +85,7 @@
           </br>
           <label> Marca <label style="color: #ab191f;">*</label> </label>
 
-          <select name="marca">
+          <select name="marca" id="marca">
             <option disabled hidden selected>Selecciona una opción</option>
             <% for(let y = 0; y < marcas.length; y++) { %>
             <option value="<%= marcas[y].id %>"><%= marcas[y].nombre %></option>
@@ -104,6 +104,10 @@
       </div>
     </div>
   </main>
+
+ 
+  
+
 
   <script src="/js/Categoria_SubCategoria.js"></script>
   <script src="/js/agregarValidation.js"></script>

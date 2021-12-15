@@ -46,6 +46,50 @@ const uploadUsers = multer({
 
 //EXPRESS VALIDATOR
 
+let dataCheckRegister = [
+   check('nombre').notEmpty().withMessage('Debes completar el campo de nombre').bail().isLength({
+      min: 2
+   }).withMessage('El nombre debe tener más de 2 carácteres'),
+   check('apellido').notEmpty().withMessage('Debes completar el campo de apellido').bail().isLength({
+      min: 2
+   }).withMessage('El nombre debe tener más de 2 carácteres'),
+   check('usuario').notEmpty().withMessage('Debes completar el campo de usuario'),
+   check('email').notEmpty().withMessage('Debes completar el campo de email').bail()
+   .isEmail().withMessage('Debes completar el campo con un email válido'),
+   check('domicilio').notEmpty().withMessage('Debes completar el campo de domicilio'),
+      check('imagen')
+      .custom((value, {
+         req, 
+      }) => {
+         let file = req.file;
+         
+         if (!file) {
+            throw new Error('Debes completar el campo de foto de perfil');
+         } else {
+            let fileExtension = path.extname(file.originalname);
+            if (!fileExtension.match(/.(jpg|jpeg|png|gif)$/i)) {
+               throw new Error('La foto de perfil deberá ser de formato JPG, JPEG, PNG o GIF')
+            }
+         }
+         return true;
+      }),
+   check('password').notEmpty().withMessage('Debes completar el campo de contraseña').bail()
+   .matches(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[\w~@#$%^&*+=`|{}:;!.?\"()\[\]-]{8,}$/).withMessage('La contraseña debe tener más de 8 carácteres, un número, una letra mayúscula y una letra minúscula, y/o puede tener algún carácter especial'),
+   check('passwordConfirmar').notEmpty().withMessage('Debes completar el campo de repetir contraseña').bail()
+   .custom((value, {
+      req,
+      loc,
+      path
+   }) => {
+      if (value !== req.body.password) {
+         throw new Error("Las contraseñas deben coincidir");
+      } else {
+         return value;
+      }
+   }),
+
+]
+
 let dataCheckLogin = [
    check('email').notEmpty().withMessage('Debes completar el campo de email').bail()
    .isEmail().withMessage('Debes completar el campo con un email válido'),
@@ -68,51 +112,6 @@ let dataCheckAgregarProducto = [
    check('sub_categoria').notEmpty().withMessage('Debes elegir una subcategoría'),
 ]
 
-let dataCheckRegister = [
-   check('nombre').notEmpty().withMessage('Debes completar el campo de nombre').bail().isLength({
-      min: 2
-   }).withMessage('El nombre debe tener más de 2 carácteres'),
-   check('apellido').notEmpty().withMessage('Debes completar el campo de apellido').bail().isLength({
-      min: 2
-   }).withMessage('El nombre debe tener más de 2 carácteres'),
-   check('usuario').notEmpty().withMessage('Debes completar el campo de usuario'),
-   check('email').notEmpty().withMessage('Debes completar el campo de email').bail()
-   .isEmail().withMessage('Debes completar el campo con un email válido'),
-   check('domicilio').notEmpty().withMessage('Debes completar el campo de domicilio'),
-   check('imagen')
-   .custom((value, {
-      req
-   }) => {
-      let file = req.file;
-      if (!file) {
-         throw new Error('Debes completar el campo de foto de perfil');
-      } else {
-         let fileExtension = path.extname(file.originalname);
-         if (fileExtension.match(/.(jpg|jpeg|png|gif)$/i)) {
-            throw new Error('La foto de perfil deberá ser de formato JPG, JPEG, PNG o GIF')
-         }
-      }
-      return true;
-   }),
-   check('password').notEmpty().withMessage('Debes completar el campo de contraseña').bail()
-   .matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/).withMessage('La contraseña debe tener más de 8 carácteres, un número, una letra mayúscula y una letra minúscula'),
-   check('passwordConfirmar').notEmpty().withMessage('Debes completar el campo de repetir contraseña').bail()
-   .custom((value, {
-      req,
-      loc,
-      path
-   }) => {
-      if (value !== req.body.password) {
-         throw new Error("Las contraseñas deben coincidir");
-      } else {
-         return value;
-      }
-   }),
-
-]
-
-
-
 
 let dataCheckEditarUsuario = [
    check('nombreEditado').isLength({
@@ -131,7 +130,7 @@ let dataCheckEditarUsuario = [
    }) => {
       let file = req.file;
       let fileExtension = path.extname(file.originalname);
-      if (fileExtension.match(/.(jpg|jpeg|png|gif)$/i)) {
+      if (!fileExtension.match(/.(jpg|jpeg|png|gif)$/i)) {
          throw new Error('La imagen deberá ser de formato JPG, JPEG, PNG o GIF')
       }
       return true;
@@ -160,7 +159,7 @@ let dataCheckEditarProducto = [
    }) => {
       let file = req.file;
 
-      if (fileExtension.match(/.(jpg|jpeg|png|gif)$/i)) {
+      if (!fileExtension.match(/.(jpg|jpeg|png|gif)$/i)) {
          throw new Error('La imagen deberá ser de formato JPG, JPEG, PNG o GIF')
       }
 
@@ -179,7 +178,7 @@ let dataCheckRecuperar = [
    check('emailRecuperado').notEmpty().withMessage('Debes completar el campo de email').bail()
    .isEmail().withMessage('Debes completar el campo con un email válido'),
    check('passwordRecuperado').notEmpty().withMessage('Debes completar el campo de contraseña').bail()
-   .matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/).withMessage('La contraseña debe tener más de 8 carácteres, un número, una letra mayúscula y una letra minúscula'),
+   .matches(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[\w~@#$%^&*+=`|{}:;!.?\"()\[\]-]{8,}$/).withMessage('La contraseña debe tener más de 8 carácteres, un número, una letra mayúscula y una letra minúscula, y/o puede tener algún carácter especial'),
    check('passwordConfirmar').notEmpty().withMessage('Debes completar el campo de repetir contraseña').bail()
    .custom((value, {
       req,
@@ -248,7 +247,7 @@ const usuariosController = require('../controllers/usuariosController');
 
 // Registrarse
 router.get('/register', loggedMiddleware, usuariosController.formRegister);
-router.post('/log', dataCheckRegister, uploadUsers.single("imagen"), usuariosController.registrarse);
+router.post('/log', uploadUsers.single("imagen"), dataCheckRegister, usuariosController.registrarse);
 
 // Iniciar Sesión
 router.get('/login', loggedMiddleware, usuariosController.formLogin);
@@ -274,7 +273,7 @@ router.put('/login', dataCheckRecuperar, usuariosController.recuperar)
 
 //Editar cuenta
 router.get('/editarUsuario', notLoggedMiddleware, usuariosController.editar)
-router.put('/', dataCheckEditarUsuario, uploadUsers.single("imagen"), usuariosController.actualizar)
+router.put('/', uploadUsers.single("imagen"), dataCheckEditarUsuario,  usuariosController.actualizar)
 
 
 

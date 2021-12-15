@@ -13,7 +13,7 @@ let passwordConfirmar = document.getElementById('passwordConfirmar')
 
 
 let regexEmail = /\S+@\S+\.\S+/;
-let regexPass = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[a-zA-Z\d@$.!%*#?&]/;
+let regexPass = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[\w~@#$%^&*+=`|{}:;!.?\"()\[\]-]{8,}$/;
 
 
 let arrayCheck = [false, false, false, false, false, false, false, false, false, false, false, false, false]
@@ -224,9 +224,9 @@ password.onchange = function onchangePassword(e) {
 
     if (regexPass.test(password.value) == false || password.value.length < 8) {
         newToast.fire({
-            title: 'La contraseña debe ser o tener más de 8 carácteres y al menos un carácter especial, una letra mayúscula y una letra minúscula',
+            title: 'La contraseña debe tener más de 8 carácteres, un número, una letra mayúscula y una letra minúscula, y/o puede tener algún carácter especial',
             icon: 'warning',
-            timer: 3000,
+            timer: 3500,
             width: '32vw',
         })
         return arrayCheck[10] = false;

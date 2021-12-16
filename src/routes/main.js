@@ -57,22 +57,22 @@ let dataCheckRegister = [
    check('email').notEmpty().withMessage('Debes completar el campo de email').bail()
    .isEmail().withMessage('Debes completar el campo con un email válido'),
    check('domicilio').notEmpty().withMessage('Debes completar el campo de domicilio'),
-      check('imagen')
-      .custom((value, {
-         req, 
-      }) => {
-         let file = req.file;
-         
-         if (!file) {
-            throw new Error('Debes completar el campo de foto de perfil');
-         } else {
-            let fileExtension = path.extname(file.originalname);
-            if (!fileExtension.match(/.(jpg|jpeg|png|gif)$/i)) {
-               throw new Error('La foto de perfil deberá ser de formato JPG, JPEG, PNG o GIF')
-            }
+   check('imagen')
+   .custom((value, {
+      req,
+   }) => {
+      let file = req.file;
+
+      if (!file) {
+         throw new Error('Debes completar el campo de foto de perfil');
+      } else {
+         let fileExtension = path.extname(file.originalname);
+         if (!fileExtension.match(/.(jpg|jpeg|png|gif)$/i)) {
+            throw new Error('La foto de perfil deberá ser de formato JPG, JPEG, PNG o GIF')
          }
-         return true;
-      }),
+      }
+      return true;
+   }),
    check('password').notEmpty().withMessage('Debes completar el campo de contraseña').bail()
    .matches(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[\w~@#$%^&*+=`|{}:;!.?\"()\[\]-]{8,}$/).withMessage('La contraseña debe tener más de 8 carácteres, un número, una letra mayúscula y una letra minúscula, y/o puede tener algún carácter especial'),
    check('passwordConfirmar').notEmpty().withMessage('Debes completar el campo de repetir contraseña').bail()
@@ -100,7 +100,8 @@ let dataCheckAgregarProducto = [
    .isLength({
       min: 5
    }).withMessage('El nombre del producto deberá tener al menos 5 caracteres'),
-   check('descripcion').isLength({
+   check('descripcion').notEmpty().withMessage('Debes completar el campo de descripción').bail()
+   .isLength({
       min: 20
    }).withMessage('La descripción del producto debe tener al menos 20 caracteres.'),
    check('precio').notEmpty().withMessage('Debes completar el campo de precio').bail()
@@ -108,8 +109,58 @@ let dataCheckAgregarProducto = [
    .isInt({
       min: 1
    }).withMessage('El precio debe ser positivo'),
-   check('categoria').notEmpty().withMessage('Debes elegir una categoría'),
-   check('sub_categoria').notEmpty().withMessage('Debes elegir una subcategoría'),
+   check('imagen')
+   .custom((value, {
+      req,
+   }) => {
+      let file = req.file;
+
+      if (!file) {
+         throw new Error('Debes completar el campo de imagen');
+      } else {
+         let fileExtension = path.extname(file.originalname);
+         if (!fileExtension.match(/.(jpg|jpeg|png|gif)$/i)) {
+            throw new Error('La imagen deberá ser de formato JPG, JPEG, PNG o GIF')
+         }
+      }
+      return true;
+   }),
+   check('categoria')
+   .custom((value, {
+      req
+   }) => {
+
+      let categoria = req.body.categoria;
+
+      if (categoria.value = 'Selecciona una opción') {
+         throw new Error('Debes elegir una categoría')
+      }
+
+   }),
+   check('sub_categoria')
+   .custom((value, {
+      req
+   }) => {
+
+      let subcategoria = req.body.sub_categoria;
+
+      if (subcategoria.value = 'Selecciona una opción') {
+         throw new Error('Debes elegir una subcategoría')
+      }
+
+   }),
+   check('marca')
+   .custom((value, {
+      req
+   }) => {
+
+      let marca = req.body.marca;
+
+      if (marca.value = 'Selecciona una opción') {
+         throw new Error('Debes elegir una marca')
+      }
+
+   }),
 ]
 
 
@@ -131,7 +182,7 @@ let dataCheckEditarUsuario = [
       let file = req.file;
       let fileExtension = path.extname(file.originalname);
       if (!fileExtension.match(/.(jpg|jpeg|png|gif)$/i)) {
-         throw new Error('La imagen deberá ser de formato JPG, JPEG, PNG o GIF')
+         throw new Error('La foto de perfil deberá ser de formato JPG, JPEG, PNG o GIF')
       }
       return true;
    }),
@@ -164,6 +215,42 @@ let dataCheckEditarProducto = [
       }
 
       return true;
+   }),
+   check('categoria')
+   .custom((value, {
+      req
+   }) => {
+
+      let categoria = req.body.categoria;
+
+      if (categoria.value = 'Selecciona una opción') {
+         throw new Error('Debes elegir una categoría')
+      }
+
+   }),
+   check('sub_categoria')
+   .custom((value, {
+      req
+   }) => {
+
+      let subcategoria = req.body.sub_categoria;
+
+      if (subcategoria.value = 'Selecciona una opción') {
+         throw new Error('Debes elegir una subcategoría')
+      }
+
+   }),
+   check('marca')
+   .custom((value, {
+      req
+   }) => {
+
+      let marca = req.body.marca;
+
+      if (marca.value = 'Selecciona una opción') {
+         throw new Error('Debes elegir una marca')
+      }
+
    }),
 
 
@@ -273,7 +360,7 @@ router.put('/login', dataCheckRecuperar, usuariosController.recuperar)
 
 //Editar cuenta
 router.get('/editarUsuario', notLoggedMiddleware, usuariosController.editar)
-router.put('/', uploadUsers.single("imagen"), dataCheckEditarUsuario,  usuariosController.actualizar)
+router.put('/', uploadUsers.single("imagen"), dataCheckEditarUsuario, usuariosController.actualizar)
 
 
 

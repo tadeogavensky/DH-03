@@ -84,7 +84,6 @@ editar.onmousedown = function (e) {
                     confirmButtonColor: '#ab191f',
                 })
             } else if (!(/\.(gif|jpe?g|jpg|png)$/i).test(inputs[3].value) && inputs[3].value != '') {
-                alert(inputs[3].value)
                 Swal.fire({
                     title: 'Atención',
                     text: 'Para editar la imagen, esta debe ser de formato JPG, JPEG, PNG o GIF',

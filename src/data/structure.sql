@@ -147,7 +147,7 @@ CREATE TABLE `productos` (
   CONSTRAINT `productos_FK` FOREIGN KEY (`fkCategoria`) REFERENCES `categorias` (`id`),
   CONSTRAINT `productos_FK_1` FOREIGN KEY (`fkSubCategoria`) REFERENCES `subcategorias` (`id`),
   CONSTRAINT `productos_FK_2` FOREIGN KEY (`fkMarca`) REFERENCES `marcas` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=164 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=170 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -232,7 +232,7 @@ CREATE TABLE `usuarios` (
   PRIMARY KEY (`id`),
   KEY `usuarios_FK` (`fkRol`),
   CONSTRAINT `usuarios_FK` FOREIGN KEY (`fkRol`) REFERENCES `roles` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=81 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=83 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -241,7 +241,7 @@ CREATE TABLE `usuarios` (
 
 LOCK TABLES `usuarios` WRITE;
 /*!40000 ALTER TABLE `usuarios` DISABLE KEYS */;
-INSERT INTO `usuarios` VALUES (1,'admin','admin','admin','admin@gmail.com','$2a$10$qUkc3orkW5jh8RCx4dKdyuUzhWLeWzxaPFCLxAc6IcrC8Kc88jM1.','patronus.jpg','admin',1,0),(8,'John','Doe','Juan Doe','johndoe@gmail.com','$2a$10$425NoKZeaTRnNnNyVU9mO.d4E1cRFhyWH6eNgyujGsD9CypiON5za','dog.png','???',2,1),(39,'Tadeo','Gavensky','admin','tadeogavensky.email@gmail.com','$2a$10$Hb58PSxScMAnI.efHF.YCuP99e.CZfsJKuFSwJ1y1S0yILcQjd5r6','hermione.jpg','Suffolk',2,0);
+INSERT INTO `usuarios` VALUES (1,'Tadeo','admin','admin','admin@gmail.com','$2a$10$qUkc3orkW5jh8RCx4dKdyuUzhWLeWzxaPFCLxAc6IcrC8Kc88jM1.','patronus.jpg','admin',1,0),(8,'John','Doe','Juan Doe','johndoe@gmail.com','$2a$10$425NoKZeaTRnNnNyVU9mO.d4E1cRFhyWH6eNgyujGsD9CypiON5za','dog.png','???',2,1),(39,'Tadeo','Gavensky','admin','tadeogavensky.email@gmail.com','$2a$10$Hb58PSxScMAnI.efHF.YCuP99e.CZfsJKuFSwJ1y1S0yILcQjd5r6','hermione.jpg','Suffolk',2,0),(81,'Prueba','prueba','prueba','prueba@gmail.com','$2a$10$QeYGTkLN5esX5LqBeNcj2uVH9LAISrnEQ.qnattHJCwYRKq95bAEK','mecha.png','prueba',2,0),(82,'Tadeo','Gavensky','Ed','edit@gmail.com','$2a$10$2NC3ZO6MMYDQdyPrYuGRG.mxUZBtJE/aXvYmeDvJn6nntvwNo.siu','mecha.png','Suffolk',2,0);
 /*!40000 ALTER TABLE `usuarios` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -258,4 +258,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-12-14 19:21:08
+-- Dump completed on 2021-12-15 15:11:07

@@ -13,8 +13,6 @@ const {
 const db = require("../database/models");
 
 
-
-
 const usuariosController = {
   noSession: (req, res) => {
     res.render("noSession");
@@ -151,16 +149,19 @@ const usuariosController = {
     /*  console.log("SESSION PERFIL");
      console.log(session); */
     res.render("perfil", {
-      session: session
+      session: session,
     });
   },
   editar: (req, res) => {
     const session = req.session.usuario;
     console.log("ID SESSION EDITAR");
     console.log(session);
+    
+  
+   
 
     res.render("editarUsuario", {
-      session: session
+      session: session,
     });
 
 
@@ -168,16 +169,17 @@ const usuariosController = {
   },
   actualizar: (req, res) => {
     const session = req.session.usuario;
-
+    
     const errors = validationResult(req);
-    /*  if (!errors.isEmpty()) {
+     if (!errors.isEmpty()) {
 
        res.render("editarUsuario", {
-         errors: errors.errors
+         errors: errors.errors,
+         session
        });
 
-     } else { */
-   /*  db.Usuario.findAll({
+     } else {
+    db.Usuario.findAll({
         where: {
           deleted: 0,
           email: {
@@ -186,21 +188,40 @@ const usuariosController = {
         },
       })
       .then(usuarios => {
-        if (req.body.email.length != 0) {
-          if (req.body.email == usuarios.email) {
+        console.log('TODOS LOS EMAILS MENOS SESSION')
+        console.log(usuarios)
+        usuarios.forEach(usuario=>{
+          if (req.body.email == usuario.email) {
             let emailExist = 'Email ya registrado'
             res.render("editarUsuario", {
-              emailExist
+              emailExist,
+              session
             });
-          }
-        } else { */
+          }else{
+       
+            let imageNotValid = 'Foto invalida'
+            let emailNotValid = 'Email invalido'
+            let nameNotValid = 'Nombre invalido'
+            let surnameNotValid = 'Apellido invalido'
           db.Usuario.update({
-              nombre: req.body.nombreEditado.length == 0 ? session.nombre : req.body.nombreEditado,
-              apellido: req.body.apellidoEditado.length == 0 ? session.apellido : req.body.apellidoEditado,
+              nombre: req.body.nombreEditado.length == 0 ? session.nombre : (req.body.nombreEditado.length > 2 ? req.body.nombreEditado :  res.render("editarUsuario", {
+                nameNotValid,
+                session
+              })),
+              apellido: req.body.apellidoEditado.length == 0 ? session.apellido : (req.body.apellidoEditado.length > 2 ? req.body.apellidoEditado :  res.render("editarUsuario", {
+                surnameNotValid,
+                session
+              })),
               usuario: req.body.usuarioEditado.length == 0 ? session.usuario : req.body.usuarioEditado,
-              email: req.body.emailEditado.length == 0 ? session.email : req.body.emailEditado,
+              email: req.body.emailEditado.length == 0 ? session.email : (( /\S+@\S+\.\S+/).test(req.body.emailEditado) ? req.body.emailEditado :  res.render("editarUsuario", {
+                emailNotValid,
+                session
+              })),
               domicilio: req.body.domicilioEditado.length == 0 ? session.domicilio : req.body.domicilioEditado,
-              imagen: req.file ? req.file.filename : session.imagen,
+              imagen: req.file ? ((/\.(gif|jpe?g|jpg|png)$/i).test(req.file.filename) ? req.file.filename :  res.render("editarUsuario", {
+                imageNotValid,
+                session
+              })) : session.imagen,
               password: session.password
             }, {
               where: {
@@ -226,9 +247,11 @@ const usuariosController = {
 
 
 
-        /* } */
-      /* }) */
-    /* } */
+        }
+        })
+         
+      })
+    }
 
   },
   logs: (req, res) => {

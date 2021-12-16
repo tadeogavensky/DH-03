@@ -25,7 +25,7 @@
 
           <div class="popup" id="popup-1">
               <div class="overlay"></div>
-              <div class="popup-content">
+              <div style="top: 25%;"  class="popup-content">
                   <div style="font-size: 40px; color: #ab191f;"  id="close-btn"><i class="fas fa-times-circle"></i></div>
                   <h2 style="font-size: 30px;">Atención!</h2>
                   <ul style=" padding-right: 40px; text-align: center; border-radius: 20px;">
@@ -46,6 +46,28 @@
           </script>
           <% } %>
 
+          <%  if(locals.nameNotValid){ %>
+            <script>
+               Swal.fire({
+                  title: 'Para editar tu nombre, este debe ser de mayor a 2 caracteres',
+                  showConfirmButton: false,
+                  timer: 2000,
+                  icon:'error'
+               })
+            </script>
+
+            <% } %>
+            <%  if(locals.surnameNotValid){ %>
+              <script>
+                 Swal.fire({
+                    title: 'Para editar tu apellido, este debe ser de mayor a 2 caracteres',
+                    showConfirmButton: false,
+                    timer: 2000,
+                    icon:'error'
+                 })
+              </script>
+  
+              <% } %>
 
 
           <%  if(locals.emailExist){ %>
@@ -53,11 +75,36 @@
                Swal.fire({
                   title: 'Email ya registrado',
                   showConfirmButton: false,
-                  timer: 2000
+                  timer: 2000,
+                  icon:'error'
                })
             </script>
 
             <% } %>
+
+            <%  if(locals.imageNotValid){ %>
+              <script>
+                 Swal.fire({
+                    title: 'Para editar la imagen, esta debe ser de formato JPG, JPEG, PNG o GIF',
+                    showConfirmButton: false,
+                    timer: 2000,
+                    icon:'error'
+                 })
+              </script>
+  
+              <% } %>
+
+              <%  if(locals.emailNotValid){ %>
+                <script>
+                   Swal.fire({
+                      title: 'Para editar el email, esta debe ser válido',
+                      showConfirmButton: false,
+                      timer: 2000,
+                      icon:'error'
+                   })
+                </script>
+    
+                <% } %>
 
 
 

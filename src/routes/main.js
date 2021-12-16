@@ -165,7 +165,7 @@ let dataCheckAgregarProducto = [
 
 
 let dataCheckEditarUsuario = [
-   check('nombreEditado').isLength({
+  /*  check('nombreEditado').isLength({
       min: 2
    }).withMessage('El nombre debe tener al menos 2 carácteres'),
 
@@ -175,19 +175,9 @@ let dataCheckEditarUsuario = [
 
    check('emailEditado').isEmail().withMessage('Debes completar el campo con un email válido'),
 
-   check('imagen')
-   .custom((value, {
-      req
-   }) => {
-      let file = req.file;
-      let fileExtension = path.extname(file.originalname);
-      if (!fileExtension.match(/.(jpg|jpeg|png|gif)$/i)) {
-         throw new Error('La foto de perfil deberá ser de formato JPG, JPEG, PNG o GIF')
-      }
-      return true;
-   }),
+   
 
-
+ */
 
 ]
 

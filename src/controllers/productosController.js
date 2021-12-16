@@ -246,13 +246,22 @@ const productoController = {
 
     editar: (req, res) => {
         const session = req.session.usuario;
-        let promiseCategoria = db.Categoria.findAll();
-        let promiseSubCategoria = db.SubCategoria.findAll({
+        let promiseCategoria = db.Categoria.findAll({
             include: [{
-                association: 'categoria'
+                association: 'producto'
             }]
         });
-        let promiseMarca = db.Marca.findAll();
+        let promiseSubCategoria = db.SubCategoria.findAll({
+            include: [{
+                association: 'categoria',
+                association: 'producto'
+            }]
+        });
+        let promiseMarca = db.Marca.findAll({
+            include: [{
+                association: 'producto'
+            }]
+        });
         let promiseProducto = db.Producto.findByPk(req.params.id)
         Promise.all([promiseCategoria, promiseSubCategoria, promiseMarca, promiseProducto])
             .then(([categorias, sub_categorias, marcas, producto]) => {

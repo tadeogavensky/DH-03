@@ -14,6 +14,7 @@ let passwordConfirmar = document.getElementById('passwordConfirmar')
 
 let regexEmail = /\S+@\S+\.\S+/;
 let regexPass = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[\w~@#$%^&*+=`|{}:;!.?\"()\[\]-]{8,}$/;
+var regexName = /^[A-Z]+$/i
 
 
 let arrayCheck = [false, false, false, false, false, false, false, false, false, false, false, false, false]
@@ -55,6 +56,14 @@ nombre.onchange = function onchangeNombre(e) {
             icon: 'warning',
         })
         return arrayCheck[1] = false;
+    } else if (regexName.test(nombre.value) == false) {
+        newToast.fire({
+            title: 'El nombre debe contener solo letras, no números',
+            timer: 1500,
+            width: '28vw',
+            icon: 'warning',
+        })
+        return arrayCheck[1] = false;
     } else {
         newToast.fire({
             title: 'Nombre válido',
@@ -87,6 +96,14 @@ apellido.onchange = function onchangeApellido(e) {
     if (apellido.value.length < 2) {
         newToast.fire({
             title: 'El campo de apellido debe tener al menos 2 caracteres',
+            timer: 1500,
+            width: '28vw',
+            icon: 'warning',
+        })
+        return arrayCheck[3] = false;
+    } else if (regexName.test(apellido.value) == false) {
+        newToast.fire({
+            title: 'El apellido debe contener solo letras, no números',
             timer: 1500,
             width: '28vw',
             icon: 'warning',
@@ -292,56 +309,50 @@ registrarse.onmousedown = function (e) {
     password.blur()
     passwordConfirmar.blur()
 
-    
+
     let arrayValidado = true
 
 
-    
- 
-        if (nombre.value.length == 0 || apellido.value.length == 0 || usuario.value.length == 0 || email.value.length == 0 || domicilio.value.length == 0 || foto.value.length == 0 || password.value.length == 0 || passwordConfirmar.value.length == 0) {
-            Swal.fire({
-                title: "Error",
-                html: 'Debes completar todos los campos',
-                icon: "error",
-                confirmButtonColor: '#ab191f'
-            })
-        } else {
-            for (let j = 0; j < arrayCheck.length; j++) {
+    if (nombre.value.length == 0 || apellido.value.length == 0 || usuario.value.length == 0 || email.value.length == 0 || domicilio.value.length == 0 || foto.value.length == 0 || password.value.length == 0 || passwordConfirmar.value.length == 0) {
+        Swal.fire({
+            title: "Error",
+            html: 'Debes completar todos los campos',
+            icon: "error",
+            confirmButtonColor: '#ab191f'
+        })
+    } else {
+        for (let j = 0; j < arrayCheck.length; j++) {
 
-                if (arrayCheck[j] == false) {
-                    arrayValidado = false
-                }
-
-            }
-
-            if (arrayValidado == true) {
-                Swal.fire({
-                    title: "Confirmar datos",
-                    icon: "info",
-                    cancelButtonText: 'Cancelar',
-                    cancelButtonColor: 'black',
-                    confirmButtonColor: '#ab191f',
-                    confirmButtonText: 'Continuar',
-                    showCancelButton: true,
-                }).then(function (result) {
-                    if (result.isConfirmed) {
-                        form.submit();
-                    }
-
-                })
-            } else if (arrayValidado == false) {
-                Swal.fire({
-                    title: "Error",
-                    text: "Revisa los datos e intenta nuevamente",
-                    icon: "error",
-                    confirmButtonColor: '#ab191f',
-                    confirmButtonText: 'OK',
-                })
+            if (arrayCheck[j] == false) {
+                arrayValidado = false
             }
 
         }
+
+        if (arrayValidado == true) {
+            Swal.fire({
+                title: "Confirmar datos",
+                icon: "info",
+                cancelButtonText: 'Cancelar',
+                cancelButtonColor: 'black',
+                confirmButtonColor: '#ab191f',
+                confirmButtonText: 'Continuar',
+                showCancelButton: true,
+            }).then(function (result) {
+                if (result.isConfirmed) {
+                    form.submit();
+                }
+
+            })
+        } else if (arrayValidado == false) {
+            Swal.fire({
+                title: "Error",
+                text: "Revisa los datos e intenta nuevamente",
+                icon: "error",
+                confirmButtonColor: '#ab191f',
+                confirmButtonText: 'OK',
+            })
+        }
+
     }
-
-
-
-
+}

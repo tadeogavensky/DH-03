@@ -47,12 +47,18 @@ const uploadUsers = multer({
 //EXPRESS VALIDATOR
 
 let dataCheckRegister = [
-   check('nombre').notEmpty().withMessage('Debes completar el campo de nombre').bail().isLength({
+   check('nombre').notEmpty().withMessage('Debes completar el campo de nombre').bail()
+   .isAlpha().withMessage('El nombre debe contener solo letras, no números').bail()
+   .isLength({
       min: 2
    }).withMessage('El nombre debe tener más de 2 carácteres'),
-   check('apellido').notEmpty().withMessage('Debes completar el campo de apellido').bail().isLength({
+
+   check('apellido').notEmpty().withMessage('Debes completar el campo de apellido').bail()
+   .isAlpha().withMessage('El apellido debe contener solo letras, no números').bail()
+   .isLength({
       min: 2
    }).withMessage('El nombre debe tener más de 2 carácteres'),
+   
    check('usuario').notEmpty().withMessage('Debes completar el campo de usuario'),
    check('email').notEmpty().withMessage('Debes completar el campo de email').bail()
    .isEmail().withMessage('Debes completar el campo con un email válido'),
@@ -96,93 +102,114 @@ let dataCheckLogin = [
    check('password').notEmpty().withMessage('Debes completar el campo de contraseña').bail()
 ]
 let dataCheckAgregarProducto = [
-   check('nombre').notEmpty().withMessage('Debes completar el campo de nombre').bail()
-   .isLength({
-      min: 5
-   }).withMessage('El nombre del producto deberá tener al menos 5 caracteres'),
-   check('descripcion').notEmpty().withMessage('Debes completar el campo de descripción').bail()
-   .isLength({
-      min: 20
-   }).withMessage('La descripción del producto debe tener al menos 20 caracteres.'),
-   check('precio').notEmpty().withMessage('Debes completar el campo de precio').bail()
-   .isNumeric().withMessage('El precio debe ser un número').bail()
-   .isInt({
-      min: 1
-   }).withMessage('El precio debe ser positivo'),
-   check('imagen')
-   .custom((value, {
-      req,
-   }) => {
-      let file = req.file;
+   /*  check('nombre').notEmpty().withMessage('Debes completar el campo de nombre').bail()
+    .isLength({
+       min: 5
+    }).withMessage('El nombre del producto deberá tener al menos 5 caracteres'),
+    check('descripcion').notEmpty().withMessage('Debes completar el campo de descripción').bail()
+    .isLength({
+       min: 20
+    }).withMessage('La descripción del producto debe tener al menos 20 caracteres.'),
+    check('precio').notEmpty().withMessage('Debes completar el campo de precio').bail()
+    .isNumeric().withMessage('El precio debe ser un número').bail()
+    .isInt({
+       min: 1
+    }).withMessage('El precio debe ser positivo'),
+    check('imagen')
+    .custom((value, {
+       req,
+    }) => {
+       let file = req.file;
 
-      if (!file) {
-         throw new Error('Debes completar el campo de imagen');
-      } else {
-         let fileExtension = path.extname(file.originalname);
-         if (!fileExtension.match(/.(jpg|jpeg|png|gif)$/i)) {
-            throw new Error('La imagen deberá ser de formato JPG, JPEG, PNG o GIF')
-         }
-      }
-      return true;
-   }),
-   check('categoria')
-   .custom((value, {
-      req
-   }) => {
+       if (!file) {
+          throw new Error('Debes completar el campo de imagen');
+       } else {
+          let fileExtension = path.extname(file.originalname);
+          if (!fileExtension.match(/.(jpg|jpeg|png|gif)$/i)) {
+             throw new Error('La imagen deberá ser de formato JPG, JPEG, PNG o GIF')
+          }
+       }
+       return true;
+    }),
+    check('categoria')
+    .custom((value, {
+       req
+    }) => {
 
-      let categoria = req.body.categoria;
+       let categoria = req.body.categoria;
 
-      if (categoria.value = 'Selecciona una opción') {
-         throw new Error('Debes elegir una categoría')
-      }
+       if (categoria.value = 'Selecciona una opción') {
+          throw new Error('Debes elegir una categoría')
+       }
 
-   }),
-   check('sub_categoria')
-   .custom((value, {
-      req
-   }) => {
+    }),
+    check('sub_categoria')
+    .custom((value, {
+       req
+    }) => {
 
-      let subcategoria = req.body.sub_categoria;
+       let subcategoria = req.body.sub_categoria;
 
-      if (subcategoria.value = 'Selecciona una opción') {
-         throw new Error('Debes elegir una subcategoría')
-      }
+       if (subcategoria.value = 'Selecciona una opción') {
+          throw new Error('Debes elegir una subcategoría')
+       }
 
-   }),
-   check('marca')
-   .custom((value, {
-      req
-   }) => {
+    }),
+    check('marca')
+    .custom((value, {
+       req
+    }) => {
 
-      let marca = req.body.marca;
+       let marca = req.body.marca;
 
-      if (marca.value = 'Selecciona una opción') {
-         throw new Error('Debes elegir una marca')
-      }
+       if (marca.value = 'Selecciona una opción') {
+          throw new Error('Debes elegir una marca')
+       }
 
-   }),
+    }), */
 ]
 
 
 let dataCheckEditarUsuario = [
-  /*  check('nombreEditado').isLength({
+    check('nombreEditado')
+    .isAlpha().withMessage('El nombre debe contener solo letras, no números').bail()
+    .isLength({
       min: 2
    }).withMessage('El nombre debe tener al menos 2 carácteres'),
 
-   check('apellidoEditado').isLength({
+   check('apellidoEditado')
+   .isAlpha().withMessage('El apellido debe contener solo letras, no números').bail()
+   .isLength({
       min: 2
    }).withMessage('El apellido debe tener al menos 2 carácteres'),
 
    check('emailEditado').isEmail().withMessage('Debes completar el campo con un email válido'),
 
-   
+   check('imagen')
+   .custom((value, {
+      req
+   }) => {
+      let file = req.file;
 
- */
+      console.log(file)
+
+      if (file) {
+         let fileExtension = path.extname(file.originalname);
+         if (!fileExtension.match(/.(jpg|jpeg|png|gif)$/i)) {
+            throw new Error('La foto de perfil deberá ser de formato JPG, JPEG, PNG o GIF')
+         }
+         return true;
+      }else{
+         return true
+      }
+   }),
+
+
 
 ]
 
 let dataCheckEditarProducto = [
-   check('nombre').notEmpty()
+   /*  check('nombre').notEmpty()
    .isLength({
       min: 5
    }).withMessage('El nombre del producto deberá tener al menos 5 caracteres'),
@@ -242,7 +269,7 @@ let dataCheckEditarProducto = [
       }
 
    }),
-
+ */
 
 
 ]

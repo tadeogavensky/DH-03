@@ -46,87 +46,24 @@
           </script>
           <% } %>
 
-          <%  if(locals.nameNotValid){ %>
-            <script>
-               Swal.fire({
-                  title: 'Para editar tu nombre, este debe ser de mayor a 2 caracteres',
-                  showConfirmButton: false,
-                  timer: 2000,
-                  icon:'error'
-               })
-            </script>
-
-            <% } %>
-            <%  if(locals.surnameNotValid){ %>
-              <script>
-                 Swal.fire({
-                    title: 'Para editar tu apellido, este debe ser de mayor a 2 caracteres',
-                    showConfirmButton: false,
-                    timer: 2000,
-                    icon:'error'
-                 })
-              </script>
-  
-              <% } %>
-
-
-          <%  if(locals.emailExist){ %>
-            <script>
-               Swal.fire({
-                  title: 'Email ya registrado',
-                  showConfirmButton: false,
-                  timer: 2000,
-                  icon:'error'
-               })
-            </script>
-
-            <% } %>
-
-            <%  if(locals.imageNotValid){ %>
-              <script>
-                 Swal.fire({
-                    title: 'Para editar la imagen, esta debe ser de formato JPG, JPEG, PNG o GIF',
-                    showConfirmButton: false,
-                    timer: 2000,
-                    icon:'error'
-                 })
-              </script>
-  
-              <% } %>
-
-              <%  if(locals.emailNotValid){ %>
-                <script>
-                   Swal.fire({
-                      title: 'Para editar el email, esta debe ser válido',
-                      showConfirmButton: false,
-                      timer: 2000,
-                      icon:'error'
-                   })
-                </script>
-    
-                <% } %>
-
-
-
-
     <div class="perfilContainer">
       <img style=" width: 20vw; height: 50%;" src="/img/users/<%= session.imagen %>">
       <div class="datosEditar">
         <form class="dataEditar" id="editarUsuarioForm" action="/?_method=PUT" method="POST" enctype="multipart/form-data">
           <label for="nombre"> Nombre </label>
-          <input style="text-transform: capitalize;" placeholder="<%= session.nombre %>" id="nombreEditado" type="text" name="nombreEditado">
+          <input style="text-transform: capitalize;" placeholder="<%= session.nombre %>" value="<%= session.nombre %>" id="nombreEditado" type="text" name="nombreEditado">
           <br>
           <label for="apellido"> Apellido </label>
-          <input style="text-transform: capitalize;" placeholder="<%= session.apellido %>" id="apellidoEditado" type="text" name="apellidoEditado">
+          <input style="text-transform: capitalize;" placeholder="<%= session.apellido %>" value="<%= session.apellido %>" id="apellidoEditado" type="text" name="apellidoEditado">
           <br>
           <label for="usuario"> Usuario </label>
-          <input placeholder="<%= session.usuario %>" id="usuarioEditado" type="text" name="usuarioEditado">
+          <input placeholder="<%= session.usuario %>" value="<%= session.usuario %>" id="usuarioEditado" type="text" name="usuarioEditado">
           <br>
           <label for="email"> Email </label>
-          <input placeholder="<%= session.email %>" id="emailEditado" type="text" name="emailEditado">
+          <input placeholder="<%= session.email %>" value="<%= session.email %>" id="emailEditado" type="text" name="emailEditado">
           <br>
           <label for="domicilio"> Domicilio </label>
-          <input style="text-transform: capitalize;" placeholder="<%= session.domicilio %>" id="domicilioEditado" type="text" name="domicilioEditado">
+          <input style="text-transform: capitalize;" placeholder="<%= session.domicilio %>" value="<%= session.domicilio %>" id="domicilioEditado" type="text" name="domicilioEditado">
           <br>
           <label for="fotoPerfil"> Foto de perfil </label>
           <input id="fotoPerfil" type="file" name="imagen">

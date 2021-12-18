@@ -25,7 +25,7 @@ const usuariosController = {
   },
   registrarse: (req, res) => {
     const errors = validationResult(req);
-    
+
     if (!errors.isEmpty()) {
       console.log('ERRORES')
       console.log(errors)
@@ -156,9 +156,9 @@ const usuariosController = {
     const session = req.session.usuario;
     console.log("ID SESSION EDITAR");
     console.log(session);
-    
-  
-   
+
+
+
 
     res.render("editarUsuario", {
       session: session,
@@ -169,88 +169,96 @@ const usuariosController = {
   },
   actualizar: (req, res) => {
     const session = req.session.usuario;
-    
+
     const errors = validationResult(req);
-     if (!errors.isEmpty()) {
+    if (!errors.isEmpty()) {
 
-       res.render("editarUsuario", {
-         errors: errors.errors,
-         session
-       });
+      res.render("editarUsuario", {
+        errors: errors.errors,
+        session
+      });
 
-     } else {
-    db.Usuario.findAll({
-        where: {
-          deleted: 0,
-          email: {
-            [Op.ne]: session.email
-          }
-        },
-      })
-      .then(usuarios => {
-        console.log('TODOS LOS EMAILS MENOS SESSION')
-        console.log(usuarios)
-        usuarios.forEach(usuario=>{
-          if (req.body.email == usuario.email) {
-            let emailExist = 'Email ya registrado'
-            res.render("editarUsuario", {
-              emailExist,
-              session
-            });
-          }else{
-       
-            let imageNotValid = 'Foto invalida'
-            let emailNotValid = 'Email invalido'
-            let nameNotValid = 'Nombre invalido'
-            let surnameNotValid = 'Apellido invalido'
-          db.Usuario.update({
-              nombre: req.body.nombreEditado.length == 0 ? session.nombre : (req.body.nombreEditado.length > 2 ? req.body.nombreEditado :  res.render("editarUsuario", {
-                nameNotValid,
-                session
-              })),
-              apellido: req.body.apellidoEditado.length == 0 ? session.apellido : (req.body.apellidoEditado.length > 2 ? req.body.apellidoEditado :  res.render("editarUsuario", {
-                surnameNotValid,
-                session
-              })),
-              usuario: req.body.usuarioEditado.length == 0 ? session.usuario : req.body.usuarioEditado,
-              email: req.body.emailEditado.length == 0 ? session.email : (( /\S+@\S+\.\S+/).test(req.body.emailEditado) ? req.body.emailEditado :  res.render("editarUsuario", {
-                emailNotValid,
-                session
-              })),
-              domicilio: req.body.domicilioEditado.length == 0 ? session.domicilio : req.body.domicilioEditado,
-              imagen: req.file ? ((/\.(gif|jpe?g|jpg|png)$/i).test(req.file.filename) ? req.file.filename :  res.render("editarUsuario", {
-                imageNotValid,
-                session
-              })) : session.imagen,
-              password: session.password
-            }, {
-              where: {
-                id: session.id
-              }
-            }).then(() => {
-
-              return db.Usuario.findByPk(session.id)
-
-            }).then(usuario => {
-
-              console.log('USUARIO EDITADO')
-              console.log(usuario)
-
-              req.session.usuario = usuario
-
-              res.redirect("/");
-
-            })
-            .catch((error) => res.send(error));
-
-
-
-
-
-        }
+    } else {
+      db.Usuario.findAll({
+          where: {
+            deleted: 0,
+            email: {
+              [Op.ne]: session.email
+            }
+          },
         })
-         
-      })
+        .then(usuarios => {
+          console.log('TODOS LOS EMAILS MENOS SESSION')
+          console.log(usuarios)
+          usuarios.forEach(usuario => {
+            if (req.body.email == usuario.email) {
+              let emailExist = 'Email ya registrado'
+              res.render("editarUsuario", {
+                emailExist,
+                session
+              });
+            } else {
+
+              let imageNotValid = 'Foto invalida'
+              let emailNotValid = 'Email invalido'
+              let nameNotValid = 'Nombre invalido'
+              let surnameNotValid = 'Apellido invalido'
+
+              let errorArray = []
+              db.Usuario.update({
+                 /*  nombre: req.body.nombreEditado.length == 0 ? session.nombre : (req.body.nombreEditado.length > 2 ? req.body.nombreEditado : res.render("editarUsuario", {
+                    nameNotValid,
+                    session
+                  })),
+                  apellido: req.body.apellidoEditado.length == 0 ? session.apellido : (req.body.apellidoEditado.length > 2 ? req.body.apellidoEditado : res.render("editarUsuario", {
+                    surnameNotValid,
+                    session
+                  })),
+                  usuario: req.body.usuarioEditado.length == 0 ? session.usuario : req.body.usuarioEditado,
+                  email: req.body.emailEditado.length == 0 ? session.email : ((/\S+@\S+\.\S+/).test(req.body.emailEditado) ? req.body.emailEditado : res.render("editarUsuario", {
+                    emailNotValid,
+                    session
+                  })),
+                  domicilio: req.body.domicilioEditado.length == 0 ? session.domicilio : req.body.domicilioEditado,
+                  imagen: req.file ? ((/\.(gif|jpe?g|jpg|png)$/i).test(req.file.filename) ? req.file.filename : res.render("editarUsuario", {
+                    imageNotValid,
+                    session
+                  })) : session.imagen, */
+                  nombre: req.body.nombreEditado.length == 0 ? session.nombre : req.body.nombreEditado,
+                  apellido: req.body.apellidoEditado.length == 0 ? session.apellido : req.body.apellidoEditado,
+                  usuario: req.body.usuarioEditado.length == 0 ? session.usuario : req.body.usuarioEditado,
+                  email: req.body.emailEditado.length == 0 ? session.email : req.body.emailEditado,
+                  domicilio: req.body.domicilioEditado.length == 0 ? session.domicilio : req.body.domicilioEditado,
+                  imagen: req.file ? req.file.filename : session.imagen,
+                  password: session.password
+                }, {
+                  where: {
+                    id: session.id
+                  }
+                }).then(() => {
+
+                  return db.Usuario.findByPk(session.id)
+
+                }).then(usuario => {
+
+                  console.log('USUARIO EDITADO')
+                  console.log(usuario)
+
+                  req.session.usuario = usuario
+
+                  res.redirect("/");
+
+                })
+                .catch((error) => res.send(error));
+
+
+
+
+
+            }
+          })
+
+        })
     }
 
   },

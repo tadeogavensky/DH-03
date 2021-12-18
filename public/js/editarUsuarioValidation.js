@@ -1,39 +1,60 @@
 let editarUsuario = document.getElementById('editarUsuario')
 let formEditarUsuarioForm = document.getElementById('editarUsuarioForm')
 let inputs = document.querySelectorAll('input')
+let nombre = document.getElementById('nombreEditado')
+let apellido = document.getElementById('apellidoEditado')
+let usuario = document.getElementById('usuarioEditado')
+let domicilio = document.getElementById('domicilioEditado')
 let email = document.getElementById('emailEditado')
 let foto = document.getElementById('fotoPerfil')
 
 var regexEmail = /\S+@\S+\.\S+/;
+var regexName = /^[A-Z]+$/i
 
 
 
 editarUsuario.onmousedown = function (e) {
     let length = 0
-
-    for (let i = 3; i < 9; i++) {
+    let validate = true
+    for (let i = 3; i < 8; i++) {
         length += inputs[i].value.length
-
-        if (length <= 0) {
+        if(inputs[i].value.length == 0){
+            validate = false
+        }
+        if (validate == false) {
             Swal.fire({
                 title: 'Error',
-                text: 'No estas ingresando ningún dato por lo que no puedes actualizar nada',
+                text: 'Al editar tus datos, todos los campos deben estar llenos',
                 icon: 'error',
                 confirmButtonColor: '#ab191f',
             })
 
         } else {
-            if (inputs[3].value.length > 0 && inputs[3].value.length < 2) {
+            if (nombre.value.length > 0 && regexName.test(nombre.value) == false) {
                 Swal.fire({
                     title: "Atención",
-                    html: 'El nombre debe ser de al menos 2 caracteres',
+                    html: 'El nombre debe contener solo letras, no números',
                     icon: "error",
                     confirmButtonColor: '#ab191f',
                 })
-            } else if (inputs[4].value.length > 0 && inputs[4].value.length < 2) {
+            } else if (nombre.value.length > 0 && nombre.value.length < 2) {
                 Swal.fire({
                     title: "Atención",
-                    html: 'El apellido debe ser de al menos 2 caracteres',
+                    html: 'El nombre debe tener al menos 2 caracteres',
+                    icon: "error",
+                    confirmButtonColor: '#ab191f',
+                })
+            } else if (apellido.value.length > 0 && regexName.test(apellido.value) == false) {
+                Swal.fire({
+                    title: "Atención",
+                    html: 'El apellido debe contener solo letras, no números',
+                    icon: "error",
+                    confirmButtonColor: '#ab191f',
+                })
+            } else if (apellido.value.length > 0 && apellido.value.length < 2) {
+                Swal.fire({
+                    title: "Atención",
+                    html: 'El apellido debe tener al menos 2 caracteres',
                     icon: "error",
                     confirmButtonColor: '#ab191f',
                 })
@@ -54,7 +75,6 @@ editarUsuario.onmousedown = function (e) {
             } else if (length > 0) {
                 Swal.fire({
                     title: 'Confirmar datos',
-                    text: 'Los campos que no has ingresado mantendrán su información previa',
                     icon: 'info',
                     cancelButtonText: 'Cancelar',
                     cancelButtonColor: 'black',

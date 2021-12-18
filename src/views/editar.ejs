@@ -70,7 +70,7 @@
 
           <label> Categoría </label>
           <select  name="categoria" id="categoria">
-            <option disabled hidden selected>Selecciona una opción</option>
+            <option disabled hidden selected><%= producto.categoria.nombre %></option>
             <% for(let i = 0; i < categorias.length; i++) { %>
             <option value="<%= categorias[i].id %>"><%=  categorias[i].nombre  %></option>
             <% } %>
@@ -78,7 +78,7 @@
           <br>
           <label> Subcategoría </label>
           <select  disabled name="sub_categoria" id="subcategoria">
-            <option disabled hidden selected>Selecciona una opción</option>
+            <option disabled hidden selected><%= producto.subcategoria.nombre %></option>
             <% for(let j = 0; j < sub_categorias.length; j++) { %>
             <option value="<%= sub_categorias[j].id %>"><%=  sub_categorias[j].nombre  %></option>
             <% } %>
@@ -88,7 +88,7 @@
           </br>
           <label> Marca </label>
           <select id="marca" name="marca">
-            <option value="<%= marcas.nombre %>" disabled hidden selected>Selecciona una opción</option>
+            <option value="<%= marcas.nombre %>" disabled hidden selected><%= producto.marca.nombre %></option>
             <% for(let i = 0; i < marcas.length; i++) { %>
             <option value="<%= marcas[i].id %>"><%= marcas[i].nombre %></option>
             <% } %>

@@ -253,12 +253,21 @@ const productoController = {
             }]
         });
         let promiseMarca = db.Marca.findAll();
-        let promiseProducto = db.Producto.findByPk(req.params.id,{ 
+        let promiseProducto = db.Producto.findByPk(req.params.id, {
             include: [{
-                association: 'categoria',
-                association: 'subcategoria',
-                association: 'marca'
-            }]
+                model: db.Marca,
+                as: 'marca',
+            },
+            {
+                model: db.SubCategoria,
+                as: 'subcategoria',
+            },
+            {
+                model: db.Categoria,
+                as: 'categoria',
+            },
+
+        ]
         })
         Promise.all([promiseCategoria, promiseSubCategoria, promiseMarca, promiseProducto])
             .then(([categorias, sub_categorias, marcas, producto]) => {
@@ -281,35 +290,61 @@ const productoController = {
     },
     actualizar: (req, res) => {
 
-        /*  const errors = validationResult(req);
+        let promiseCategoria = db.Categoria.findAll();
+        let promiseSubCategoria = db.SubCategoria.findAll({
+            include: [{
+                association: 'categoria',
+            }]
+        });
+        let promiseMarca = db.Marca.findAll();
+        /* let promiseProducto = db.Producto.findByPk(req.params.id, {
+            include: [{
+                association: 'categoria',
+                association: 'subcategoria',
+                association: 'marca'
+            }]
+        }) */
+        Promise.all([promiseCategoria, promiseSubCategoria, promiseMarca/* , promiseProducto */])
+            .then(([categorias, sub_categorias, marcas/* , producto */]) => {
+
+
+                const errors = validationResult(req);
                 if (!errors.isEmpty()) {
-                  return res.render("agregar", {
-                    errors: errors.errors,
-                  });
-                }else{ */
+                    return res.render("agregar", {
+                        errors: errors.errors,
+                        categorias,
+                        sub_categorias,
+                        marcas,
+                        /* producto, */
+                    });
+                } else {
 
+                    db.Producto.findByPk(req.params.id).then(producto => {
+                            db.Producto.update({
+                                nombre: req.body.nombre.length <= 0 ? producto.nombre : req.body.nombre,
+                                precio: req.body.precio.length <= 0 ? producto.precio : req.body.precio,
+                                descripcion: req.body.descripcion.length <= 0 ? producto.descripcion : req.body.descripcion,
+                                imagen: req.file ? req.file.filename : producto.imagen,
+                                stock: req.body.stock ? req.body.stock = 1 : req.body.stock = 0,
+                                fkCategoria: req.body ? req.body.categoria : producto.fkCategoria,
+                                fkSubCategoria: req.body ? req.body.sub_categoria : producto.fkSubCategoria,
+                                fkMarca: req.body ? req.body.marca : producto.fkMarca,
+                                enOferta: req.body.oferta ? req.body.oferta = 1 : req.body.oferta = 0,
+                            }, {
+                                where: {
+                                    id: req.params.id
+                                }
+                            })
+                        })
+                        .then(res.redirect("/productos"))
+                }
 
-
-
-        db.Producto.findByPk(req.params.id).then(producto => {
-                db.Producto.update({
-                    nombre: req.body.nombre.length <= 0 ? producto.nombre : req.body.nombre,
-                    precio: req.body.precio.length <= 0 ? producto.precio : req.body.precio,
-                    descripcion: req.body.descripcion.length <= 0 ? producto.descripcion : req.body.descripcion,
-                    imagen: req.file ? req.file.filename : producto.imagen,
-                    stock: req.body.stock ? req.body.stock = 1 : req.body.stock = 0,
-                    fkCategoria: req.body ? req.body.categoria : producto.fkCategoria,
-                    fkSubCategoria: req.body ? req.body.sub_categoria : producto.fkSubCategoria,
-                    fkMarca: req.body ? req.body.marca : producto.fkMarca,
-                    enOferta: req.body.oferta ? req.body.oferta = 1 : req.body.oferta = 0,
-                }, {
-                    where: {
-                        id: req.params.id
-                    }
-                })
             })
-            .then(res.redirect("/productos"))
-        /* } */
+            .catch(error => res.send(error))
+
+
+
+
     },
 
     filtrar: (req, res) => {

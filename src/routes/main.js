@@ -209,10 +209,21 @@ let dataCheckEditarUsuario = [
 ]
 
 let dataCheckEditarProducto = [
-   /*  check('nombre').notEmpty()
-   .isLength({
-      min: 5
-   }).withMessage('El nombre del producto deberá tener al menos 5 caracteres'),
+   /* check('nombre')
+   .custom((value, {
+      req
+   }) => {
+      let nombre = req.body.nombre;
+
+      if(nombre){
+         check('nombre')
+         .isLength({
+            min: 5
+         }).withMessage('El nombre del producto deberá tener al menos 5 caracteres')
+      }else{
+         return true;
+      }  
+   }),
    check('descripcion').isLength({
       min: 20
    }).withMessage('La descripción del producto debe tener al menos 20 caracteres.'),
@@ -227,13 +238,17 @@ let dataCheckEditarProducto = [
    }) => {
       let file = req.file;
 
-      if (!fileExtension.match(/.(jpg|jpeg|png|gif)$/i)) {
-         throw new Error('La imagen deberá ser de formato JPG, JPEG, PNG o GIF')
-      }
-
-      return true;
-   }),
-   check('categoria')
+      if(file){
+         if (!fileExtension.match(/.(jpg|jpeg|png|gif)$/i)) {
+            throw new Error('La imagen deberá ser de formato JPG, JPEG, PNG o GIF')
+         }else{
+            return true;
+         }
+      }else{
+         return true;
+      }  
+   }), */
+  /*  check('categoria')
    .custom((value, {
       req
    }) => {

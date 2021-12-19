@@ -102,97 +102,90 @@ let dataCheckLogin = [
    check('password').notEmpty().withMessage('Debes completar el campo de contraseña').bail()
 ]
 let dataCheckAgregarProducto = [
-    check('nombre').notEmpty().withMessage('Debes completar el campo de nombre').bail()
-    .isLength({
-       min: 5
-    }).withMessage('El nombre del producto deberá tener al menos 5 caracteres'),
- /*    check('descripcion').notEmpty().withMessage('Debes completar el campo de descripción').bail()
-    .isLength({
-       min: 20
-    }).withMessage('La descripción del producto debe tener al menos 20 caracteres.'), */
-    check('precio').notEmpty().withMessage('Debes completar el campo de precio').bail()
-    .isNumeric().withMessage('El precio debe ser un número').bail()
-    .isInt({
-       min: 1
-    }).withMessage('El precio debe ser positivo'),
-    check('imagen')
-    .custom((value, {
-       req,
-    }) => {
-       let file = req.file;
+   check('nombre').notEmpty().withMessage('Debes completar el campo de nombre').bail()
+   .isLength({
+      min: 5
+   }).withMessage('El nombre del producto deberá tener al menos 5 caracteres'),
+   check('descripcion')
+   .custom((value, {
+      req,
+   }) => {
 
-       if (!file) {
-          throw new Error('Debes completar el campo de imagen');
-       } else {
-          let fileExtension = path.extname(file.originalname);
-          if (!fileExtension.match(/.(jpg|jpeg|png|gif)$/i)) {
-             throw new Error('La imagen deberá ser de formato JPG, JPEG, PNG o GIF')
-          }
-       }
-       return true;
-    }),
-    check('categoria')
-    .custom((value, {
-       req
-    }) => {
-
-      let regexNumber = /^[0-9]+$/
-
-       let categoria = req.body;
-
-       console.log('ELEGIR CATEGORIA')
-       console.log(value)
-    
-
-       if (regexNumber.test(value)== false) {
-          throw new Error('Debes elegir una categoría')
-       }else{
-          return true
-       }
-
-    }),
-    check('sub_categoria')
-    .custom((value, {
-       req
-    }) => {
-
-      let regexNumber = /^[0-9]+$/
-
-       let subcategoria = req.body;
-
-       console.log('ELEGIR SUBCATEGORIA')
-       console.log(value)
-     
-
-       if (regexNumber.test(value)== false) {
-          throw new Error('Debes elegir una subcategoría')
-       }else{
+      if (value == '') {
+         throw new Error('Debes completar el campo de descripción');
+      } else if (value.length < 20) {
+         throw new Error('La descripción del producto debe tener al menos 20 caracteres');
+      } else {
          return true
       }
 
 
-    }),
-    check('marca')
-    .custom((value, {
-       req
-    }) => {
+   }),
+   check('precio').notEmpty().withMessage('Debes completar el campo de precio').bail()
+   .isNumeric().withMessage('El precio debe ser un número').bail()
+   .isInt({
+      min: 1
+   }).withMessage('El precio debe ser positivo'),
+   check('imagen')
+   .custom((value, {
+      req,
+   }) => {
+      let file = req.file;
+
+      if (!file) {
+         throw new Error('Debes completar el campo de imagen');
+      } else {
+         let fileExtension = path.extname(file.originalname);
+         if (!fileExtension.match(/.(jpg|jpeg|png|gif)$/i)) {
+            throw new Error('La imagen deberá ser de formato JPG, JPEG, PNG o GIF')
+         }
+      }
+      return true;
+   }),
+   check('categoria')
+   .custom((value, {
+      req
+   }) => {
 
       let regexNumber = /^[0-9]+$/
 
-       let marca = req.body;
+      if (regexNumber.test(value) == false) {
+         throw new Error('Debes elegir una categoría')
+      } else {
+         return true
+      }
 
-       console.log('ELEGIR MARCA')
-       console.log(value)
-     
+   }),
+   check('sub_categoria')
+   .custom((value, {
+      req
+   }) => {
 
-       if (regexNumber.test(value) == false) {
-          throw new Error('Debes elegir una marca')
-       }else{
+      let regexNumber = /^[0-9]+$/
+
+      if (regexNumber.test(value) == false) {
+         throw new Error('Debes elegir una subcategoría')
+      } else {
          return true
       }
 
 
-    }),
+   }),
+   check('marca')
+   .custom((value, {
+      req
+   }) => {
+
+      let regexNumber = /^[0-9]+$/
+
+      if (regexNumber.test(value) == false) {
+         throw new Error('Debes elegir una marca')
+      } else {
+         return true
+      }
+
+
+   }),
 ]
 
 
@@ -231,7 +224,7 @@ let dataCheckEditarUsuario = [
    }),
 
 
-   
+
 
 
 ]
@@ -241,7 +234,21 @@ let dataCheckEditarProducto = [
    .isLength({
       min: 5
    }).withMessage('El nombre del producto deberá tener al menos 5 caracteres'),
-  /*  check('descripcion').matches(/[0-9a-zA-Z]{20,}/).withMessage('La descripción del producto debe tener al menos 20 caracteres.'), */
+   check('descripcion')
+   .custom((value, {
+      req,
+   }) => {
+
+      if (value == '') {
+         throw new Error('Debes completar el campo de descripción');
+      } else if (value.length < 20) {
+         throw new Error('La descripción del producto debe tener al menos 20 caracteres');
+      } else {
+         return true
+      }
+
+
+   }),
    check('precio').isNumeric().withMessage('El precio debe ser un número').bail()
    .isInt({
       min: 1
@@ -268,19 +275,19 @@ let dataCheckEditarProducto = [
 
 
    check('stock').custom(value => {
-      if(value !== 'on' && value !== 'off') {
-          throw new Error('Debes actualizar el checkbox de stock')
+      if (value !== 'on' && value !== 'off') {
+         throw new Error('Debes actualizar el checkbox de stock')
       } else {
-          return true;
+         return true;
       }
-  }),
+   }),
    check('oferta').custom(value => {
-      if(value !== 'on' && value !== 'off') {
-          throw new Error('Debes actualizar el checkbox de oferta')
+      if (value !== 'on' && value !== 'off') {
+         throw new Error('Debes actualizar el checkbox de oferta')
       } else {
-          return true;
+         return true;
       }
-  })
+   })
 
 
 
@@ -360,7 +367,9 @@ router.post('/productosBuscadosPorSubCategoria/:nombreCategoria', uploadProducts
 
 /////////////////////USUARIOS CONTROLLER///////////////////
 const usuariosController = require('../controllers/usuariosController');
-const { disabled } = require("express/lib/application");
+const {
+   disabled
+} = require("express/lib/application");
 
 // Registrarse
 router.get('/register', loggedMiddleware, usuariosController.formRegister);

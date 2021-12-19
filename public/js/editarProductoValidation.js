@@ -10,6 +10,15 @@ let enableCheckbox = document.getElementById('enableCheckbox')
 
 let regexNumber = /^[0-9]+$/
 
+document.addEventListener('keypress', function (e) {
+    if (e.keyCode === 13 || e.which === 13) {
+        e.preventDefault();
+        return false;
+    }
+    
+});
+
+
 
 window.onload = function () {
     inputs[4].toggleAttribute('disabled', true)
@@ -18,6 +27,7 @@ window.onload = function () {
 }
 
 enableCheckbox.onclick = function () {
+    let inputs = document.querySelectorAll('input')
     if (inputs[4].disabled == true && inputs[5].disabled == true) {
         inputs[4].toggleAttribute('disabled', false)
         inputs[5].toggleAttribute('disabled', false)

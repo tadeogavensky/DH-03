@@ -7,6 +7,15 @@ let password = document.getElementById('password')
 let regexEmail = /\S+@\S+\.\S+/;
 let regexPass = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[a-zA-Z\d@$.!%*#?&]/;
 
+/* document.addEventListener('keypress', function (e) {
+    if (e.keyCode === 13 || e.which === 13) {
+        e.preventDefault();
+        return false;
+    }
+
+});
+ */
+
 
 const newToast = Swal.mixin({
     toast: true,
@@ -22,6 +31,7 @@ let arrayCheck = [false, false, false]
 
 
 email.onblur = function onblurEmail() {
+    password.blur()
     if (email.value.length == 0) {
         newToast.fire({
             title: "Atención",
@@ -58,7 +68,7 @@ email.onchange = function onchangeEmail(e) {
 }
 
 password.onblur = function onblurPassword(e) {
-
+    email.blur()
     if (password.value.length <= 0) {
         newToast.fire({
             title: "Atención",
@@ -78,7 +88,7 @@ login.onmousedown = function (e) {
 
     email.blur()
     password.blur()
-   
+
 
     if (inputs[1].value.length == 0 || inputs[2].value.length == 0) {
         Swal.fire({

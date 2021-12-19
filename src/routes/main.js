@@ -57,8 +57,8 @@ let dataCheckRegister = [
    .isAlpha().withMessage('El apellido debe contener solo letras, no números').bail()
    .isLength({
       min: 2
-   }).withMessage('El nombre debe tener más de 2 carácteres'),
-   
+   }).withMessage('El apellido debe tener más de 2 carácteres'),
+
    check('usuario').notEmpty().withMessage('Debes completar el campo de usuario'),
    check('email').notEmpty().withMessage('Debes completar el campo de email').bail()
    .isEmail().withMessage('Debes completar el campo con un email válido'),
@@ -102,14 +102,14 @@ let dataCheckLogin = [
    check('password').notEmpty().withMessage('Debes completar el campo de contraseña').bail()
 ]
 let dataCheckAgregarProducto = [
-   /*  check('nombre').notEmpty().withMessage('Debes completar el campo de nombre').bail()
+    check('nombre').notEmpty().withMessage('Debes completar el campo de nombre').bail()
     .isLength({
        min: 5
     }).withMessage('El nombre del producto deberá tener al menos 5 caracteres'),
-    check('descripcion').notEmpty().withMessage('Debes completar el campo de descripción').bail()
+ /*    check('descripcion').notEmpty().withMessage('Debes completar el campo de descripción').bail()
     .isLength({
        min: 20
-    }).withMessage('La descripción del producto debe tener al menos 20 caracteres.'),
+    }).withMessage('La descripción del producto debe tener al menos 20 caracteres.'), */
     check('precio').notEmpty().withMessage('Debes completar el campo de precio').bail()
     .isNumeric().withMessage('El precio debe ser un número').bail()
     .isInt({
@@ -136,10 +136,18 @@ let dataCheckAgregarProducto = [
        req
     }) => {
 
-       let categoria = req.body.categoria;
+      let regexNumber = /^[0-9]+$/
 
-       if (categoria.value = 'Selecciona una opción') {
+       let categoria = req.body;
+
+       console.log('ELEGIR CATEGORIA')
+       console.log(value)
+    
+
+       if (regexNumber.test(value)== false) {
           throw new Error('Debes elegir una categoría')
+       }else{
+          return true
        }
 
     }),
@@ -148,11 +156,20 @@ let dataCheckAgregarProducto = [
        req
     }) => {
 
-       let subcategoria = req.body.sub_categoria;
+      let regexNumber = /^[0-9]+$/
 
-       if (subcategoria.value = 'Selecciona una opción') {
+       let subcategoria = req.body;
+
+       console.log('ELEGIR SUBCATEGORIA')
+       console.log(value)
+     
+
+       if (regexNumber.test(value)== false) {
           throw new Error('Debes elegir una subcategoría')
-       }
+       }else{
+         return true
+      }
+
 
     }),
     check('marca')
@@ -160,20 +177,29 @@ let dataCheckAgregarProducto = [
        req
     }) => {
 
-       let marca = req.body.marca;
+      let regexNumber = /^[0-9]+$/
 
-       if (marca.value = 'Selecciona una opción') {
+       let marca = req.body;
+
+       console.log('ELEGIR MARCA')
+       console.log(value)
+     
+
+       if (regexNumber.test(value) == false) {
           throw new Error('Debes elegir una marca')
-       }
+       }else{
+         return true
+      }
 
-    }), */
+
+    }),
 ]
 
 
 let dataCheckEditarUsuario = [
-    check('nombreEditado')
-    .isAlpha().withMessage('El nombre debe contener solo letras, no números').bail()
-    .isLength({
+   check('nombreEditado')
+   .isAlpha().withMessage('El nombre debe contener solo letras, no números').bail()
+   .isLength({
       min: 2
    }).withMessage('El nombre debe tener al menos 2 carácteres'),
 
@@ -199,34 +225,23 @@ let dataCheckEditarUsuario = [
             throw new Error('La foto de perfil deberá ser de formato JPG, JPEG, PNG o GIF')
          }
          return true;
-      }else{
+      } else {
          return true
       }
    }),
 
 
+   
+
 
 ]
 
 let dataCheckEditarProducto = [
-   /* check('nombre')
-   .custom((value, {
-      req
-   }) => {
-      let nombre = req.body.nombre;
-
-      if(nombre){
-         check('nombre')
-         .isLength({
-            min: 5
-         }).withMessage('El nombre del producto deberá tener al menos 5 caracteres')
-      }else{
-         return true;
-      }  
-   }),
-   check('descripcion').isLength({
-      min: 20
-   }).withMessage('La descripción del producto debe tener al menos 20 caracteres.'),
+   check('nombre')
+   .isLength({
+      min: 5
+   }).withMessage('El nombre del producto deberá tener al menos 5 caracteres'),
+  /*  check('descripcion').matches(/[0-9a-zA-Z]{20,}/).withMessage('La descripción del producto debe tener al menos 20 caracteres.'), */
    check('precio').isNumeric().withMessage('El precio debe ser un número').bail()
    .isInt({
       min: 1
@@ -238,53 +253,35 @@ let dataCheckEditarProducto = [
    }) => {
       let file = req.file;
 
-      if(file){
+      console.log(file)
+
+      if (file) {
+         let fileExtension = path.extname(file.originalname);
          if (!fileExtension.match(/.(jpg|jpeg|png|gif)$/i)) {
-            throw new Error('La imagen deberá ser de formato JPG, JPEG, PNG o GIF')
-         }else{
-            return true;
+            throw new Error('La imagen del producto deberá ser de formato JPG, JPEG, PNG o GIF')
          }
-      }else{
          return true;
-      }  
-   }), */
-  /*  check('categoria')
-   .custom((value, {
-      req
-   }) => {
-
-      let categoria = req.body.categoria;
-
-      if (categoria.value = 'Selecciona una opción') {
-         throw new Error('Debes elegir una categoría')
+      } else {
+         return true
       }
-
    }),
-   check('sub_categoria')
-   .custom((value, {
-      req
-   }) => {
 
-      let subcategoria = req.body.sub_categoria;
 
-      if (subcategoria.value = 'Selecciona una opción') {
-         throw new Error('Debes elegir una subcategoría')
+   check('stock').custom(value => {
+      if(value !== 'on' && value !== 'off') {
+          throw new Error('Debes actualizar el checkbox de stock')
+      } else {
+          return true;
       }
-
-   }),
-   check('marca')
-   .custom((value, {
-      req
-   }) => {
-
-      let marca = req.body.marca;
-
-      if (marca.value = 'Selecciona una opción') {
-         throw new Error('Debes elegir una marca')
+  }),
+   check('oferta').custom(value => {
+      if(value !== 'on' && value !== 'off') {
+          throw new Error('Debes actualizar el checkbox de oferta')
+      } else {
+          return true;
       }
+  })
 
-   }),
- */
 
 
 ]
@@ -342,7 +339,7 @@ router.post('/productos', uploadProducts.single("imagen"), dataCheckAgregarProdu
 
 // Editar un producto 
 router.get('/editar/:id', notLoggedMiddleware, adminMiddleware, productosController.editar);
-router.put('/detalleProducto/:id', dataCheckEditarProducto, uploadProducts.single("imagen"), productosController.actualizar);
+router.put('/detalleProducto/:id', uploadProducts.single("imagen"), dataCheckEditarProducto, productosController.actualizar);
 
 
 // Eliminar un producto 
@@ -363,6 +360,7 @@ router.post('/productosBuscadosPorSubCategoria/:nombreCategoria', uploadProducts
 
 /////////////////////USUARIOS CONTROLLER///////////////////
 const usuariosController = require('../controllers/usuariosController');
+const { disabled } = require("express/lib/application");
 
 // Registrarse
 router.get('/register', loggedMiddleware, usuariosController.formRegister);

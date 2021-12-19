@@ -18,33 +18,32 @@
 
     <% if(locals.errors){ %>
 
-      <script>
-          document.getElementById('popup-1').style.display = "block"
-      </script>
+    <script>
+      document.getElementById('popup-1').style.display = "block"
+    </script>
 
-      <div class="popup" id="popup-1">
-          <div class="overlay"></div>
-          <div class="popup-content">
-              <div style="font-size: 40px; color: #ab191f;"  id="close-btn"><i class="fas fa-times-circle"></i></div>
-              <h2 style="font-size: 30px;">Atención!</h2>
-              <ul style=" padding-right: 40px; text-align: center; border-radius: 20px;">
-                  <% for(let i = 0; i < errors.length;i++) { %>
-                  <li style="list-style-type: none; font-size: 20px;"> <%= errors[i].msg %> </li>
-                  <% } %>
-              </ul>
-          </div>
+    <div class="popup" id="popup-1">
+      <div class="overlay"></div>
+      <div style="top: 25%;" class="popup-content">
+        <div style="font-size: 40px; color: #ab191f;" id="close-btn"><i class="fas fa-times-circle"></i></div>
+        <h2 style="font-size: 30px;">Atención!</h2>
+        <ul style=" padding-right: 40px; text-align: center; border-radius: 20px;">
+          <% for(let i = 0; i < errors.length;i++) { %>
+          <li style="list-style-type: none; font-size: 20px;"> <%= errors[i].msg %> </li>
+          <% } %>
+        </ul>
       </div>
+    </div>
 
-      <script>
-          let close = document.getElementById('close-btn')
+    <script>
+      let close = document.getElementById('close-btn')
 
-          close.onclick = function () {
-              document.getElementById('popup-1').style.display = "none"
-              document.getElementById('popup-1').style.transition =  ('all 300ms ease-in-out')
-          }
-      </script>
-      <% } %>
-
+      close.onclick = function () {
+        document.getElementById('popup-1').style.display = "none"
+        document.getElementById('popup-1').style.transition = ('all 300ms ease-in-out')
+      }
+    </script>
+    <% } %>
 
 
 
@@ -56,20 +55,23 @@
         <form id="editarForm" class="dataEditar" action="/detalleProducto/<%= producto.id %>?_method=PUT" method="POST"
           enctype="multipart/form-data">
           <label for="nombre"> Nombre </label>
-          <input placeholder="<%= producto.nombre %>" value="<%= producto.nombre %>" id="nombre" style="text-transform: capitalize;" type="text" name="nombre">
+          <input placeholder="<%= producto.nombre %>" value="<%= producto.nombre %>" id="nombre"
+            style="text-transform: capitalize;" type="text" name="nombre">
           <br>
           <label for="precio"> Precio </label>
-          <input placeholder="<%= producto.precio %>" value="<%= producto.precio %>"  id="precio" type="text" name="precio">
+          <input placeholder="<%= producto.precio %>" value="<%= producto.precio %>" id="precio" type="text"
+            name="precio">
           <br>
           <label for="descripcion"> Descripción </label>
-          <textarea id="descripcion" placeholder="<%= producto.descripcion %>"  type="text"name="descripcion"><%= producto.descripcion %>"</textarea>
+          <textarea id="descripcion" placeholder="<%= producto.descripcion %>" type="text"
+            name="descripcion"><%= producto.descripcion %></textarea>
           <br>
           <label for="imagen"> Imagen </label>
           <input id="imagen" type="file" name="imagen">
           <br>
 
           <label> Categoría </label>
-          <select  name="categoria" id="categoria">
+          <select name="categoria" id="categoria">
             <option disabled hidden selected><%= producto.categoria.nombre %></option>
             <% for(let i = 0; i < categorias.length; i++) { %>
             <option value="<%= categorias[i].id %>"><%=  categorias[i].nombre  %></option>
@@ -77,7 +79,7 @@
           </select>
           <br>
           <label> Subcategoría </label>
-          <select  disabled name="sub_categoria" id="subcategoria">
+          <select disabled name="sub_categoria" id="subcategoria">
             <option disabled hidden selected><%= producto.subcategoria.nombre %></option>
             <% for(let j = 0; j < sub_categorias.length; j++) { %>
             <option value="<%= sub_categorias[j].id %>"><%=  sub_categorias[j].nombre  %></option>
@@ -110,14 +112,40 @@
       margin-right: 2vw;
       width: 20vw;
       height: 50%;
-      border-radius: 0;"  ></span>
+      border-radius: 0;"></span>
     </div>
-    
+
   </main>
 
- 
+
   <script src="/js/Categoria_SubCategoria.js"></script>
   <script src="/js/editarProductoValidation.js"></script>
+
+
+
+  <script>
+    let inputs = document.querySelectorAll('input')
+    let enableCheckbox = document.getElementById('enableCheckbox')
+
+
+    window.onload = function () {
+      inputs[4].toggleAttribute('disabled', true)
+      inputs[5].toggleAttribute('disabled', true)
+
+    }
+
+    enableCheckbox.onclick = function () {
+      if (inputs[4].disabled == true && inputs[5].disabled == true) {
+        inputs[4].toggleAttribute('disabled', false)
+        inputs[5].toggleAttribute('disabled', false)
+      } else {
+        inputs[4].toggleAttribute('disabled', true)
+        inputs[5].toggleAttribute('disabled', true)
+      }
+    }
+  </script>
+
+
 
 </body>
 

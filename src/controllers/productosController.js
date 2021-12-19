@@ -217,31 +217,54 @@ const productoController = {
 
     },
     guardar: (req, res) => {
-        /*  const errors = validationResult(req);
-         if (!errors.isEmpty()) {
-           return res.render("agregar", {
-             errors: errors.errors,
-           });
-         }else{ */
+        const session = req.session.usuario;
+
+        let promiseCategoria = db.Categoria.findAll();
+        let promiseSubCategoria = db.SubCategoria.findAll({
+            include: [{
+                association: 'categoria'
+            }]
+        });
+        let promiseMarca = db.Marca.findAll();
+        Promise.all([promiseCategoria, promiseSubCategoria, promiseMarca])
+            .then(([categorias, sub_categorias, marcas]) => {
 
 
-
-        db.Producto.create({
-                nombre: req.body.nombre,
-                precio: req.body.precio,
-                descripcion: req.body.descripcion,
-                imagen: req.file ? req.file.filename : '',
-                stock: req.body.stock ? req.body.stock = 1 : req.body.stock = 0,
-                fkSubCategoria: req.body.sub_categoria,
-                fkCategoria: req.body.categoria,
-                fkMarca: req.body.marca,
-                enOferta: req.body.oferta ? req.body.oferta = 1 : req.body.oferta = 0,
-                deleted: 0
-            }).then(() => {
-                return res.redirect('/productos');
+                const errors = validationResult(req);
+                if (!errors.isEmpty()) {
+                  return res.render("agregar", {
+                    errors: errors.errors,
+                    categorias,
+                    sub_categorias,
+                    marcas,
+                    session
+                  });
+                }else{
+       
+       
+       
+               db.Producto.create({
+                       nombre: req.body.nombre,
+                       precio: req.body.precio,
+                       descripcion: req.body.descripcion,
+                       imagen: req.file ? req.file.filename : '',
+                       stock: req.body.stock ? req.body.stock = 1 : req.body.stock = 0,
+                       fkSubCategoria: req.body.sub_categoria,
+                       fkCategoria: req.body.categoria,
+                       fkMarca: req.body.marca,
+                       enOferta: req.body.oferta ? req.body.oferta = 1 : req.body.oferta = 0,
+                       deleted: 0
+                   }).then(() => {
+                       return res.redirect('/productos');
+                   })
+                   .catch(error => res.send(error));
+               }
             })
-            .catch(error => res.send(error));
-        /* } */
+            .catch(error => res.send(error))
+
+
+
+        
     },
 
     editar: (req, res) => {
@@ -289,7 +312,7 @@ const productoController = {
 
     },
     actualizar: (req, res) => {
-
+        const session = req.session.usuario;
         let promiseCategoria = db.Categoria.findAll();
         let promiseSubCategoria = db.SubCategoria.findAll({
             include: [{
@@ -297,25 +320,34 @@ const productoController = {
             }]
         });
         let promiseMarca = db.Marca.findAll();
-        /* let promiseProducto = db.Producto.findByPk(req.params.id, {
+        let promiseProducto = db.Producto.findByPk(req.params.id, {
             include: [{
-                association: 'categoria',
-                association: 'subcategoria',
-                association: 'marca'
-            }]
-        }) */
-        Promise.all([promiseCategoria, promiseSubCategoria, promiseMarca/* , promiseProducto */])
-            .then(([categorias, sub_categorias, marcas/* , producto */]) => {
+                model: db.Marca,
+                as: 'marca',
+            },
+            {
+                model: db.SubCategoria,
+                as: 'subcategoria',
+            },
+            {
+                model: db.Categoria,
+                as: 'categoria',
+            },
 
+        ]
+        }) 
+        Promise.all([promiseCategoria, promiseSubCategoria, promiseMarca, promiseProducto ])
+            .then(([categorias, sub_categorias, marcas,producto]) => {
 
                 const errors = validationResult(req);
                 if (!errors.isEmpty()) {
-                    return res.render("agregar", {
+                    return res.render("editar", {
                         errors: errors.errors,
                         categorias,
                         sub_categorias,
                         marcas,
-                        /* producto, */
+                        producto,
+                        session
                     });
                 } else {
 

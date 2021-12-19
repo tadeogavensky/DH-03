@@ -9,6 +9,13 @@ let subcategoria = document.getElementById('subcategoria')
 let marca = document.getElementById('marca')
 
 
+document.addEventListener('keypress', function (e) {
+    if (e.keyCode === 13 || e.which === 13) {
+        e.preventDefault();
+        return false;
+    }
+    
+});
 
 
 

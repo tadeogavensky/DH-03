@@ -11,6 +11,14 @@ let password = document.getElementById('password')
 let passwordConfirmar = document.getElementById('passwordConfirmar')
 
 
+document.addEventListener('keypress', function (e) {
+    if (e.keyCode === 13 || e.which === 13) {
+        e.preventDefault();
+        return false;
+    }
+    
+});
+
 
 let regexEmail = /\S+@\S+\.\S+/;
 let regexPass = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[\w~@#$%^&*+=`|{}:;!.?\"()\[\]-]{8,}$/;
@@ -276,7 +284,7 @@ passwordConfirmar.onblur = function onblurConfirmarPassword(e) {
 
 passwordConfirmar.onchange = function onchangeConfirmarPassword(e) {
 
-    if (passwordConfirmar.value != password.value) {
+    if (passwordConfirmar.value != password.value ) {
         newToast.fire({
             title: 'Las contraseñas no coinciden',
             icon: 'warning',
@@ -284,7 +292,7 @@ passwordConfirmar.onchange = function onchangeConfirmarPassword(e) {
             width: '20vw',
         })
         return arrayCheck[12] = false;
-    } else {
+    } else if(passwordConfirmar.value == password.value && password.value.length > 0){
         newToast.fire({
             title: 'Las contraseñas coinciden',
             icon: 'success',

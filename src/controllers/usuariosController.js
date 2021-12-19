@@ -190,8 +190,9 @@ const usuariosController = {
         .then(usuarios => {
           console.log('TODOS LOS EMAILS MENOS SESSION')
           console.log(usuarios)
+       
           usuarios.forEach(usuario => {
-            if (req.body.email == usuario.email) {
+            if (req.body.email == usuario.emailEditado) {
               let emailExist = 'Email ya registrado'
               res.render("editarUsuario", {
                 emailExist,
@@ -199,31 +200,7 @@ const usuariosController = {
               });
             } else {
 
-              let imageNotValid = 'Foto invalida'
-              let emailNotValid = 'Email invalido'
-              let nameNotValid = 'Nombre invalido'
-              let surnameNotValid = 'Apellido invalido'
-
-              let errorArray = []
               db.Usuario.update({
-                 /*  nombre: req.body.nombreEditado.length == 0 ? session.nombre : (req.body.nombreEditado.length > 2 ? req.body.nombreEditado : res.render("editarUsuario", {
-                    nameNotValid,
-                    session
-                  })),
-                  apellido: req.body.apellidoEditado.length == 0 ? session.apellido : (req.body.apellidoEditado.length > 2 ? req.body.apellidoEditado : res.render("editarUsuario", {
-                    surnameNotValid,
-                    session
-                  })),
-                  usuario: req.body.usuarioEditado.length == 0 ? session.usuario : req.body.usuarioEditado,
-                  email: req.body.emailEditado.length == 0 ? session.email : ((/\S+@\S+\.\S+/).test(req.body.emailEditado) ? req.body.emailEditado : res.render("editarUsuario", {
-                    emailNotValid,
-                    session
-                  })),
-                  domicilio: req.body.domicilioEditado.length == 0 ? session.domicilio : req.body.domicilioEditado,
-                  imagen: req.file ? ((/\.(gif|jpe?g|jpg|png)$/i).test(req.file.filename) ? req.file.filename : res.render("editarUsuario", {
-                    imageNotValid,
-                    session
-                  })) : session.imagen, */
                   nombre: req.body.nombreEditado.length == 0 ? session.nombre : req.body.nombreEditado,
                   apellido: req.body.apellidoEditado.length == 0 ? session.apellido : req.body.apellidoEditado,
                   usuario: req.body.usuarioEditado.length == 0 ? session.usuario : req.body.usuarioEditado,

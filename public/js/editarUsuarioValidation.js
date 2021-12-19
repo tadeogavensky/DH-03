@@ -11,6 +11,14 @@ let foto = document.getElementById('fotoPerfil')
 var regexEmail = /\S+@\S+\.\S+/;
 var regexName = /^[A-Z]+$/i
 
+document.addEventListener('keypress', function (e) {
+    if (e.keyCode === 13 || e.which === 13) {
+        e.preventDefault();
+        return false;
+    }
+    
+});
+
 
 
 editarUsuario.onmousedown = function (e) {

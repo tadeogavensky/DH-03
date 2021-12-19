@@ -8,6 +8,16 @@ let passwordConfirmar = document.getElementById('passwordConfirmar')
 let regexEmail = /\S+@\S+\.\S+/;
 let regexPass = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[a-zA-Z\d@$.!%*#?&]/;
 
+
+document.addEventListener('keypress', function (e) {
+    if (e.keyCode === 13 || e.which === 13) {
+        e.preventDefault();
+        return false;
+    }
+    
+});
+
+
 const newToast = Swal.mixin({
     toast: true,
     showConfirmButton: false,
@@ -106,7 +116,6 @@ passwordConfirmar.onblur = function onblurConfirmarPassword(e) {
 }
 
 passwordConfirmar.onchange = function onchangeConfirmarPassword(e) {
-
     if (passwordConfirmar.value != password.value) {
         newToast.fire({
             title: 'Las contraseñas no coinciden',

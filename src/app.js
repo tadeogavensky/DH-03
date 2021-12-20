@@ -18,6 +18,8 @@ const public = path.resolve(__dirname, '../public')
 
 //Rutas
 const mainRoutes = require("./routes/main.js");
+const apiUsuariosRoutes = require('./routes/api/usuarios');
+const apiProductosRoutes = require('./routes/api/productos')
 
 
 //Static Files
@@ -51,3 +53,5 @@ app.listen(process.env.PORT||4000, ()=>{
 
 //Route
 app.use("/", mainRoutes);
+app.use('/api/usuarios',apiUsuariosRoutes);
+app.use('/api/productos',apiProductosRoutes);

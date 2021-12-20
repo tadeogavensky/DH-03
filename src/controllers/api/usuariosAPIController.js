@@ -10,31 +10,30 @@ const moment = require('moment');
 const usuariosAPIController = {
     'listar': (req, res) => {
         db.Usuario.findAll({
+                where: {
+                    deleted: 0
+                },
                 attributes: {
                     exclude: ['password']
                 }
             })
             .then(usuarios => {
 
-
-                usuarios.map(obj => ({
-                    ...obj,
-                    detail: 'http://localhost:4000/api/usuarios/' + 1
-                }))
-
+                usuarios.forEach(usuarioObj => {
+                    usuarioObj.dataValues.detalle = 'http://localhost:4000/api/usuarios/' + usuarioObj.id
+                    usuarioObj.dataValues.imagen = 'http://localhost:4000/img/users/'+usuarioObj.imagen
+                });
+         
 
                 let respuesta = {
                     meta: {
                         status: 200,
                         total: usuarios.length,
-                        id: usuarios.id,
-                        name: usuarios.nombre,
-                        surname: usuarios.apellido,
-                        email: usuarios.email,
                         url: 'api/usuarios'
                     },
                     data: {
-                        usuarios,
+
+                        usuarios
 
                     }
                 }
@@ -53,11 +52,12 @@ const usuariosAPIController = {
                 }
             })
             .then(usuario => {
+                usuario.dataValues.imagen = 'http://localhost:4000/img/users/'+usuario.imagen
                 let respuesta = {
                     meta: {
                         status: 200,
                         total: usuario.length,
-                        url: '/api/usuario/:id'
+                        usuarios: '/api/usuarios'
                     },
                     data: usuario
                 }

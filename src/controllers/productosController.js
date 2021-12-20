@@ -289,7 +289,6 @@ const productoController = {
                 model: db.Categoria,
                 as: 'categoria',
             },
-
         ]
         })
         Promise.all([promiseCategoria, promiseSubCategoria, promiseMarca, promiseProducto])

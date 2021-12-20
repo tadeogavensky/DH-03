@@ -4,9 +4,15 @@ const usuariosAPIController = require('../../controllers/api/usuariosAPIControll
 
 //Rutas
 
-router.get('/', usuariosAPIController.listar);
+router.get('/', usuariosAPIController.list);
 
-router.get('/:id', usuariosAPIController.detalleUsuario);
+router.get('/detail/:id', usuariosAPIController.userDetail);
+
+router.get('/userTotal', usuariosAPIController.userTotal);
+
+router.get('/lastUser', usuariosAPIController.lastUser);
+
+
 
 
 module.exports = router;

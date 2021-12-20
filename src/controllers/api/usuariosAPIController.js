@@ -8,28 +8,28 @@ const moment = require('moment');
 
 
 const usuariosAPIController = {
-    'listar': (req, res) => {
+    list: (req, res) => {
         db.Usuario.findAll({
                 where: {
                     deleted: 0
                 },
                 attributes: {
-                    exclude: ['password','imagen','domicilio','deleted','fkRol','usuario']
+                    exclude: ['password', 'imagen', 'domicilio', 'deleted', 'fkRol', 'usuario']
                 }
             })
             .then(usuarios => {
 
                 usuarios.forEach(usuarioObj => {
-                    usuarioObj.dataValues.detalle = 'http://localhost:4000/api/usuarios/' + usuarioObj.id
-                   /*  usuarioObj.dataValues.imagen = 'http://localhost:4000/img/users/'+usuarioObj.imagen *///Para agregar link a imagen
+                    usuarioObj.dataValues.detalle = 'http://localhost:4000/api/users/' + usuarioObj.id
+                    /*  usuarioObj.dataValues.imagen = 'http://localhost:4000/img/users/'+usuarioObj.imagen */ //Para agregar link a imagen
                 });
-         
+
 
                 let respuesta = {
                     meta: {
                         status: 200,
                         total: usuarios.length,
-                        url: 'api/usuarios'
+                        url: 'api/users'
                     },
                     data: {
 
@@ -41,7 +41,7 @@ const usuariosAPIController = {
             }).catch((error) => console.log(error));
     },
 
-    'detalleUsuario': (req, res) => {
+    userDetail: (req, res) => {
         db.Usuario.findOne({
                 where: {
                     id: req.params.id,
@@ -52,18 +52,50 @@ const usuariosAPIController = {
                 }
             })
             .then(usuario => {
-                usuario.dataValues.imagen = 'http://localhost:4000/img/users/'+usuario.imagen
+                usuario.dataValues.imagen = 'http://localhost:4000/img/users/' + usuario.imagen
                 let respuesta = {
                     meta: {
                         status: 200,
                         total: usuario.length,
-                        usuarios: '/api/usuarios'
+                        usuarios: '/api/users'
                     },
                     data: usuario
                 }
                 res.json(respuesta);
             });
     },
+    userTotal: (req, res) => {
+        db.Usuario.count().then(total => {
+            let respuesta = {
+                meta: {
+                    status: 200,
+                    productos: 'http://localhost:4000/api/users'
+                },
+                data: total
+            }
+            res.json(respuesta);
+        });
+    },
+    lastUser: (req, res) => {
+        db.Usuario.findAll({
+            where: {
+                deleted: 0
+            },
+            limit: 1,
+            order: [
+                ['id', 'DESC']
+            ]
+        }).then(usuario => {
+            let respuesta = {
+                meta: {
+                    status: 200,
+                    productos: 'http://localhost:4000/api/products'
+                },
+                data: usuario
+            }
+            res.json(respuesta);
+        });
+    }
 }
 
 module.exports = usuariosAPIController;

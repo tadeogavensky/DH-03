@@ -53,5 +53,5 @@ app.listen(process.env.PORT||4000, ()=>{
 
 //Route
 app.use("/", mainRoutes);
-app.use('/api/usuarios',apiUsuariosRoutes);
-app.use('/api/productos',apiProductosRoutes);
+app.use('/api/users',apiUsuariosRoutes);
+app.use('/api/products',apiProductosRoutes);

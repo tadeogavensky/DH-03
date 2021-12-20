@@ -14,14 +14,14 @@ const usuariosAPIController = {
                     deleted: 0
                 },
                 attributes: {
-                    exclude: ['password']
+                    exclude: ['password','imagen','domicilio','deleted','fkRol','usuario']
                 }
             })
             .then(usuarios => {
 
                 usuarios.forEach(usuarioObj => {
                     usuarioObj.dataValues.detalle = 'http://localhost:4000/api/usuarios/' + usuarioObj.id
-                    usuarioObj.dataValues.imagen = 'http://localhost:4000/img/users/'+usuarioObj.imagen
+                   /*  usuarioObj.dataValues.imagen = 'http://localhost:4000/img/users/'+usuarioObj.imagen *///Para agregar link a imagen
                 });
          
 

@@ -161,29 +161,26 @@ const productoController = {
     },
     cart: (req, res) => {
         let session = req.session.usuario;
+
+
+
         db.Carrito.findAll({
             where: {
                 id: session.id
             },
-            include: [{
-                    model: db.Usuario,
-                    as: 'usuario',
-                },
+            include: [
                 {
                     model: db.Producto,
                     as: 'producto',
-                }
+                },
+                {
+                    model: db.Usuario,
+                    as: 'usuario',
+                },
             ],
 
         }).then(productosCarrito => {
-            console.log('PRODUCTOS AL CARRITO')
-            for (let i = 0; i < productosCarrito.length; i++) {
-
-                console.log(productosCarrito[i].producto)
-
-
-            }
-
+          
             res.render('cart', {
                 productosCarrito,
                 session: session
@@ -357,10 +354,11 @@ const productoController = {
                                 descripcion: req.body.descripcion.length <= 0 ? producto.descripcion : req.body.descripcion,
                                 imagen: req.file ? req.file.filename : producto.imagen,
                                 stock: req.body.stock ? req.body.stock = 1 : req.body.stock = 0,
+                                enOferta: req.body.oferta ? req.body.oferta = 1 : req.body.oferta = 0,
                                 fkCategoria: req.body ? req.body.categoria : producto.fkCategoria,
                                 fkSubCategoria: req.body ? req.body.sub_categoria : producto.fkSubCategoria,
                                 fkMarca: req.body ? req.body.marca : producto.fkMarca,
-                                enOferta: req.body.oferta ? req.body.oferta = 1 : req.body.oferta = 0,
+                               
                             }, {
                                 where: {
                                     id: req.params.id
@@ -396,6 +394,34 @@ const productoController = {
 
 
     agregarAlCarrito: (req, res) => {
+        const session = req.session.usuario;
+        console.log(session.id)
+        /* db.CarritoProducto.create({
+            
+                include:{
+                    model: db.Carrito,
+                    as: 'carrito',
+                   fkCarrito:db.Carrito.fkUsuario
+                },
+            
+            fkProducto: req.params.id
+        }).then(a=>{
+            respuesta = {a}
+
+            res.json(respuesta)
+        }) */
+        /* db.Carrito.create({
+            fkUsuario: 1,
+            include:[
+                {
+                    model: db.Carrito,
+                    as: 'producto',
+                    fkCarrito: db.Carrito.id,
+                },
+            ]
+        }) */
+        
+
 
     },
 

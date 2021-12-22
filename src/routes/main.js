@@ -273,21 +273,27 @@ let dataCheckEditarProducto = [
       }
    }),
 
+   check('oferta').custom(value => {
+      console.log('OFERTA')
+      console.log(value)
 
+      if (value !== 'on' && value !== undefined) {
+         throw new Error('Debes actualizar el checkbox de oferta')
+      } else {
+         return true;
+      }
+   }),
    check('stock').custom(value => {
-      if (value !== 'on' && value !== 'off') {
+      console.log('STOCK')
+      console.log(value)
+
+      if (value !== 'on' && value !== undefined) {
          throw new Error('Debes actualizar el checkbox de stock')
       } else {
          return true;
       }
    }),
-   check('oferta').custom(value => {
-      if (value !== 'on' && value !== 'off') {
-         throw new Error('Debes actualizar el checkbox de oferta')
-      } else {
-         return true;
-      }
-   })
+
 
 
 

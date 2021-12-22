@@ -127,12 +127,8 @@
     let inputs = document.querySelectorAll('input')
     let enableCheckbox = document.getElementById('enableCheckbox')
 
-
-    window.onload = function () {
-      inputs[4].toggleAttribute('disabled', true)
-      inputs[5].toggleAttribute('disabled', true)
-
-    }
+    inputs[4].toggleAttribute('disabled', true)
+    inputs[5].toggleAttribute('disabled', true)
 
     enableCheckbox.onclick = function () {
       if (inputs[4].disabled == true && inputs[5].disabled == true) {

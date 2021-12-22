@@ -73,19 +73,21 @@ const productosAPIController = {
 
                 productos.forEach(productoObj => {
                     productoObj.dataValues.detalle = 'http://localhost:4000/api/products/detail/' + productoObj.id //Detalle producto
+                   
+                    //Array de relaciones
                     /* productoObj.dataValues.imagen = 'http://localhost:4000/img/products/' + productoObj.imagen */ //Imagen producto
-                    productoObj.dataValues.relaciones = [productoObj.marca, productoObj.categoria, productoObj.subcategoria] //Array de relaciones
+                    /* productoObj.dataValues.relaciones = [productoObj.marca, productoObj.categoria, productoObj.subcategoria] //Array de relaciones
                     delete productoObj.dataValues.categoria
                     delete productoObj.dataValues.subcategoria
-                    delete productoObj.dataValues.marca
+                    delete productoObj.dataValues.marca */
 
                     //Se cambian los nombres de los atributos 'nombre'
-                    productoObj.dataValues.relaciones[0].dataValues.marca = productoObj.dataValues.relaciones[0].dataValues.nombre // on object create new key name. Assign old value to this
+                  /*productoObj.dataValues.relaciones[0].dataValues.marca = productoObj.dataValues.relaciones[0].dataValues.nombre // on object create new key name. Assign old value to this
                     delete productoObj.dataValues.relaciones[0].dataValues.nombre
                     productoObj.dataValues.relaciones[1].dataValues.categoria = productoObj.dataValues.relaciones[1].dataValues.nombre // on object create new key name. Assign old value to this
                     delete productoObj.dataValues.relaciones[1].dataValues.nombre
                     productoObj.dataValues.relaciones[2].dataValues.subcategoria = productoObj.dataValues.relaciones[2].dataValues.nombre // on object create new key name. Assign old value to this
-                    delete productoObj.dataValues.relaciones[2].dataValues.nombre
+                    delete productoObj.dataValues.relaciones[2].dataValues.nombre */
 
 
                 });
@@ -143,22 +145,23 @@ const productosAPIController = {
             .then(producto => {
 
                 producto.dataValues.imagen = 'http://localhost:4000/img/products/' + producto.imagen
-                producto.dataValues.relaciones = [
+                //Array de relaciones
+               /*  producto.dataValues.relaciones = [
                     producto.categoria,
                     producto.subcategoria,
                     producto.marca
                 ]
                 delete producto.dataValues.categoria
                 delete producto.dataValues.subcategoria
-                delete producto.dataValues.marca
+                delete producto.dataValues.marca */
 
                 //Se cambian los nombres de los atributos 'nombre'
-                producto.dataValues.relaciones[0].dataValues.categoria = producto.dataValues.relaciones[0].dataValues.nombre // on object create new key name. Assign old value to this
+                /* producto.dataValues.relaciones[0].dataValues.categoria = producto.dataValues.relaciones[0].dataValues.nombre // on object create new key name. Assign old value to this
                 delete producto.dataValues.relaciones[0].dataValues.nombre
                 producto.dataValues.relaciones[1].dataValues.subcategoria = producto.dataValues.relaciones[1].dataValues.nombre // on object create new key name. Assign old value to this
                 delete producto.dataValues.relaciones[1].dataValues.nombre
                 producto.dataValues.relaciones[2].dataValues.marca = producto.dataValues.relaciones[2].dataValues.nombre // on object create new key name. Assign old value to this
-                delete producto.dataValues.relaciones[2].dataValues.nombre
+                delete producto.dataValues.relaciones[2].dataValues.nombre */
 
 
                 let respuesta = {

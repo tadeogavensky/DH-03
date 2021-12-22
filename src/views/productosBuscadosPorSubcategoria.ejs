@@ -255,6 +255,7 @@
 
       <p style="text-align: center; font-weight: 600; color: #ab191f; font-size: 30px;"> <%= querySubCategory %> </p>
 
+      <% if(lista_productos.length!=0){ %> 
       <section class="containerProductos">
 
          <% for(let i=0;  i<lista_productos.length;i++ ) {
@@ -312,6 +313,9 @@
          </div>
          <% } %>
       </section>
+      <%}else{%>
+         <p style=" padding-top: 10vh; text-align: center; color: #ab191f; font-size: 30px;"> Lo sentimos, por el momento no hay <span style="font-weight: 900;"> productos </span> de este tipo </p>
+      <% } %>
    </main>
 
    <button type="button" class="btn btn-danger btn-floating btn-lg" id="btn-back-to-top">

@@ -84,15 +84,20 @@ const usuariosAPIController = {
         });
     },
     lastUser: (req, res) => {
-        db.Usuario.findAll({
+        db.Usuario.findOne({
             where: {
                 deleted: 0
+            },
+            attributes: {
+                exclude: ['password', 'fkRol', 'deleted']
             },
             limit: 1,
             order: [
                 ['id', 'DESC']
             ]
         }).then(usuario => {
+            console.log(`usuario`, usuario.dataValues.imagen)
+            usuario.dataValues.imagen = 'http://localhost:4000/img/users/' + usuario.dataValues.imagen
             let respuesta = {
                 meta: {
                     status: 200,

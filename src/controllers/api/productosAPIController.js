@@ -251,7 +251,7 @@ const productosAPIController = {
                     deleted: 0
                 },
                 attributes: {
-                    exclude: ['fkCategoria', 'fkSubCategoria', 'fkMarca']
+                    exclude: ['fkCategoria', 'fkSubCategoria', 'fkMarca','deleted']
                 },
                 include: [{
                         model: db.Marca,
@@ -367,15 +367,41 @@ const productosAPIController = {
         });
     },
     lastProduct: (req, res) => {
-        db.Producto.findAll({
+        db.Producto.findOne({
             where: {
                 deleted: 0
             },
             limit: 1,
+            attributes: {
+                exclude: ['fkCategoria', 'fkSubCategoria', 'fkMarca','deleted']
+            },
             order: [
                 ['id', 'DESC']
-            ]
+            ],
+            include: [{
+                model: db.Marca,
+                as: 'marca',
+                attributes: {
+                    exclude: ['id']
+                }
+            },
+            {
+                model: db.Categoria,
+                as: 'categoria',
+                attributes: {
+                    exclude: ['id', 'imagen']
+                }
+            },
+            {
+                model: db.SubCategoria,
+                as: 'subcategoria',
+                attributes: {
+                    exclude: ['id', 'fkCategoria']
+                }
+            },
+        ],
         }).then(producto => {
+            producto.dataValues.imagen = 'http://localhost:4000/img/products/' + producto.imagen
             let respuesta = {
                 meta: {
                     status: 200,
@@ -454,7 +480,7 @@ const productosAPIController = {
                     let respuesta = {
                         meta: {
                             status: 200,
-                            products: 'http://localhost:4000/api/products',
+                            productos: 'http://localhost:4000/api/products',
                             totalList: 'http://localhost:4000/api/products/list',
                             nextPage: 'http://localhost:4000/api/products/list?page=' + next,
                             previousPage: 'http://localhost:4000/api/products/list?page=' + previous,

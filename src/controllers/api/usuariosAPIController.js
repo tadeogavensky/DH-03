@@ -20,7 +20,7 @@ const usuariosAPIController = {
             .then(usuarios => {
 
                 usuarios.forEach(usuarioObj => {
-                    usuarioObj.dataValues.detalle = 'http://localhost:4000/api/users/' + usuarioObj.id
+                    usuarioObj.dataValues.detalle = 'http://localhost:4000/api/users/detail/' + usuarioObj.id
                     /*  usuarioObj.dataValues.imagen = 'http://localhost:4000/img/users/'+usuarioObj.imagen */ //Para agregar link a imagen
                 });
 
@@ -65,7 +65,11 @@ const usuariosAPIController = {
             });
     },
     userTotal: (req, res) => {
-        db.Usuario.count().then(total => {
+        db.Usuario.count({
+            where: {
+                deleted: 0
+            }
+        }).then(total => {
             let respuesta = {
                 meta: {
                     status: 200,

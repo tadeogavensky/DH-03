@@ -26,6 +26,8 @@ router.put('/update/:id', productosAPIController.update);
 
 router.delete('/delete/:id', productosAPIController.destroy);
 
+router.get('/page', productosAPIController.listByPage);
+
 
 
 

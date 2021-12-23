@@ -9,11 +9,15 @@ const {
     actualizar
 } = require('../productosController');
 
+let totalByCategory = []
 
 const productosAPIController = {
     list: (req, res) => {
 
         let productos = db.Producto.findAll({
+            where: {
+                deleted: 0
+            },
             attributes: {
                 exclude: ['fkCategoria', 'fkSubCategoria', 'fkMarca', 'precio', 'stock', 'enOferta', 'deleted', 'imagen']
             },
@@ -41,17 +45,35 @@ const productosAPIController = {
             ]
         })
 
-        let totalByCategory = db.Categoria.count({
+        let total = db.Categoria.count({
             include: [{
                 association: 'producto',
+                where: {
+                    deleted: 0
+                }
             }],
             group: ['nombre'],
-
-
         })
-        Promise.all([productos, totalByCategory])
-            .then(([productos, totalByCategory]) => {
+        Promise.all([productos, total])
+            .then(([productos, total]) => {
 
+
+
+
+
+                total.forEach(objCat => {
+
+                    let cat = total.find(obj =>
+                        obj.nombre == objCat.nombre
+                    )
+                    totalByCategory.push({
+                        [cat.nombre]: cat.count
+                    })
+                    console.log(`totalByCategory`, totalByCategory)
+                })
+
+
+                /* 
                 totalByCategory[0].categoria = totalByCategory[0].nombre
                 delete totalByCategory[0].nombre
                 totalByCategory[1].categoria = totalByCategory[1].nombre
@@ -64,16 +86,15 @@ const productosAPIController = {
                 delete totalByCategory[4].nombre
                 totalByCategory[5].categoria = totalByCategory[5].nombre
                 delete totalByCategory[5].nombre
-
                 for (let i = 0; i < totalByCategory.length; i++) {
                     totalByCategory[i].total = totalByCategory[i].count
                     delete totalByCategory[i].count
-                }
+                } */
 
 
                 productos.forEach(productoObj => {
                     productoObj.dataValues.detalle = 'http://localhost:4000/api/products/detail/' + productoObj.id //Detalle producto
-                   
+
                     //Array de relaciones
                     /* productoObj.dataValues.imagen = 'http://localhost:4000/img/products/' + productoObj.imagen */ //Imagen producto
                     /* productoObj.dataValues.relaciones = [productoObj.marca, productoObj.categoria, productoObj.subcategoria] //Array de relaciones
@@ -82,12 +103,12 @@ const productosAPIController = {
                     delete productoObj.dataValues.marca */
 
                     //Se cambian los nombres de los atributos 'nombre'
-                  /*productoObj.dataValues.relaciones[0].dataValues.marca = productoObj.dataValues.relaciones[0].dataValues.nombre // on object create new key name. Assign old value to this
-                    delete productoObj.dataValues.relaciones[0].dataValues.nombre
-                    productoObj.dataValues.relaciones[1].dataValues.categoria = productoObj.dataValues.relaciones[1].dataValues.nombre // on object create new key name. Assign old value to this
-                    delete productoObj.dataValues.relaciones[1].dataValues.nombre
-                    productoObj.dataValues.relaciones[2].dataValues.subcategoria = productoObj.dataValues.relaciones[2].dataValues.nombre // on object create new key name. Assign old value to this
-                    delete productoObj.dataValues.relaciones[2].dataValues.nombre */
+                    /*productoObj.dataValues.relaciones[0].dataValues.marca = productoObj.dataValues.relaciones[0].dataValues.nombre // on productos create new key name. Assign old value to this
+                      delete productoObj.dataValues.relaciones[0].dataValues.nombre
+                      productoObj.dataValues.relaciones[1].dataValues.categoria = productoObj.dataValues.relaciones[1].dataValues.nombre // on object create new key name. Assign old value to this
+                      delete productoObj.dataValues.relaciones[1].dataValues.nombre
+                      productoObj.dataValues.relaciones[2].dataValues.subcategoria = productoObj.dataValues.relaciones[2].dataValues.nombre // on object create new key name. Assign old value to this
+                      delete productoObj.dataValues.relaciones[2].dataValues.nombre */
 
 
                 });
@@ -146,14 +167,14 @@ const productosAPIController = {
 
                 producto.dataValues.imagen = 'http://localhost:4000/img/products/' + producto.imagen
                 //Array de relaciones
-               /*  producto.dataValues.relaciones = [
-                    producto.categoria,
-                    producto.subcategoria,
-                    producto.marca
-                ]
-                delete producto.dataValues.categoria
-                delete producto.dataValues.subcategoria
-                delete producto.dataValues.marca */
+                /*  producto.dataValues.relaciones = [
+                     producto.categoria,
+                     producto.subcategoria,
+                     producto.marca
+                 ]
+                 delete producto.dataValues.categoria
+                 delete producto.dataValues.subcategoria
+                 delete producto.dataValues.marca */
 
                 //Se cambian los nombres de los atributos 'nombre'
                 /* producto.dataValues.relaciones[0].dataValues.categoria = producto.dataValues.relaciones[0].dataValues.nombre // on object create new key name. Assign old value to this
@@ -175,7 +196,11 @@ const productosAPIController = {
             });
     },
     totalProducts: (req, res) => {
-        db.Producto.count().then(total => {
+        db.Producto.count({
+            where: {
+                deleted: 0
+            }
+        }).then(total => {
             let respuesta = {
                 meta: {
                     status: 200,
@@ -406,9 +431,60 @@ const productosAPIController = {
                 res.json(respuesta);
             })
             .catch(error => res.send(error))
+    },
+    listByPage: (req, res) => {
+        let page = req.query.page
+
+
+        console.log(`page`, page)
+
+        db.Producto.findAll({
+            limit: 10,
+            offset: Number.parseInt(page),
+            where: {
+                deleted: 0,
+            },
+            attributes: {
+                exclude: ['fkCategoria', 'fkSubCategoria', 'fkMarca', 'precio', 'stock', 'enOferta', 'deleted', 'imagen']
+            },
+            include: [{
+                    model: db.Marca,
+                    as: 'marca',
+                    attributes: {
+                        exclude: ['id']
+                    }
+                },
+                {
+                    model: db.Categoria,
+                    as: 'categoria',
+                    attributes: {
+                        exclude: ['id', 'imagen']
+                    }
+                },
+                {
+                    model: db.SubCategoria,
+                    as: 'subcategoria',
+                    attributes: {
+                        exclude: ['id', 'fkCategoria']
+                    }
+                }
+            ]
+
+        }).then(productos => {
+            console.log(`productos`, productos)
+            let respuesta = {
+                meta: {
+                    status: 200,
+                    url: 'api/products/page',
+                },
+                data: {
+                    total: productos.length,
+                    productos
+                }
+            }
+            console.log(respuesta)
+            res.json(respuesta);
+        }).catch((error) => console.log(error));
     }
-
-
-
 }
 module.exports = productosAPIController;

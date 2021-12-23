@@ -4,6 +4,8 @@ const productosAPIController = require('../../controllers/api/productosAPIContro
 
 //Rutas
 
+router.get('/menu', productosAPIController.menu);
+
 router.get('/', productosAPIController.list);
 
 router.get('/detail/:id', productosAPIController.productDetail);
@@ -26,7 +28,7 @@ router.put('/update/:id', productosAPIController.update);
 
 router.delete('/delete/:id', productosAPIController.destroy);
 
-router.get('/page', productosAPIController.listByPage);
+/* router.get('/page', productosAPIController.listByPage); */
 
 
 

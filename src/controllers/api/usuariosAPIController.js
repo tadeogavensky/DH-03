@@ -29,7 +29,8 @@ const usuariosAPIController = {
                     meta: {
                         status: 200,
                         total: usuarios.length,
-                        url: 'api/users'
+                        url: 'api/users',
+                        menuProductos: 'http://localhost:4000/api/products/menu'
                     },
                     data: {
 
@@ -57,7 +58,8 @@ const usuariosAPIController = {
                     meta: {
                         status: 200,
                         total: usuario.length,
-                        usuarios: '/api/users'
+                        usuarios: '/api/users',
+                        menuProductos: 'http://localhost:4000/api/products/menu'
                     },
                     data: usuario
                 }
@@ -73,7 +75,8 @@ const usuariosAPIController = {
             let respuesta = {
                 meta: {
                     status: 200,
-                    productos: 'http://localhost:4000/api/users'
+                    usuarios: 'http://localhost:4000/api/users',
+                    menuProductos: 'http://localhost:4000/api/products/menu'
                 },
                 data: total
             }
@@ -93,7 +96,8 @@ const usuariosAPIController = {
             let respuesta = {
                 meta: {
                     status: 200,
-                    productos: 'http://localhost:4000/api/products'
+                    productos: 'http://localhost:4000/api/products',
+                    menuProductos: 'http://localhost:4000/api/products/menu'
                 },
                 data: usuario
             }

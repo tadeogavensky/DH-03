@@ -12,122 +12,236 @@ const {
 let totalByCategory = []
 
 const productosAPIController = {
+    menu: (req, res) => {
+        let respuesta = {
+            meta: {
+                listaCompleta: 'http://localhost:4000/api/products/',
+                listaNombre: 'http://localhost:4000/api/products/list',
+                ultimoProducto: 'http://localhost:4000/api/products/lastProduct',
+                totalPorCategoria: 'http://localhost:4000/api/products/totalByCategory',
+                totalProducto: 'http://localhost:4000/api/products/totalProducts',
+                totalMarcas: 'http://localhost:4000/api/products/totalBrands',
+                totalCategorias: 'http://localhost:4000/api/products/totalCategories',
+                totalSubcategorias: 'http://localhost:4000/api/products/totalSubcategories',
+            },
+        }
+        res.json(respuesta);
+    },
     list: (req, res) => {
-
-        let productos = db.Producto.findAll({
-            where: {
-                deleted: 0
-            },
-            attributes: {
-                exclude: ['fkCategoria', 'fkSubCategoria', 'fkMarca', 'precio', 'stock', 'enOferta', 'deleted', 'imagen']
-            },
-            include: [{
-                    model: db.Marca,
-                    as: 'marca',
-                    attributes: {
-                        exclude: ['id']
-                    }
-                },
-                {
-                    model: db.Categoria,
-                    as: 'categoria',
-                    attributes: {
-                        exclude: ['id', 'imagen']
-                    }
-                },
-                {
-                    model: db.SubCategoria,
-                    as: 'subcategoria',
-                    attributes: {
-                        exclude: ['id', 'fkCategoria']
-                    }
-                },
-            ]
-        })
-
-        let total = db.Categoria.count({
-            include: [{
-                association: 'producto',
+        let pageToSearch = req.query.page
+        if (pageToSearch) {
+            db.Producto.count({
                 where: {
                     deleted: 0
                 }
-            }],
-            group: ['nombre'],
-        })
-        Promise.all([productos, total])
-            .then(([productos, total]) => {
+            }).then(totalProducts => {
 
 
+                let page = parseInt(req.query.page)
+                let next = Number.parseInt(page) + 1
+                let previous = Number.parseInt(page) - 1
+
+                if (page == 0) {
+                    previous = totalProducts - 1
+                } else if (page == (totalProducts - 1)) {
+                    next = 0
+                }
 
 
-
-                total.forEach(objCat => {
-
-                    let cat = total.find(obj =>
-                        obj.nombre == objCat.nombre
-                    )
-                    totalByCategory.push({
-                        [cat.nombre]: cat.count
-                    })
-                    console.log(`totalByCategory`, totalByCategory)
+                let productos = db.Producto.findAll({
+                    limit: 10,
+                    offset: page,
+                    where: {
+                        deleted: 0
+                    },
+                    attributes: {
+                        exclude: ['fkCategoria', 'fkSubCategoria', 'fkMarca', 'precio', 'stock', 'enOferta', 'deleted', 'imagen']
+                    },
+                    include: [{
+                            model: db.Marca,
+                            as: 'marca',
+                            attributes: {
+                                exclude: ['id']
+                            }
+                        },
+                        {
+                            model: db.Categoria,
+                            as: 'categoria',
+                            attributes: {
+                                exclude: ['id', 'imagen']
+                            }
+                        },
+                        {
+                            model: db.SubCategoria,
+                            as: 'subcategoria',
+                            attributes: {
+                                exclude: ['id', 'fkCategoria']
+                            }
+                        },
+                    ]
                 })
 
+                let total = db.Categoria.count({
+                    include: [{
+                        association: 'producto',
+                        where: {
+                            deleted: 0
+                        },
+                    }],
+                    group: ['nombre'],
+                })
+                Promise.all([productos, total])
+                    .then(([productos, total]) => {
 
-                /* 
-                totalByCategory[0].categoria = totalByCategory[0].nombre
-                delete totalByCategory[0].nombre
-                totalByCategory[1].categoria = totalByCategory[1].nombre
-                delete totalByCategory[1].nombre
-                totalByCategory[2].categoria = totalByCategory[2].nombre
-                delete totalByCategory[2].nombre
-                totalByCategory[3].categoria = totalByCategory[3].nombre
-                delete totalByCategory[3].nombre
-                totalByCategory[4].categoria = totalByCategory[4].nombre
-                delete totalByCategory[4].nombre
-                totalByCategory[5].categoria = totalByCategory[5].nombre
-                delete totalByCategory[5].nombre
-                for (let i = 0; i < totalByCategory.length; i++) {
-                    totalByCategory[i].total = totalByCategory[i].count
-                    delete totalByCategory[i].count
-                } */
+                        total.forEach(objCat => {
 
-
-                productos.forEach(productoObj => {
-                    productoObj.dataValues.detalle = 'http://localhost:4000/api/products/detail/' + productoObj.id //Detalle producto
-
-                    //Array de relaciones
-                    /* productoObj.dataValues.imagen = 'http://localhost:4000/img/products/' + productoObj.imagen */ //Imagen producto
-                    /* productoObj.dataValues.relaciones = [productoObj.marca, productoObj.categoria, productoObj.subcategoria] //Array de relaciones
-                    delete productoObj.dataValues.categoria
-                    delete productoObj.dataValues.subcategoria
-                    delete productoObj.dataValues.marca */
-
-                    //Se cambian los nombres de los atributos 'nombre'
-                    /*productoObj.dataValues.relaciones[0].dataValues.marca = productoObj.dataValues.relaciones[0].dataValues.nombre // on productos create new key name. Assign old value to this
-                      delete productoObj.dataValues.relaciones[0].dataValues.nombre
-                      productoObj.dataValues.relaciones[1].dataValues.categoria = productoObj.dataValues.relaciones[1].dataValues.nombre // on object create new key name. Assign old value to this
-                      delete productoObj.dataValues.relaciones[1].dataValues.nombre
-                      productoObj.dataValues.relaciones[2].dataValues.subcategoria = productoObj.dataValues.relaciones[2].dataValues.nombre // on object create new key name. Assign old value to this
-                      delete productoObj.dataValues.relaciones[2].dataValues.nombre */
+                            let cat = total.find(obj =>
+                                obj.nombre == objCat.nombre
+                            )
+                            totalByCategory.push({
+                                [cat.nombre]: cat.count
+                            })
+                        })
 
 
-                });
+                        productos.forEach(productoObj => {
+                            productoObj.dataValues.detalle = 'http://localhost:4000/api/products/detail/' + productoObj.id //Detalle producto
 
 
-                let respuesta = {
-                    meta: {
-                        status: 200,
-                        url: 'api/products',
+                        });
 
-                    },
-                    data: {
-                        total: productos.length,
-                        totalByCategory,
-                        productos
-                    }
-                }
-                res.json(respuesta);
+
+                        let respuesta = {
+                            meta: {
+                                status: 200,
+                                url: 'api/products',
+                                listaCompleta: 'http://localhost:4000/api/products',
+                                nextPage: 'http://localhost:4000/api/products?page=' + next,
+                                previousPage: 'http://localhost:4000/api/products?page=' + previous,
+                                menu: 'http://localhost:4000/api/products/menu',
+
+                            },
+                            data: {
+                                total: productos.length,
+                               /*  totalByCategory, */
+                                productos
+                            }
+                        }
+                        res.json(respuesta);
+                    }).catch((error) => console.log(error));
             }).catch((error) => console.log(error));
+        } else{
+            let productos = db.Producto.findAll({
+                where: {
+                    deleted: 0
+                },
+                attributes: {
+                    exclude: ['fkCategoria', 'fkSubCategoria', 'fkMarca', 'precio', 'stock', 'enOferta', 'deleted', 'imagen']
+                },
+                include: [{
+                        model: db.Marca,
+                        as: 'marca',
+                        attributes: {
+                            exclude: ['id']
+                        }
+                    },
+                    {
+                        model: db.Categoria,
+                        as: 'categoria',
+                        attributes: {
+                            exclude: ['id', 'imagen']
+                        }
+                    },
+                    {
+                        model: db.SubCategoria,
+                        as: 'subcategoria',
+                        attributes: {
+                            exclude: ['id', 'fkCategoria']
+                        }
+                    },
+                ]
+            })
+
+            let total = db.Categoria.count({
+                include: [{
+                    association: 'producto',
+                    where: {
+                        deleted: 0
+                    }
+                }],
+                group: ['nombre'],
+            })
+            Promise.all([productos, total])
+                .then(([productos, total]) => {
+
+                    total.forEach(objCat => {
+
+                        let cat = total.find(obj =>
+                            obj.nombre == objCat.nombre
+                        )
+                        totalByCategory.push({
+                            [cat.nombre]: cat.count
+                        })
+                    })
+
+
+                    /* 
+                    totalByCategory[0].categoria = totalByCategory[0].nombre
+                    delete totalByCategory[0].nombre
+                    totalByCategory[1].categoria = totalByCategory[1].nombre
+                    delete totalByCategory[1].nombre
+                    totalByCategory[2].categoria = totalByCategory[2].nombre
+                    delete totalByCategory[2].nombre
+                    totalByCategory[3].categoria = totalByCategory[3].nombre
+                    delete totalByCategory[3].nombre
+                    totalByCategory[4].categoria = totalByCategory[4].nombre
+                    delete totalByCategory[4].nombre
+                    totalByCategory[5].categoria = totalByCategory[5].nombre
+                    delete totalByCategory[5].nombre
+                    for (let i = 0; i < totalByCategory.length; i++) {
+                        totalByCategory[i].total = totalByCategory[i].count
+                        delete totalByCategory[i].count
+                    } */
+
+
+                    productos.forEach(productoObj => {
+                        productoObj.dataValues.detalle = 'http://localhost:4000/api/products/detail/' + productoObj.id //Detalle producto
+
+                        //Array de relaciones
+                        /* productoObj.dataValues.imagen = 'http://localhost:4000/img/products/' + productoObj.imagen */ //Imagen producto
+                        /* productoObj.dataValues.relaciones = [productoObj.marca, productoObj.categoria, productoObj.subcategoria] //Array de relaciones
+                        delete productoObj.dataValues.categoria
+                        delete productoObj.dataValues.subcategoria
+                        delete productoObj.dataValues.marca */
+
+                        //Se cambian los nombres de los atributos 'nombre'
+                        /*productoObj.dataValues.relaciones[0].dataValues.marca = productoObj.dataValues.relaciones[0].dataValues.nombre // on productos create new key name. Assign old value to this
+                          delete productoObj.dataValues.relaciones[0].dataValues.nombre
+                          productoObj.dataValues.relaciones[1].dataValues.categoria = productoObj.dataValues.relaciones[1].dataValues.nombre // on object create new key name. Assign old value to this
+                          delete productoObj.dataValues.relaciones[1].dataValues.nombre
+                          productoObj.dataValues.relaciones[2].dataValues.subcategoria = productoObj.dataValues.relaciones[2].dataValues.nombre // on object create new key name. Assign old value to this
+                          delete productoObj.dataValues.relaciones[2].dataValues.nombre */
+
+
+                    });
+
+
+                    let respuesta = {
+                        meta: {
+                            status: 200,
+                            url: 'api/products',
+                            menu: 'http://localhost:4000/api/products/menu',
+
+                        },
+                        data: {
+                            total: productos.length,
+                            totalByCategory,
+                            productos
+                        }
+                    }
+                    res.json(respuesta);
+                }).catch((error) => console.log(error));
+        }
     },
 
     productDetail: (req, res) => {
@@ -188,7 +302,8 @@ const productosAPIController = {
                 let respuesta = {
                     meta: {
                         status: 200,
-                        productos: 'http://localhost:4000/api/products'
+                        productos: 'http://localhost:4000/api/products',
+                        menu: 'http://localhost:4000/api/products/menu',
                     },
                     data: producto
                 }
@@ -204,7 +319,8 @@ const productosAPIController = {
             let respuesta = {
                 meta: {
                     status: 200,
-                    productos: 'http://localhost:4000/api/products'
+                    productos: 'http://localhost:4000/api/products',
+                    menu: 'http://localhost:4000/api/products/menu',
                 },
                 data: total
             }
@@ -216,7 +332,8 @@ const productosAPIController = {
             let respuesta = {
                 meta: {
                     status: 200,
-                    productos: 'http://localhost:4000/api/products'
+                    productos: 'http://localhost:4000/api/products',
+                    menu: 'http://localhost:4000/api/products/menu',
                 },
                 data: total
             }
@@ -228,7 +345,8 @@ const productosAPIController = {
             let respuesta = {
                 meta: {
                     status: 200,
-                    productos: 'http://localhost:4000/api/products'
+                    productos: 'http://localhost:4000/api/products',
+                    menu: 'http://localhost:4000/api/products/menu',
                 },
                 data: total
             }
@@ -240,7 +358,8 @@ const productosAPIController = {
             let respuesta = {
                 meta: {
                     status: 200,
-                    productos: 'http://localhost:4000/api/products'
+                    productos: 'http://localhost:4000/api/products',
+                    menu: 'http://localhost:4000/api/products/menu',
                 },
                 data: total
             }
@@ -260,7 +379,8 @@ const productosAPIController = {
             let respuesta = {
                 meta: {
                     status: 200,
-                    productos: 'http://localhost:4000/api/products'
+                    productos: 'http://localhost:4000/api/products',
+                    menu: 'http://localhost:4000/api/products/menu',
                 },
                 data: producto
             }
@@ -294,7 +414,8 @@ const productosAPIController = {
             let respuesta = {
                 meta: {
                     status: 200,
-                    productos: 'http://localhost:4000/api/products'
+                    productos: 'http://localhost:4000/api/products',
+                    menu: 'http://localhost:4000/api/products/menu',
                 },
                 data: totalByCategory
             }
@@ -302,23 +423,70 @@ const productosAPIController = {
         });
     },
     productList: (req, res) => {
-        db.Producto.findAll({
-            where: {
-                deleted: 0
-            },
-            attributes: {
-                exclude: ['id', 'descripcion', 'fkCategoria', 'fkSubCategoria', 'fkMarca', 'precio', 'stock', 'enOferta', 'deleted', 'imagen']
-            },
-        }).then(productos => {
-            let respuesta = {
-                meta: {
-                    status: 200,
-                    productos: 'http://localhost:4000/api/productos'
+        let pageToSearch = req.query.page
+        if (pageToSearch) {
+            db.Producto.count({
+                where: {
+                    deleted: 0
+                }
+            }).then(totalProducts => {
+                
+                let page = parseInt(req.query.page)
+                let next = Number.parseInt(page) + 1
+                let previous = Number.parseInt(page) - 1
+    
+                if (page == 0) {
+                    previous = totalProducts - 1
+                } else if (page == (totalProducts - 1)) {
+                    next = 0
+                }
+    
+                db.Producto.findAll({
+                    limit:10,
+                    offset: page,
+                    where: {
+                        deleted: 0
+                    },
+                    attributes: {
+                        exclude: ['id', 'descripcion', 'fkCategoria', 'fkSubCategoria', 'fkMarca', 'precio', 'stock', 'enOferta', 'deleted', 'imagen']
+                    },
+                }).then(productos => {
+                    let respuesta = {
+                        meta: {
+                            status: 200,
+                            products: 'http://localhost:4000/api/products',
+                            totalList: 'http://localhost:4000/api/products/list',
+                            nextPage: 'http://localhost:4000/api/products/list?page=' + next,
+                            previousPage: 'http://localhost:4000/api/products/list?page=' + previous,
+                            menu: 'http://localhost:4000/api/products/menu',
+                        },
+                        data: productos
+                    }
+                    res.json(respuesta);
+                });
+    
+            })
+        }else{
+            db.Producto.findAll({
+                where: {
+                    deleted: 0
                 },
-                data: productos
-            }
-            res.json(respuesta);
-        });
+                attributes: {
+                    exclude: ['id', 'descripcion', 'fkCategoria', 'fkSubCategoria', 'fkMarca', 'precio', 'stock', 'enOferta', 'deleted', 'imagen']
+                },
+            }).then(productos => {
+                let respuesta = {
+                    meta: {
+                        status: 200,
+                        products: 'http://localhost:4000/api/products',
+                        menu: 'http://localhost:4000/api/products/menu',
+                    },
+                    data: productos
+                }
+                res.json(respuesta);
+            });
+        }
+      
     },
     create: (req, res) => {
         db.Producto
@@ -432,59 +600,81 @@ const productosAPIController = {
             })
             .catch(error => res.send(error))
     },
-    listByPage: (req, res) => {
-        let page = req.query.page
-
-
-        console.log(`page`, page)
-
-        db.Producto.findAll({
-            limit: 10,
-            offset: Number.parseInt(page),
+    /* listByPage: (req, res) => {
+        db.Producto.count({
             where: {
-                deleted: 0,
-            },
-            attributes: {
-                exclude: ['fkCategoria', 'fkSubCategoria', 'fkMarca', 'precio', 'stock', 'enOferta', 'deleted', 'imagen']
-            },
-            include: [{
-                    model: db.Marca,
-                    as: 'marca',
-                    attributes: {
-                        exclude: ['id']
-                    }
-                },
-                {
-                    model: db.Categoria,
-                    as: 'categoria',
-                    attributes: {
-                        exclude: ['id', 'imagen']
-                    }
-                },
-                {
-                    model: db.SubCategoria,
-                    as: 'subcategoria',
-                    attributes: {
-                        exclude: ['id', 'fkCategoria']
-                    }
-                }
-            ]
-
-        }).then(productos => {
-            console.log(`productos`, productos)
-            let respuesta = {
-                meta: {
-                    status: 200,
-                    url: 'api/products/page',
-                },
-                data: {
-                    total: productos.length,
-                    productos
-                }
+                deleted: 0
             }
-            console.log(respuesta)
-            res.json(respuesta);
-        }).catch((error) => console.log(error));
-    }
+        }).then(total => {
+
+            console.log(`total`, total)
+
+            let page = Number.parseInt(req.query.page)
+            let next = Number.parseInt(page) + 1
+            let previous = Number.parseInt(page) - 1
+
+
+            console.log(`page`, page)
+            console.log(`next`, next)
+            console.log(`previous`, previous)
+
+            if (page == 0) {
+                previous = total - 1
+            } else if (page == (total - 1)) {
+                next = 0
+            }
+
+
+            db.Producto.findAll({
+                limit: 10,
+                offset: page,
+                where: {
+                    deleted: 0,
+                },
+                attributes: {
+                    exclude: ['fkCategoria', 'fkSubCategoria', 'fkMarca', 'precio', 'stock', 'enOferta', 'deleted', 'imagen']
+                },
+                include: [{
+                        model: db.Marca,
+                        as: 'marca',
+                        attributes: {
+                            exclude: ['id']
+                        }
+                    },
+                    {
+                        model: db.Categoria,
+                        as: 'categoria',
+                        attributes: {
+                            exclude: ['id', 'imagen']
+                        }
+                    },
+                    {
+                        model: db.SubCategoria,
+                        as: 'subcategoria',
+                        attributes: {
+                            exclude: ['id', 'fkCategoria']
+                        }
+                    }
+                ]
+
+            }).then(productos => {
+                let respuesta = {
+                    meta: {
+                        status: 200,
+                        url: 'api/products/page',
+                        nextPage: 'http://localhost:4000/api/products/page?page=' + next,
+                        previousPage: 'http://localhost:4000/api/products/page?page=' + previous,
+                        menu: 'http://localhost:4000/api/products/menu',
+                    },
+                    data: {
+                        total: productos.length,
+                        productos
+                    }
+                }
+                res.json(respuesta);
+            }).catch((error) => console.log(error));
+        })
+
+    } */
 }
 module.exports = productosAPIController;

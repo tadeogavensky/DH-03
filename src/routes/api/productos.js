@@ -16,6 +16,8 @@ router.get('/totalCategories', productosAPIController.totalCategories);
 router.get('/totalSubcategories', productosAPIController.totalSubcategories);
 router.get('/totalBrands', productosAPIController.totalBrands);
 
+router.get('/totalLengths', productosAPIController.totalLengths);
+
 router.get('/totalByCategory', productosAPIController.totalByCategory);
 
 router.get('/list', productosAPIController.productList);

@@ -1,6 +1,7 @@
 const express = require('express');
 const path = require('path');
 const app = express();
+var cors = require('cors')
 const methodOverride = require('method-override');
 const session = require('express-session');
 const cookieParser = require('cookie-parser');
@@ -23,6 +24,7 @@ const apiProductosRoutes = require('./routes/api/productos')
 
 
 //Static Files
+app.use(cors())
 app.use(express.static(public))
 app.use(express.urlencoded({ extended: true }))
 app.use(express.json())

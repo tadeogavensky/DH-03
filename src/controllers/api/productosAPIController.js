@@ -49,7 +49,7 @@ const productosAPIController = {
 
 
                 let productos = db.Producto.findAll({
-                    limit: 10,
+                    limit: 20,
                     offset: page,
                     where: {
                         deleted: 0
@@ -123,14 +123,14 @@ const productosAPIController = {
                             },
                             data: {
                                 total: productos.length,
-                               /*  totalByCategory, */
+                                /*  totalByCategory, */
                                 productos
                             }
                         }
                         res.json(respuesta);
                     }).catch((error) => console.log(error));
             }).catch((error) => console.log(error));
-        } else{
+        } else {
             let productos = db.Producto.findAll({
                 where: {
                     deleted: 0
@@ -251,7 +251,7 @@ const productosAPIController = {
                     deleted: 0
                 },
                 attributes: {
-                    exclude: ['fkCategoria', 'fkSubCategoria', 'fkMarca','deleted']
+                    exclude: ['fkCategoria', 'fkSubCategoria', 'fkMarca', 'deleted']
                 },
                 include: [{
                         model: db.Marca,
@@ -316,6 +316,7 @@ const productosAPIController = {
                 deleted: 0
             }
         }).then(total => {
+            console.log(`total`, total)
             let respuesta = {
                 meta: {
                     status: 200,
@@ -373,33 +374,33 @@ const productosAPIController = {
             },
             limit: 1,
             attributes: {
-                exclude: ['fkCategoria', 'fkSubCategoria', 'fkMarca','deleted']
+                exclude: ['fkCategoria', 'fkSubCategoria', 'fkMarca', 'deleted']
             },
             order: [
                 ['id', 'DESC']
             ],
             include: [{
-                model: db.Marca,
-                as: 'marca',
-                attributes: {
-                    exclude: ['id']
-                }
-            },
-            {
-                model: db.Categoria,
-                as: 'categoria',
-                attributes: {
-                    exclude: ['id', 'imagen']
-                }
-            },
-            {
-                model: db.SubCategoria,
-                as: 'subcategoria',
-                attributes: {
-                    exclude: ['id', 'fkCategoria']
-                }
-            },
-        ],
+                    model: db.Marca,
+                    as: 'marca',
+                    attributes: {
+                        exclude: ['id']
+                    }
+                },
+                {
+                    model: db.Categoria,
+                    as: 'categoria',
+                    attributes: {
+                        exclude: ['id', 'imagen']
+                    }
+                },
+                {
+                    model: db.SubCategoria,
+                    as: 'subcategoria',
+                    attributes: {
+                        exclude: ['id', 'fkCategoria']
+                    }
+                },
+            ],
         }).then(producto => {
             producto.dataValues.imagen = 'http://localhost:4000/img/products/' + producto.imagen
             let respuesta = {
@@ -456,27 +457,31 @@ const productosAPIController = {
                     deleted: 0
                 }
             }).then(totalProducts => {
-                
+
                 let page = parseInt(req.query.page)
                 let next = Number.parseInt(page) + 1
                 let previous = Number.parseInt(page) - 1
-    
+
                 if (page == 0) {
                     previous = totalProducts - 1
                 } else if (page == (totalProducts - 1)) {
                     next = 0
                 }
-    
+
                 db.Producto.findAll({
-                    limit:10,
+                    limit: 20,
                     offset: page,
                     where: {
                         deleted: 0
                     },
                     attributes: {
-                        exclude: ['id', 'descripcion', 'fkCategoria', 'fkSubCategoria', 'fkMarca', 'precio', 'stock', 'enOferta', 'deleted', 'imagen']
+                        exclude: ['descripcion', 'fkCategoria', 'fkSubCategoria', 'fkMarca', 'precio', 'stock', 'enOferta', 'deleted', 'imagen']
                     },
                 }).then(productos => {
+                    console.log(`productos`, productos)
+                    productos.forEach(productoObj => {
+                        productoObj.dataValues.detalle = 'http://localhost:4000/api/products/detail/' + productoObj.id 
+                    });
                     let respuesta = {
                         meta: {
                             status: 200,
@@ -490,17 +495,21 @@ const productosAPIController = {
                     }
                     res.json(respuesta);
                 });
-    
+
             })
-        }else{
+        } else {
             db.Producto.findAll({
                 where: {
                     deleted: 0
                 },
                 attributes: {
-                    exclude: ['id', 'descripcion', 'fkCategoria', 'fkSubCategoria', 'fkMarca', 'precio', 'stock', 'enOferta', 'deleted', 'imagen']
+                    exclude: ['descripcion', 'fkCategoria', 'fkSubCategoria', 'fkMarca', 'precio', 'stock', 'enOferta', 'deleted', 'imagen']
                 },
             }).then(productos => {
+                console.log(`productos`, productos)
+                productos.forEach(productoObj => {
+                    productoObj.dataValues.detalle = 'http://localhost:4000/api/products/detail/' + productoObj.id 
+                });
                 let respuesta = {
                     meta: {
                         status: 200,
@@ -512,7 +521,7 @@ const productosAPIController = {
                 res.json(respuesta);
             });
         }
-      
+
     },
     create: (req, res) => {
         db.Producto
@@ -702,5 +711,28 @@ const productosAPIController = {
         })
 
     } */
+    totalLengths: (req, res) => {
+        let productsLenght = db.Producto.count()
+        let categoriesLength = db.Categoria.count()
+        let brandsLength = db.Marca.count()
+        Promise.all([productsLenght, categoriesLength,brandsLength])
+      .then(([Productos, Categorias,Marcas]) => {
+            let respuesta = {
+                meta: {
+                    status: 200,
+                    productos: 'http://localhost:4000/api/products',
+                    menu: 'http://localhost:4000/api/products/menu',
+                },
+                data:{
+                    Productos,
+                    Categorias,
+                    Marcas 
+                }
+            }
+            res.json(respuesta);
+        });
+    }
 }
+
+
 module.exports = productosAPIController;

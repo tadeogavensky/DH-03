@@ -6,7 +6,6 @@ article{
 
 /** CONTAINER DEL CARRITO **/
 .mainCart{
-    background-color: lightgray;
     padding: 50px;
     
 }
@@ -18,10 +17,23 @@ article{
     align-items: center;
 }
 
+.buyCartBtn{
+    background-color: #ab191f;
+    padding-top: 1vh;
+    padding-bottom: 1vh;
+    font-size: 20px;
+    margin-left: 5vw;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    text-align: start;
+    cursor: pointer;
+}
+
 /** CADA PRODUCTO EN EL CARRITO **/
 .cartContainer .productoCart{
     background-color: white;
-    border: 1px solid #eaeaea;
+    border-bottom: 1px solid #eaeaea;
 }
 
 .cartContainer .imgCart img{
@@ -56,6 +68,7 @@ article{
     display: flex;
     flex-direction: column;
     align-items: flex-end;
+    justify-content: space-evenly;
     padding: 30px;
     background-color: white;
 }

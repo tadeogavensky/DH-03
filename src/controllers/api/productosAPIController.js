@@ -480,7 +480,7 @@ const productosAPIController = {
                 }).then(productos => {
                     console.log(`productos`, productos)
                     productos.forEach(productoObj => {
-                        productoObj.dataValues.detalle = 'http://localhost:4000/api/products/detail/' + productoObj.id 
+                        productoObj.dataValues.detalle = 'http://localhost:4000/api/products/detail/' + productoObj.id
                     });
                     let respuesta = {
                         meta: {
@@ -508,7 +508,7 @@ const productosAPIController = {
             }).then(productos => {
                 console.log(`productos`, productos)
                 productos.forEach(productoObj => {
-                    productoObj.dataValues.detalle = 'http://localhost:4000/api/products/detail/' + productoObj.id 
+                    productoObj.dataValues.detalle = 'http://localhost:4000/api/products/detail/' + productoObj.id
                 });
                 let respuesta = {
                     meta: {
@@ -715,22 +715,70 @@ const productosAPIController = {
         let productsLenght = db.Producto.count()
         let categoriesLength = db.Categoria.count()
         let brandsLength = db.Marca.count()
-        Promise.all([productsLenght, categoriesLength,brandsLength])
-      .then(([Productos, Categorias,Marcas]) => {
-            let respuesta = {
-                meta: {
-                    status: 200,
-                    productos: 'http://localhost:4000/api/products',
-                    menu: 'http://localhost:4000/api/products/menu',
-                },
-                data:{
-                    Productos,
-                    Categorias,
-                    Marcas 
+        Promise.all([productsLenght, categoriesLength, brandsLength])
+            .then(([Productos, Categorias, Marcas]) => {
+                let respuesta = {
+                    meta: {
+                        status: 200,
+                        productos: 'http://localhost:4000/api/products',
+                        menu: 'http://localhost:4000/api/products/menu',
+                    },
+                    data: {
+                        Productos,
+                        Categorias,
+                        Marcas
+                    }
                 }
-            }
-            res.json(respuesta);
-        });
+                res.json(respuesta);
+            });
+    },
+    search: (req, res) => {
+        let productsToSearch = req.query.like
+
+        db.Producto.findAll({
+                    where: {
+                        deleted: 0,
+                        nombre: {
+                            [Op.like]: `%${productsToSearch}%`
+                        }
+                    },
+                    include: [{
+                            model: db.Marca,
+                            as: 'marca',
+                            attributes: {
+                                exclude: ['id']
+                            }
+                        },
+                        {
+                            model: db.Categoria,
+                            as: 'categoria',
+                            attributes: {
+                                exclude: ['id', 'imagen']
+                            }
+                        },
+                        {
+                            model: db.SubCategoria,
+                            as: 'subcategoria',
+                            attributes: {
+                                exclude: ['id', 'fkCategoria']
+                            }
+                        },
+                    ]
+                }
+            )
+            .then(productos=>{
+                let respuesta = {
+                    meta: {
+                        status: 200,
+                        productos: 'http://localhost:4000/api/products',
+                        menu: 'http://localhost:4000/api/products/menu',
+                    },
+                    data: {
+                        productos,
+                    }
+                }
+                res.json(respuesta);
+            })
     }
 }
 

@@ -10,7 +10,7 @@
       <%- include("partials/headernavbar", {session:session}) %>
    </div>
    <% if(productosCarrito) { %>
-  
+
 
 
 
@@ -38,16 +38,15 @@
             <% } %>
             <div id="qtyDesktop" class="quantity buttons_added">
                <input type="button" value="-" class="minus">
-               <input type="number" step="1" min="1" max="" name="cantidad"
-                  value="1" id="cantidad" title="Qty" class="input-text qty text" size="4" pattern=""
-                  >
+               <input type="number" step="1" min="1" max="" name="cantidad" value="1" id="cantidad" title="Qty"
+                  class="input-text qty text" size="4" pattern="">
                <input type="button" value="+" class="plus">
             </div>
             <div class="meta">
                <div class="nombreCart">
                   <a class="nombre" id="nombreProducto"> <%=b.nombre %> </a>
                </div>
-              <!--  <div class="quantity buttons_added">
+               <!--  <div class="quantity buttons_added">
                  <input type="button" value="-" class="minus"><input type="number" step="1" min="1" max=""
                      name="cantidad" id="cantidad" value="1" title="Qty" class="input-text qty text"
                      size="4" pattern="" inputmode=""> 1<input type="button" value="+" class="plus">
@@ -69,15 +68,16 @@
          <% }) %>
          <% }) %>
          <div class="resumen">
-            <p> Productos <a id="totalProductos">  <!-- <% let acum = 0;
+            <p> Productos <a id="totalProductos"> <% let acum = 0;
                for(let j = 0; j < productosCarrito.length; j++){
                    acum += parseInt(productosCarrito[j].cantidad);
-               } %> <%= acum %> </a> </p> -->
-
+               } %> <%= acum %> </a> </p>
+            <p>Total</p>
+            <button class="buyCartBtn">Comprar</button>
          </div>
       </div>
    </main>
-   
+
    <% } %>
    <div class="footerNavbar">
       <%- include("partials/footernavbar") %>
@@ -86,8 +86,8 @@
    <script>
       let cantidad = document.getElementById('cantidad')
       let totalProductos = document.getElementById('totalProductos')
-     
-      
+
+
       cantidad.onchange = function (e) {
 
          alert(cantidad.value)

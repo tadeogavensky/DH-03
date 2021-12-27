@@ -5,7 +5,7 @@
 
    <div class="headerOriginal" style="display: flex; flex-direction: column;">
       <% if(session) { %>
-      <p id="welcomeMessage" style="color: #ab191f;font-size: 28px; text-align: center;"> Bienvenido,
+      <p id="welcomeMessage" style="color: #ab191f;font-size: 28px; text-align: center; "> Bienvenido,
          <span style="font-weight: 900;"><%= session.nombre  %> </span> </p>
       <% } %>
       <%- include("partials/header",{session:session, categorias, marcas: locals.marcas}) %>

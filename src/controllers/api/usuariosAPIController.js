@@ -50,7 +50,14 @@ const usuariosAPIController = {
                 },
                 attributes: {
                     exclude: ['password', 'fkRol', 'deleted']
-                }
+                },
+                include:[{
+                    model: db.Rol,
+                    as: 'rol',
+                    attributes: {
+                        exclude: ['id']
+                    }
+                }]
             })
             .then(usuario => {
                 usuario.dataValues.imagen = 'http://localhost:4000/img/users/' + usuario.imagen

@@ -24,7 +24,7 @@ const productoController = {
         let promiseProducto = db.Producto.findAll({
 
                 where: {
-
+                    deleted:0,
                     nombre: {
                         [Op.like]: `%${req.body.productoBuscado}%`
                     }

@@ -32,6 +32,11 @@ router.delete('/delete/:id', productosAPIController.destroy);
 
 /* router.get('/page', productosAPIController.listByPage); */
 
+router.get('/search', productosAPIController.search);
+
+
+
+
 
 
 

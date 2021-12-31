@@ -1,6 +1,6 @@
 SWEET ALERT 2: https://sweetalert2.github.io/#examples
 
-LA CONTRASEÑA DE TODOS LOS USUARIOS ES "a"
+LA CONTRASEÑA DE TODOS LOS USUARIOS CON EMAIL admin@gmail.com es "a"
 
 TENER EN CUENTA: El proyecto está en la rama Master.
 

@@ -24,7 +24,7 @@ const productoController = {
         let promiseProducto = db.Producto.findAll({
 
                 where: {
-                    deleted:0,
+                    deleted: 0,
                     nombre: {
                         [Op.like]: `%${req.body.productoBuscado}%`
                     }
@@ -77,7 +77,11 @@ const productoController = {
     },
     detalleProducto: (req, res) => {
         const session = req.session.usuario;
-        db.Producto.findByPk(req.params.id, {
+        db.Producto.findOne({
+            where: {
+                id: req.params.id,
+                deleted: 0
+            },
             include: [{
                     model: db.Marca,
                     as: 'marca',
@@ -168,8 +172,7 @@ const productoController = {
             where: {
                 id: session.id
             },
-            include: [
-                {
+            include: [{
                     model: db.Producto,
                     as: 'producto',
                 },
@@ -180,7 +183,7 @@ const productoController = {
             ],
 
         }).then(productosCarrito => {
-          
+
             res.render('cart', {
                 productosCarrito,
                 session: session
@@ -229,39 +232,39 @@ const productoController = {
 
                 const errors = validationResult(req);
                 if (!errors.isEmpty()) {
-                  return res.render("agregar", {
-                    errors: errors.errors,
-                    categorias,
-                    sub_categorias,
-                    marcas,
-                    session
-                  });
-                }else{
-       
-       
-       
-               db.Producto.create({
-                       nombre: req.body.nombre,
-                       precio: req.body.precio,
-                       descripcion: req.body.descripcion,
-                       imagen: req.file ? req.file.filename : '',
-                       stock: req.body.stock ? req.body.stock = 1 : req.body.stock = 0,
-                       fkSubCategoria: req.body.sub_categoria,
-                       fkCategoria: req.body.categoria,
-                       fkMarca: req.body.marca,
-                       enOferta: req.body.oferta ? req.body.oferta = 1 : req.body.oferta = 0,
-                       deleted: 0
-                   }).then(() => {
-                       return res.redirect('/productos');
-                   })
-                   .catch(error => res.send(error));
-               }
+                    return res.render("agregar", {
+                        errors: errors.errors,
+                        categorias,
+                        sub_categorias,
+                        marcas,
+                        session
+                    });
+                } else {
+
+
+
+                    db.Producto.create({
+                            nombre: req.body.nombre,
+                            precio: req.body.precio,
+                            descripcion: req.body.descripcion,
+                            imagen: req.file ? req.file.filename : '',
+                            stock: req.body.stock ? req.body.stock = 1 : req.body.stock = 0,
+                            fkSubCategoria: req.body.sub_categoria,
+                            fkCategoria: req.body.categoria,
+                            fkMarca: req.body.marca,
+                            enOferta: req.body.oferta ? req.body.oferta = 1 : req.body.oferta = 0,
+                            deleted: 0
+                        }).then(() => {
+                            return res.redirect('/productos');
+                        })
+                        .catch(error => res.send(error));
+                }
             })
             .catch(error => res.send(error))
 
 
 
-        
+
     },
 
     editar: (req, res) => {
@@ -275,18 +278,18 @@ const productoController = {
         let promiseMarca = db.Marca.findAll();
         let promiseProducto = db.Producto.findByPk(req.params.id, {
             include: [{
-                model: db.Marca,
-                as: 'marca',
-            },
-            {
-                model: db.SubCategoria,
-                as: 'subcategoria',
-            },
-            {
-                model: db.Categoria,
-                as: 'categoria',
-            },
-        ]
+                    model: db.Marca,
+                    as: 'marca',
+                },
+                {
+                    model: db.SubCategoria,
+                    as: 'subcategoria',
+                },
+                {
+                    model: db.Categoria,
+                    as: 'categoria',
+                },
+            ]
         })
         Promise.all([promiseCategoria, promiseSubCategoria, promiseMarca, promiseProducto])
             .then(([categorias, sub_categorias, marcas, producto]) => {
@@ -318,22 +321,22 @@ const productoController = {
         let promiseMarca = db.Marca.findAll();
         let promiseProducto = db.Producto.findByPk(req.params.id, {
             include: [{
-                model: db.Marca,
-                as: 'marca',
-            },
-            {
-                model: db.SubCategoria,
-                as: 'subcategoria',
-            },
-            {
-                model: db.Categoria,
-                as: 'categoria',
-            },
+                    model: db.Marca,
+                    as: 'marca',
+                },
+                {
+                    model: db.SubCategoria,
+                    as: 'subcategoria',
+                },
+                {
+                    model: db.Categoria,
+                    as: 'categoria',
+                },
 
-        ]
-        }) 
-        Promise.all([promiseCategoria, promiseSubCategoria, promiseMarca, promiseProducto ])
-            .then(([categorias, sub_categorias, marcas,producto]) => {
+            ]
+        })
+        Promise.all([promiseCategoria, promiseSubCategoria, promiseMarca, promiseProducto])
+            .then(([categorias, sub_categorias, marcas, producto]) => {
 
                 const errors = validationResult(req);
                 if (!errors.isEmpty()) {
@@ -358,7 +361,7 @@ const productoController = {
                                 fkCategoria: req.body ? req.body.categoria : producto.fkCategoria,
                                 fkSubCategoria: req.body ? req.body.sub_categoria : producto.fkSubCategoria,
                                 fkMarca: req.body ? req.body.marca : producto.fkMarca,
-                               
+
                             }, {
                                 where: {
                                     id: req.params.id
@@ -420,7 +423,7 @@ const productoController = {
                 },
             ]
         }) */
-        
+
 
 
     },

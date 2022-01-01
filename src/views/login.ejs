@@ -1,0 +1,127 @@
+<html>
+<%- include("partials/head") %>
+
+<body style="overflow-y: hidden;">
+    <div class="headerOriginal">
+        <%- include("partials/headerAdmin") %>
+    </div>
+    <div class="headerNavbar">
+        <%- include("partials/headernavbar") %>
+    </div>
+    <main class="mainLogin">
+
+        <div class="LoginForm">
+
+            <script>
+                window.onload = function () {
+                    document.getElementById('popup-1').style.display = "none"
+                }
+            </script>
+
+            <% if(locals.errors){ %>
+
+            <script>
+                document.getElementById('popup-1').style.display = "block"
+            </script>
+
+            <div class="popup" id="popup-1">
+                <div class="overlay"></div>
+                <div style="top: 25%;" class="popup-content">
+                    <div style="font-size: 40px; color: #ab191f;"  id="close-btn"><i class="fas fa-times-circle"></i></div>
+                    <h2 style="font-size: 30px;">Atención!</h2>
+                    <ul style=" padding-right: 40px; text-align: center; border-radius: 20px;">
+                        <% for(let i = 0; i < errors.length;i++) { %>
+                        <li style="list-style-type: none; font-size: 20px;"> <%= errors[i].msg %> </li>
+                        <% } %>
+                    </ul>
+                </div>
+            </div>
+
+            <script>
+                let close = document.getElementById('close-btn')
+
+                close.onclick = function () {
+                    document.getElementById('popup-1').style.display = "none"
+                    document.getElementById('popup-1').style.transition =  ('all 300ms ease-in-out')
+                }
+            </script>
+            <% } %>
+
+
+
+
+
+
+            <%  if(locals.notMatch){ %>
+
+            <script>
+                Swal.fire({
+                    title: "El email y/o la contraseña son incorrectos",
+                    icon: "error",
+                    position: 'center',
+                    showConfirmButton: false,
+                    timer: 1500,
+                })
+            </script>
+
+
+            <% } %>
+            <%  if(locals.notExist){ %>
+
+            <script>
+                Swal.fire({
+                    title: "El usuario no existe",
+                    icon: "error",
+                    position: 'center',
+                    showConfirmButton: false,
+                    timer: 1500,
+                })
+            </script>
+
+
+            <% } %>
+
+
+
+            <form class="register-form" id="formLogin" action="/" method="POST"
+                enctype='application/x-www-form-urlencoded'>
+                <div class="inputLogin">
+
+                    <input class="boton-login" type="text" id="email" placeholder="Correo electrónico" name="email">
+
+                    <label style="font-weight: 900; padding-bottom: 10px;" id="capsLock"> Mayúsculas activadas </label>
+                    <input class="boton-login" type="password" id="password" name="password" placeholder="Contraseña">
+
+                </div>
+                <div>
+                    <input type="checkbox" id="recordar" name="recordar" placeholder="Recordar usuario"> Recordarme
+
+                </div>
+
+                <a style="color: white;" href="/recuperar"> Olvidé mi contraseña</a>
+
+                <div>
+                    <button class="boton-enviar" id="login" type="submit">Enviar</button>
+                </div>
+
+            </form>
+        </div>
+
+    </main>
+    <div class="footerNavbar">
+        <%- include("partials/footernavbar") %>
+    </div>
+
+
+
+
+    <script src="/js/loginValidation.js"></script>
+
+    <script src="/js/CapsLock.js"></script>
+
+
+
+
+</body>
+
+</html>

@@ -1,0 +1,323 @@
+/* 
+.main_detalleProducto{
+    background-color: lightgray;
+    margin-bottom: 45px;
+}
+.unProducto{
+    background-color: #fff;
+    display: flex;
+    flex-wrap: wrap;
+    margin-left: 100px;
+    margin-top: 40px;
+    margin-right: 100px;
+    margin-bottom: 40px;
+}
+
+.unProducto .detalle_unProducto{
+    padding: 30px;
+    font-size: 30px;
+    border-left: 3px solid  #eaeaea ;
+    width: 31.3%;
+}
+
+.unProducto .img_unProducto{
+    width: 55%;
+    text-align: center;
+}
+
+.unProducto .producto img{
+    width: 20vw;
+}
+
+.unProducto .img_unProducto{
+    width: 55%;
+    text-align: center;
+}
+
+.unProducto .producto{
+    width: 40vw;
+}
+
+.unProducto .producto {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    border-bottom: 1px solid #eaeaea;
+    padding-left: 8%;
+}
+
+
+@media (max-width: 480px) {
+    .unProducto{
+        background-color: #fff;
+        display: flex;
+        flex-direction: column;
+        margin-left: 10px;
+        margin-top: 10px;
+        margin-right: 10px;
+        margin-bottom: 10px;
+        flex-wrap: wrap;
+    }
+    .unProducto .detalle_unProducto{
+        width: 100%;
+        font-size: 30px;
+        border-left: 3px solid  transparent ;
+    }
+
+    .unProducto .img_unProducto{
+    width: 100%;
+    border-bottom:3px solid  #eaeaea ;   
+    }
+    
+   
+
+    
+    
+}
+
+
+ */
+
+.categorySubcategory {
+    text-align: center;
+    font-size: larger;
+}
+
+.categorySubcategory p {
+    text-transform: uppercase;
+}
+
+.categorySubcategory b {
+    color: #ab191f;
+}
+
+.detalleProductoContainer {
+    display: flex;
+    flex-direction: column;
+    padding-left: 10vw;
+    padding-right: 10vw;
+    margin-top: 10vh;
+}
+
+
+
+.productBasicInfo {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+
+.productBasicInfo img {
+    object-fit: cover;
+    height: 50vh;
+    width: auto;
+}
+
+
+ .subInfo {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+img .subInfo {
+    position: relative;
+}           
+
+.productBasicInfo .subInfo b {
+    color: #ab191f;
+    font-weight: 900;
+    font-size: 50px;
+    padding-bottom: 2vh;
+    text-align: center;
+}
+
+.productBasicInfo .subInfo .price-row {
+    display: flex;
+    justify-content: center;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: baseline;
+}
+
+.productBasicInfo .subInfo .price-row p {
+    font-size: 50px;
+    text-align: center;
+    padding-bottom: 0vh;
+}
+
+.productBasicInfo .subInfo .addCartBtn {
+    background-color: #ab191f;
+    padding-top: 1vh;
+    padding-bottom: 1vh;
+    margin-left: 15vw;
+    margin-right: 15vw;
+    font-size: 30px;
+    color: white;
+    border: none;
+    border-radius: 8px;
+
+
+}
+
+.adminBtn {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    padding-top: 7vh;
+
+}
+
+.adminBtn button {
+    background-color: black;
+    color: white;
+    font-size: 30px;
+    padding-top: 1vh;
+    padding-bottom: 1vh;
+    padding-right: 3vw;
+    padding-left: 3vw;
+    margin-right: 5vw;
+    margin-left: 5vw;
+
+    border: none;
+    border-radius: 8px;
+}
+
+.restOfInfo {
+    margin-top: 5vh;
+}
+
+.restOfInfo label {
+    font-size: 25px;
+}
+
+.restOfInfo p {
+    font-size: 25px;
+}
+
+.detailButtons {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    justify-content: center;
+}
+
+.detailButtons p {
+    color: #ab191f;
+    font-weight: 300;
+    font-size: 50px;
+    text-align: center;
+}
+
+.noSessionAddCartBtn {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    justify-content: center;
+}
+
+
+.sectionProductosMarcas{
+    display: flex;
+    flex-direction: column;
+    margin-top: 3vh;
+}
+
+.containerProductosMarcas{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-self: center;
+    overflow-x: scroll;
+    overflow-y: hidden;
+    white-space:nowrap;
+    margin-bottom: 5vh;
+}
+
+.containerProductosMarcas::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+    border-radius: 10px;
+    background-color: #F5F5F5;
+  }
+  
+  .containerProductosMarcas::-webkit-scrollbar {
+    width: 12px;
+    background-color: #F5F5F5;
+  }
+  
+  .containerProductosMarcas::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    box-shadow: inset 0 0 6px rgba(0, 0, 0, .3);
+    background-color: #ab191f;
+  }
+
+
+
+.containerProductosCategoria{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-self: center;
+    overflow-x: scroll;
+    overflow-y: hidden;
+    white-space:nowrap;
+    margin-bottom: 5vh;
+}
+
+.containerProductosCategoria::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+    border-radius: 10px;
+    background-color: #F5F5F5;
+  }
+  
+  .containerProductosCategoria::-webkit-scrollbar {
+    width: 12px;
+    background-color: #F5F5F5;
+  }
+  
+  .containerProductosCategoria::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    box-shadow: inset 0 0 6px rgba(0, 0, 0, .3);
+    background-color: #ab191f;
+  }
+
+.containerProductosOfertas{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-self: center;
+    overflow-x: scroll;
+    overflow-y: hidden;
+    white-space:nowrap;
+    margin-bottom: 5vh;
+}
+
+.containerProductosOfertas::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+    border-radius: 10px;
+    background-color: #F5F5F5;
+  }
+  
+  .containerProductosOfertas::-webkit-scrollbar {
+    width: 12px;
+    background-color: #F5F5F5;
+  }
+  
+  .containerProductosOfertas::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    box-shadow: inset 0 0 6px rgba(0, 0, 0, .3);
+    background-color: #ab191f;
+  }
+
+.sectionProductosOfertas{
+    display: flex;
+    flex-direction: column;
+    margin-top: 3vh;
+}
+
+
+#productoNombre{
+    width: 20px;
+    word-wrap: break-word;
+}

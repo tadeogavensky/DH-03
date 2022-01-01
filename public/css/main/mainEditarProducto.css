@@ -1,0 +1,40 @@
+.editarProductoContainer {
+    display: flex;
+    justify-content: center;
+    align-self: center;
+    
+}
+
+.editarProductoContainer img {
+     margin-left: 10vh;
+      margin-right: 2vw;
+      width: 20vw;
+      height: 50%;
+      border-radius: 0;
+
+}
+
+
+.datosEditar{
+    background-color: #bebdbd;
+    border-radius: 10px;
+    width: 100%;
+    margin-right: 30vw;
+    padding-top: 3vh;
+    padding-left: 2vw;
+    padding-right: 2vw;
+}
+
+.datosEditar button {
+    background-color: #aB191F;
+    padding-top: 1vh;
+    padding-bottom: 1vh;
+    color: white;
+    border: none;
+    pointer-events: visible;
+}
+
+.perfilContainer img{
+width: 20%;
+}
+

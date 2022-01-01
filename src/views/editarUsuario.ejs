@@ -1,0 +1,104 @@
+<html>
+<%- include("partials/head") %>
+
+<body>
+
+  <div class="headerOriginal">
+    <%- include("partials/header",{session:session}) %>
+  </div>
+
+
+  <div class="headerNavbar">
+    <%- include("partials/headernavbar") %>
+  </div>
+
+  <main>
+    <p style="color: #ab191f;font-size: 28px; text-align: center;"> Edita tus datos, <span
+        style="font-weight: 900;"><%= session.nombre  %> </span> </p>
+
+
+    <% if(locals.errors){ %>
+
+    <script>
+      document.getElementById('popup-1').style.display = "block"
+    </script>
+
+    <div class="popup" id="popup-1">
+      <div class="overlay"></div>
+      <div style="top: 25%;" class="popup-content">
+        <div style="font-size: 40px; color: #ab191f;" id="close-btn"><i class="fas fa-times-circle"></i></div>
+        <h2 style="font-size: 30px;">Atención!</h2>
+        <ul style=" padding-right: 40px; text-align: center; border-radius: 20px;">
+          <% for(let i = 0; i < errors.length;i++) { %>
+          <li style="list-style-type: none; font-size: 20px;"> <%= errors[i].msg %> </li>
+          <% } %>
+        </ul>
+      </div>
+    </div>
+
+    <script>
+      let close = document.getElementById('close-btn')
+
+      close.onclick = function () {
+        document.getElementById('popup-1').style.display = "none"
+        document.getElementById('popup-1').style.transition = ('all 300ms ease-in-out')
+      }
+    </script>
+    <% } %>
+
+
+    <%  if(locals.emailExist){ %>
+      <script>
+         Swal.fire({
+            icon: 'error',
+            title: 'Email ya registrado',
+            showConfirmButton: false,
+            timer: 2000
+         })
+      </script>
+
+      <% } %>
+
+
+    <div class="perfilContainer">
+      <img style=" width: 20vw; height: 50%;" src="/img/users/<%= session.imagen %>">
+      <div class="datosEditar">
+        <form class="dataEditar" id="editarUsuarioForm" action="/?_method=PUT" method="POST"
+          enctype="multipart/form-data">
+          <label for="nombre"> Nombre </label>
+          <input style="text-transform: capitalize;" placeholder="<%= session.nombre %>" value="<%= session.nombre %>"
+            id="nombreEditado" type="text" name="nombreEditado">
+          <br>
+          <label for="apellido"> Apellido </label>
+          <input style="text-transform: capitalize;" placeholder="<%= session.apellido %>"
+            value="<%= session.apellido %>" id="apellidoEditado" type="text" name="apellidoEditado">
+          <br>
+          <label for="usuario"> Usuario </label>
+          <input placeholder="<%= session.usuario %>" value="<%= session.usuario %>" id="usuarioEditado" type="text"
+            name="usuarioEditado">
+          <br>
+          <label for="email"> Email </label>
+          <input placeholder="<%= session.email %>" value="<%= session.email %>" id="emailEditado" type="text"
+            name="emailEditado">
+          <br>
+          <label for="domicilio"> Domicilio </label>
+          <input style="text-transform: capitalize;" placeholder="<%= session.domicilio %>"
+            value="<%= session.domicilio %>" id="domicilioEditado" type="text" name="domicilioEditado">
+          <br>
+          <label for="fotoPerfil"> Foto de perfil </label>
+          <input id="fotoPerfil" type="file" name="imagen">
+
+          <br>
+          <button id="editarUsuario" type="submit"> EDITAR DATOS </button>
+        </form>
+      </div>
+    </div>
+  </main>
+
+  <script src="/js/CapsLock.js"></script>
+  <script src="/js/editarUsuarioValidation.js"></script>
+
+
+</body>
+
+</html>

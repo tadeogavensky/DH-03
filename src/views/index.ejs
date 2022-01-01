@@ -1,0 +1,396 @@
+<html>
+<%- include("partials/head",{session:session}) %>
+
+<body>
+
+   <div class="headerOriginal" style="display: flex; flex-direction: column;">
+      <% if(session) { %>
+      <p id="welcomeMessage" style="color: #ab191f;font-size: 28px; text-align: center; "> Bienvenido,
+         <span style="font-weight: 900;"><%= session.nombre  %> </span> </p>
+      <% } %>
+      <%- include("partials/header",{session:session, categorias, marcas: locals.marcas}) %>
+   </div>
+
+
+   <div class="headerNavbar">
+      <%- include("partials/headernavbar",{session:session}) %>
+   </div>
+
+   <main class="mainIndex">
+
+      <div class="subCatMarca">
+
+         <div class="dropdownCat">
+           <p style="font-weight: 600; color: #757474;">Categorías</p>
+           <div class="dropdown-content-cat">
+
+              <% for(let i = 0; i<4;i++){ %>
+              <form action="/productosBuscados/<%= categorias[i].nombre %>"
+                method="POST" enctype="multipart/form-data">
+                 <button style=" background-color: transparent;" class="clearButton" type="submit">
+                    <a style="font-size: 16px"> <%= categorias[i].nombre %> </a>
+                 </button>
+              </form>
+              <% } %>
+              <form action="/productosBuscados/<%= categorias[5].nombre %>" method="POST"
+                 enctype="multipart/form-data">
+                 <button style=" background-color: transparent;" class="clearButton" type="submit">
+                    <a style="font-size: 16px"> <%= categorias[5].nombre %> </a>
+                 </button>
+              </form>
+              <form action="/productosBuscados/<%= categorias[4].nombre %>" method="POST"
+                 enctype="multipart/form-data">
+                 <button style=" background-color: transparent;" class="clearButton" type="submit">
+                    <a style="font-size: 16px"> <%= categorias[4].nombre %> </a>
+                 </button>
+              </form>
+
+
+
+           </div>
+        </div>
+
+        <p style="margin-left: 3vw; margin-right: 3vw; font-weight: 600;">/</p>
+
+
+        <div class="dropdownMarca">
+           <p style="font-weight: 700; color: black;">Marcas</p>
+           <div class="dropdown-content-marca">
+
+              <% for(let i = 0; i<marcas.length;i++){ %>
+              <form action="/productosBuscadosPorMarca/<%= marcas[i].nombre %>" method="POST"
+                 enctype="multipart/form-data">
+                 <button style=" background-color: transparent;" class="clearButton" type="submit">
+                    <a style="font-size: 16px"> <%= marcas[i].nombre %> </a>
+                 </button>
+              </form>
+              <% } %>
+           </div>
+        </div>
+
+
+        <p style="margin-left: 3vw; margin-right: 3vw; font-weight: 600;">/</p>
+
+        <div class="dropdownSubcat">
+
+           <p style="font-weight: 600; color: #ab191f;">Subcategorías</p>
+           <div class="drop-menu info-grid">
+              <div>
+                 <div style="font-weight: 900;" class="drop-head"> <%= categorias[0].nombre %></div>
+                 <div class="drop-link">
+                    <form action="/productosBuscadosPorSubCategoria/<%= subcategorias[0].nombre %>" method="POST"
+                       enctype="multipart/form-data">
+                       <button style=" background-color: transparent;" class="clearButton" type="submit">
+                          <a style="font-size: 16px"> <%= subcategorias[0].nombre %> </a>
+                       </button>
+                    </form>
+                    <form action="/productosBuscadosPorSubCategoria/<%= subcategorias[1].nombre %>" method="POST"
+                       enctype="multipart/form-data">
+                       <button style=" background-color: transparent;" class="clearButton" type="submit">
+                          <a style="font-size: 16px"> <%= subcategorias[1].nombre %> </a>
+                       </button>
+                    </form>
+                    <form action="/productosBuscadosPorSubCategoria/<%= subcategorias[2].nombre %>" method="POST"
+                       enctype="multipart/form-data">
+                       <button style=" background-color: transparent;" class="clearButton" type="submit">
+                          <a style="font-size: 16px"> <%= subcategorias[2].nombre %> </a>
+                       </button>
+                    </form>
+                    <form action="/productosBuscadosPorSubCategoria/<%= subcategorias[25].nombre %>" method="POST"
+                       enctype="multipart/form-data">
+                       <button style=" background-color: transparent;" class="clearButton" type="submit">
+                          <a style="font-size: 16px"> <%= subcategorias[25].nombre %> </a>
+                       </button>
+                    </form>
+                 </div>
+              </div>
+              <div>
+                 <div style="font-weight: 900;" class="drop-head"> <%= categorias[1].nombre %></div>
+                 <div class="drop-link">
+                    <form action="/productosBuscadosPorSubCategoria/<%= subcategorias[3].nombre %>" method="POST"
+                       enctype="multipart/form-data">
+                       <button style=" background-color: transparent;" class="clearButton" type="submit">
+                          <a style="font-size: 16px"> <%= subcategorias[3].nombre %> </a>
+                       </button>
+                    </form>
+                    <form action="/productosBuscadosPorSubCategoria/<%= subcategorias[4].nombre %>" method="POST"
+                       enctype="multipart/form-data">
+                       <button style=" background-color: transparent;" class="clearButton" type="submit">
+                          <a style="font-size: 16px"> <%= subcategorias[4].nombre %> </a>
+                       </button>
+                    </form>
+                    <form action="/productosBuscadosPorSubCategoria/<%= subcategorias[5].nombre %>" method="POST"
+                       enctype="multipart/form-data">
+                       <button style=" background-color: transparent;" class="clearButton" type="submit">
+                          <a style="font-size: 16px"> <%= subcategorias[5].nombre %> </a>
+                       </button>
+                    </form>
+                    <form action="/productosBuscadosPorSubCategoria/<%= subcategorias[6].nombre %>" method="POST"
+                       enctype="multipart/form-data">
+                       <button style=" background-color: transparent;" class="clearButton" type="submit">
+                          <a style="font-size: 16px"> <%= subcategorias[6].nombre %> </a>
+                       </button>
+                    </form>
+                    <form action="/productosBuscadosPorSubCategoria/<%= subcategorias[7].nombre %>" method="POST"
+                       enctype="multipart/form-data">
+                       <button style=" background-color: transparent;" class="clearButton" type="submit">
+                          <a style="font-size: 16px"> <%= subcategorias[7].nombre %> </a>
+                       </button>
+                    </form>
+                 </div>
+              </div>
+              <div>
+                 <div style="font-weight: 900;" class="drop-head"> <%= categorias[4].nombre %></div>
+                 <div class="drop-link">
+                    <form action="/productosBuscadosPorSubCategoria/<%= subcategorias[12].nombre %>" method="POST"
+                       enctype="multipart/form-data">
+                       <button style=" background-color: transparent;" class="clearButton" type="submit">
+                          <a style="font-size: 16px"> <%= subcategorias[12].nombre %> </a>
+                       </button>
+                    </form>
+                    <form action="/productosBuscadosPorSubCategoria/<%= subcategorias[13].nombre %>" method="POST"
+                       enctype="multipart/form-data">
+                       <button style=" background-color: transparent;" class="clearButton" type="submit">
+                          <a style="font-size: 16px"> <%= subcategorias[13].nombre %> </a>
+                       </button>
+                    </form>
+                    <form action="/productosBuscadosPorSubCategoria/<%= subcategorias[16].nombre %>" method="POST"
+                       enctype="multipart/form-data">
+                       <button style=" background-color: transparent;" class="clearButton" type="submit">
+                          <a style="font-size: 16px"> <%= subcategorias[16].nombre %> </a>
+                       </button>
+                    </form>
+                    <form action="/productosBuscadosPorSubCategoria/<%= subcategorias[17].nombre %>" method="POST"
+                       enctype="multipart/form-data">
+                       <button style=" background-color: transparent;" class="clearButton" type="submit">
+                          <a style="font-size: 16px"> <%= subcategorias[17].nombre %> </a>
+                       </button>
+                    </form>
+                    <form action="/productosBuscadosPorSubCategoria/<%= subcategorias[18].nombre %>" method="POST"
+                       enctype="multipart/form-data">
+                       <button style=" background-color: transparent;" class="clearButton" type="submit">
+                          <a style="font-size: 16px"> <%= subcategorias[18].nombre %> </a>
+                       </button>
+                    </form>
+                    <form action="/productosBuscadosPorSubCategoria/<%= subcategorias[19].nombre %>" method="POST"
+                       enctype="multipart/form-data">
+                       <button style=" background-color: transparent;" class="clearButton" type="submit">
+                          <a style="font-size: 16px"> <%= subcategorias[19].nombre %> </a>
+                       </button>
+                    </form>
+                    <form action="/productosBuscadosPorSubCategoria/<%= subcategorias[23].nombre %>" method="POST"
+                       enctype="multipart/form-data">
+                       <button style=" background-color: transparent;" class="clearButton" type="submit">
+                          <a style="font-size: 16px"> <%= subcategorias[23].nombre %> </a>
+                       </button>
+                    </form>
+                    <form action="/productosBuscadosPorSubCategoria/<%= subcategorias[24].nombre %>" method="POST"
+                       enctype="multipart/form-data">
+                       <button style=" background-color: transparent;" class="clearButton" type="submit">
+                          <a style="font-size: 16px"> <%= subcategorias[24].nombre %> </a>
+                       </button>
+                    </form>
+                 </div>
+              </div>
+              <div>
+                 <div style="font-weight: 900;" class="drop-head"> <%= categorias[2].nombre %></div>
+                 <div class="drop-link">
+                    <form action="/productosBuscadosPorSubCategoria/<%= subcategorias[8].nombre %>" method="POST"
+                       enctype="multipart/form-data">
+                       <button style=" background-color: transparent;" class="clearButton" type="submit">
+                          <a style="font-size: 16px"> <%= subcategorias[8].nombre %> </a>
+                       </button>
+                    </form>
+                    <form action="/productosBuscadosPorSubCategoria/<%= subcategorias[9].nombre %>" method="POST"
+                       enctype="multipart/form-data">
+                       <button style=" background-color: transparent;" class="clearButton" type="submit">
+                          <a style="font-size: 16px"> <%= subcategorias[9].nombre %> </a>
+                       </button>
+                    </form>
+                 </div>
+              </div>
+              <div>
+                 <div style="font-weight: 900;" class="drop-head"> <%= categorias[3].nombre %></div>
+                 <div class="drop-link">
+                    <form action="/productosBuscadosPorSubCategoria/<%= subcategorias[10].nombre %>" method="POST"
+                       enctype="multipart/form-data">
+                       <button style=" background-color: transparent;" class="clearButton" type="submit">
+                          <a style="font-size: 16px"> <%= subcategorias[10].nombre %> </a>
+                       </button>
+                    </form>
+                    <form action="/productosBuscadosPorSubCategoria/<%= subcategorias[11].nombre %>" method="POST"
+                       enctype="multipart/form-data">
+                       <button style=" background-color: transparent;" class="clearButton" type="submit">
+                          <a style="font-size: 16px"> <%= subcategorias[11].nombre %> </a>
+                       </button>
+                    </form>
+                    <form action="/productosBuscadosPorSubCategoria/<%= subcategorias[20].nombre %>" method="POST"
+                       enctype="multipart/form-data">
+                       <button style=" background-color: transparent;" class="clearButton" type="submit">
+                          <a style="font-size: 16px"> <%= subcategorias[20].nombre %> </a>
+                       </button>
+                    </form>
+                 </div>
+              </div>
+              <div>
+                 <div style="font-weight: 900;" class="drop-head"> <%= categorias[5].nombre %></div>
+                 <div class="drop-link">
+                    <form action="/productosBuscadosPorSubCategoria/<%= subcategorias[14].nombre %>" method="POST"
+                       enctype="multipart/form-data">
+                       <button style=" background-color: transparent;" class="clearButton" type="submit">
+                          <a style="font-size: 16px"> <%= subcategorias[14].nombre %> </a>
+                       </button>
+                    </form>
+                    <form action="/productosBuscadosPorSubCategoria/<%= subcategorias[21].nombre %>" method="POST"
+                       enctype="multipart/form-data">
+                       <button style=" background-color: transparent;" class="clearButton" type="submit">
+                          <a style="font-size: 16px"> <%= subcategorias[21].nombre %> </a>
+                       </button>
+                    </form>
+                    <form action="/productosBuscadosPorSubCategoria/<%= subcategorias[22].nombre %>" method="POST"
+                       enctype="multipart/form-data">
+                       <button style=" background-color: transparent;" class="clearButton" type="submit">
+                          <a style="font-size: 16px"> <%= subcategorias[22].nombre %> </a>
+                       </button>
+                    </form>
+                 </div>
+              </div>
+           </div>
+        </div>
+     </div>
+
+
+
+      <%- include("partials/carousel") %>
+
+      <div class="categoriaHome-wrapper">
+         <h3> BUSCÁ POR CATEGORÍAS</h3>
+         <div class="categoriaHome-columns1">
+            <form action="/productosBuscados/<%= categorias[0].nombre %>" method="POST" enctype="multipart/form-data">
+               <button class="clearButton" type="submit">
+                  <a href="#1">
+                     <img style="height:50.7vh" src="img\categories\<%= categorias[0].imagen %>">
+                     <p style="background-color: #ab191f;"><%= categorias[0].nombre %></p>
+                  </a>
+               </button>
+            </form>
+            <div>
+               <div style="padding-bottom: 2vh;">
+                  <form action="/productosBuscados/<%= categorias[1].nombre %>" method="POST"
+                     enctype="multipart/form-data">
+                     <button class="clearButton" type="submit">
+                        <a style="height:20vh;" href="#2">
+                           <img style="height:20vh;" src="img\categories\<%= categorias[1].imagen %>">
+                           <p style="background-color: #757474;"><%= categorias[1].nombre %></p>
+                        </a>
+                     </button>
+                  </form>
+               </div>
+               <form action="/productosBuscados/<%= categorias[5].nombre %>" method="POST"
+                  enctype="multipart/form-data">
+                  <button class="clearButton" type="submit">
+                     <a href="#3">
+                        <img style="height:20vh" src="img\categories\<%= categorias[5].imagen %>">
+                        <p style="background-color: #bebdbd;"><%= categorias[5].nombre %></p>
+                     </a>
+                  </button>
+               </form>
+
+            </div>
+            <div>
+
+            </div>
+         </div>
+         <div class="categoriaHome-columns2">
+            <div style="padding-bottom: 2vh;">
+               <form action="/productosBuscados/<%= categorias[3].nombre %>" method="POST"
+                  enctype="multipart/form-data">
+                  <button class="clearButton" type="submit">
+                     <a>
+                        <img style="height:20vh;" src="img\categories\<%= categorias[3].imagen %>">
+                        <p style="background-color: #757474;"><%= categorias[3].nombre %> </p>
+                     </a>
+                  </button>
+               </form>
+            </div>
+            <form action="/productosBuscados/<%= categorias[4].nombre %>" method="POST" enctype="multipart/form-data">
+               <button class="clearButton" type="submit">
+                  <a>
+                     <img style="height:20vh" src="img\categories\<%= categorias[4].imagen %>">
+                     <p style="background-color: #bebdbd;"><%= categorias[4].nombre %></p>
+                  </a>
+               </button>
+            </form>
+            <form action="/productosBuscados/<%= categorias[2].nombre %>" method="POST" enctype="multipart/form-data">
+               <button class="clearButton" type="submit">
+                  <a>
+                     <img style="height:50.6vh" src="img\categories\<%= categorias[2].imagen %>">
+                     <p style="background-color: #ab191f;"><%= categorias[2].nombre %></p>
+                  </a>
+               </button>
+            </form>
+         </div>
+      </div>
+
+
+
+      <section class="sectionEnOferta">
+         <label style="font-size: 20px;"> PRODUCTOS EN OFERTA</label>
+         <div class="containerMain">
+
+            
+            <% for(let i=0; i< lista_productos.length; i++ ) {
+               	let randomArray = [20,30,40,50]
+		            var random = randomArray[Math.floor(Math.random()*randomArray.length)]
+               %>
+            <div class="productoHome">
+               <a href="/detalleProducto/<%= lista_productos[i].id %>"> <img
+                     src="img/products/<%= lista_productos[i].imagen %>">
+               </a>
+               <p style=" white-space: nowrap; overflow: hidden; text-overflow: ellipsis;width: 300px;">
+                  <%= lista_productos[i].nombre %> </p>
+               <article>
+                  <p id="precio" style="font-weight: bold; padding-left:10px; text-decoration: line-through">
+                     $<%= (Math.round(lista_productos[i].precio * 100) / 100).toLocaleString()  %></p>
+                  <div style="display:flex; flex-direction:row">
+                     <p id="precio" style="font-weight: bold; padding-left:10px; color: green;">
+                        $<%= ((Math.round(lista_productos[i].precio * 100) / 100) - (lista_productos[i].precio * random / 100)).toLocaleString()  %></p>
+                  </div>
+                  <p style="font-weight: bold; padding-left:10px; color: green;">
+                     %<%= 100 - (((lista_productos[i].precio  - (lista_productos[i].precio * random / 100)) * 100 ) / lista_productos[i].precio) %>
+                     OFF </p>
+               </article>
+            </div>
+            <% } %>
+         </div>
+         </div>
+      </section>
+
+      <button type="button" class="btn btn-danger btn-floating btn-lg" id="btn-back-to-top">
+         <i class="fas fa-arrow-up"></i>
+      </button>
+
+
+   </main>
+
+   <%- include("partials/footer") %>
+
+
+
+
+   <div class="footerNavbar">
+      <%- include("partials/footernavbar") %>
+   </div>
+
+   <script src="/js/toTop.js"></script>
+   <script>
+      const scrollContainerMain = document.querySelector(".containerMain");
+      scrollContainerMain.addEventListener("wheel", (evt) => {
+         evt.preventDefault();
+         scrollContainerMain.scrollLeft += evt.deltaY;
+      });
+   </script>
+
+</body>
+
+</html>

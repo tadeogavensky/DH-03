@@ -1,0 +1,35 @@
+.popup .overlay {
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  width: 100vw;
+  height: 100vh;
+  z-index: 300;
+  display: block;
+}
+
+.popup .popup-content {
+  position: fixed;
+  left: 37% ;
+  background-color: white;
+  width: 500px;
+  z-index: 400;
+  text-align: center;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.close-btn {
+  position: absolute;
+
+  right: 20px;
+  top: 20px;
+  width: 30px;
+  height: 30px;
+  font-size: 25px;
+}
+
+.popup li {
+  list-style-image: url('/img/stuff/guitar-solid.png');
+  font-size: 1px;
+}
